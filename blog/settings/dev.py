@@ -20,6 +20,9 @@ INSTALLED_APPS += [
 
     # Django Browser Reload
     "django_browser_reload",
+
+    # Django Debug Toolbar
+    "debug_toolbar",
 ]
 
 TEMPLATES[0]["OPTIONS"]["builtins"] = [
@@ -38,8 +41,17 @@ PATTERN_LIBRARY = {
     "BASE_TEMPLATE_NAMES": ["patterns/base.html"],
 }
 
+# Debug Toolbar should be as early as possible in the middleware list
+MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+] + MIDDLEWARE
+
 MIDDLEWARE += [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 try:

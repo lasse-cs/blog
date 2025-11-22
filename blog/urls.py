@@ -30,6 +30,10 @@ if settings.DEBUG:
         path("__reload__/", include("django_browser_reload.urls")),
     ]
 
+    from debug_toolbar.toolbar import debug_toolbar_urls
+    # Django Debug Toolbar
+    urlpatterns += debug_toolbar_urls()
+
     # Add pattern library
     if apps.is_installed("pattern_library"):
         urlpatterns = urlpatterns + [
