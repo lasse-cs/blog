@@ -25,6 +25,11 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+    # Django Browser Reload
+    urlpatterns += [
+        path("__reload__/", include("django_browser_reload.urls")),
+    ]
+
     # Add pattern library
     if apps.is_installed("pattern_library"):
         urlpatterns = urlpatterns + [

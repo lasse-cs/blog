@@ -14,8 +14,12 @@ ALLOWED_HOSTS = ["*"]
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 INSTALLED_APPS += [
+    # Django Pattern Library
     "pattern_overrides",
     "pattern_library",
+
+    # Django Browser Reload
+    "django_browser_reload",
 ]
 
 TEMPLATES[0]["OPTIONS"]["builtins"] = [
@@ -33,6 +37,10 @@ PATTERN_LIBRARY = {
     "PATTERN_BASE_TEMPLATE_NAME": "patterns/base_pattern.html",
     "BASE_TEMPLATE_NAMES": ["patterns/base.html"],
 }
+
+MIDDLEWARE += [
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
+]
 
 try:
     from .local import *

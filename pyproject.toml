@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "django-browser-reload>=1.21.0",
     "wagtail>=7.1.2",
 ]
 
