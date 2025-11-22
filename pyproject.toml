@@ -7,3 +7,8 @@ requires-python = ">=3.13"
 dependencies = [
     "wagtail>=7.1.2",
 ]
+
+[dependency-groups]
+dev = [
+    "django-pattern-library>=1.5.0",
+]

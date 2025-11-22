@@ -1,3 +1,5 @@
+# ruff: noqa: F403, F405
+
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -11,6 +13,26 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+INSTALLED_APPS += [
+    "pattern_overrides",
+    "pattern_library",
+]
+
+TEMPLATES[0]["OPTIONS"]["builtins"] = [
+    "pattern_library.loader_tags",
+]
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+PATTERN_LIBRARY = {
+    "SECTIONS": (
+        ("components", ["patterns/components"]),
+        ("pages", ["patterns/pages"]),
+    ),
+    "TEMPLATE_SUFFIX": ".html",
+    "PATTERN_BASE_TEMPLATE_NAME": "patterns/base_pattern.html",
+    "BASE_TEMPLATE_NAMES": ["patterns/base.html"],
+}
 
 try:
     from .local import *

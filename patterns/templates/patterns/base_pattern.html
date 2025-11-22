@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern Library</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
+</head>
+<body>
+  {% block content %}
+    {{ pattern_library_rendered_pattern }}
+  {% endblock %}
+
+  <script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
+</body>
+</html>
