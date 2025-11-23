@@ -34,22 +34,23 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
-        {% block content %}
-            {% block header %}
-                {% include "patterns/components/header/header.html" %}
-            {% endblock header %}
-
-            {% block page_content %}
-            {% endblock page_content %}
-
-            {% block footer %}
-                {% include "patterns/components/footer/footer.html" %}
-            {% endblock footer %}
-        {% endblock content %}
-
+        <div class="body-container">
+            {% block content %}
+                {% block header %}
+                    {% include "patterns/components/header/header.html" %}
+                {% endblock header %}
+            
+                {% block page_content %}
+                {% endblock page_content %}
+                
+                {% block footer %}
+                    {% include "patterns/components/footer/footer.html" %}
+                {% endblock footer %}
+            {% endblock content %}
+        </div>
         {# Global javascript #}
         <script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
-
+        
         {% block extra_js %}
         {% endblock extra_js %}
     </body>

@@ -106,6 +106,7 @@
         font-size: var(--font-regular);
         color: var(--text);
         background-color: var(--background);
+        padding: 1rem;
     }
 
     h1,
@@ -114,5 +115,10 @@
     h4 {
         color: var(--text-dark);
         font-weight: 700;
+    }
+
+    .body-container {
+        margin: 0 auto;
+        max-inline-size: 960px;
     }
 }
