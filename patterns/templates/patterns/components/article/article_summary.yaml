@@ -1,0 +1,5 @@
+name: Article Summary
+context:
+  object:
+    title: "Article Title"
+    intro: "<strong>Article</strong> intro text."

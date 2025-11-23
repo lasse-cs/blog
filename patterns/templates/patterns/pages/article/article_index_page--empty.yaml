@@ -1,0 +1,6 @@
+name: Article Index Page (Empty)
+context:
+  page:
+    title: Article Index
+    intro: ""
+  articles: []

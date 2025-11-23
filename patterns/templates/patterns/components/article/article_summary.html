@@ -1,0 +1,27 @@
+{% load wagtailcore_tags %}
+
+{% with object as article %}
+    <article>
+        <!-- Article Card -->
+        <header>
+            <!-- Card Header -->
+            <h2>{{ article.title }}</h2>
+            <p>
+                Oct 24, 2023
+            </p>
+            <ul>
+                <li>#rust</li>
+                <li>#backend</li>
+                <li>#python</li>
+            </ul>
+        </header>
+        <div>
+            <!-- Card Body -->
+            {{ article.intro|richtext }}
+        </div>
+        <footer>
+            <!-- Card Footer -->
+            <a href="{{ article.url }}">Read Article</a>
+        </footer>
+    </article>
+{% endwith %}

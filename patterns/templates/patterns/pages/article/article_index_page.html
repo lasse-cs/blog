@@ -1,0 +1,23 @@
+{% extends "patterns/base.html" %}
+{% load static %}
+
+{% block body_class %}template-articleindexpage{% endblock %}
+
+{% block page_content %}
+<div>
+    <main>
+        <div>
+            {% include "patterns/components/intro/intro.html" %}
+        </div>
+        <!-- Main Content -->
+        <div>
+            <!-- Article List -->
+            {% for article in articles %}
+                {% include article.summary_template with object=article %}
+            {% empty %}
+                <p>No articles found.</p>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock page_content %}

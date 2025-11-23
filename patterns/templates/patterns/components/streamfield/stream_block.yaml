@@ -1,0 +1,9 @@
+name: Stream Block
+context:
+  value:
+    - dummy
+
+tags:
+  include_block:
+    block with unique_id=block.id:
+      template_name: "patterns/components/streamfield/blocks/text.html"

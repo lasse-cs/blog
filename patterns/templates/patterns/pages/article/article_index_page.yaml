@@ -1,0 +1,12 @@
+name: Article Index Page
+context:
+  page:
+    title: Article Index
+    intro: ""
+  articles:
+    - title: "Article Title"
+      intro: "<strong>Article</strong> intro text."
+      summary_template: "patterns/components/article/article_summary.html"
+    - title: "Another Article"
+      intro: "Intro text for <em>another</em> article."
+      summary_template: "patterns/components/article/article_summary.html"
