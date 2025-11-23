@@ -71,3 +71,48 @@
     font: inherit;
   }
 }
+
+@layer base {
+    :root {
+        --orange-very-light: #fff3e0;
+        --orange-light: #ff6d00;
+        --orange-dark: #e65100;
+
+        --white: #ffffff;
+
+        --gray-light: #f9f9f9;
+        --gray: #e0e0e0;
+        --gray-dark: #666666;
+        --gray-very-dark: #333333;
+
+        --border-radius: 0.5rem;
+
+        --primary: var(--orange-dark);
+        --background: var(--white);
+        --text-dark: var(--gray-very-dark);
+        --text: var(--gray-dark);
+
+        --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        --font-regular: 1rem;
+    }
+
+    html {
+        font-family: var(--font-family);
+        line-height: 1.6;
+    }
+
+    body {
+        font-size: var(--font-regular);
+        color: var(--text);
+        background-color: var(--background);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        color: var(--text-dark);
+        font-weight: 700;
+    }
+}
