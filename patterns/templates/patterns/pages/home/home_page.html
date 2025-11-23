@@ -1,34 +1,16 @@
 {% extends "patterns/base.html" %}
-{% load static %}
+{% load static wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block content %}
-<header>
-    <!-- Header -->
-    <div>
-        <!-- Home Link -->
-        <a href="#">./DevLog</a>
-    </div>
-    <div>
-        <!-- Nav Container -->
-        <nav>
-            <!-- Navigation -->
-            <ol>
-                <li><a href="#">Articles</a></li>
-                <li><a href="#">About</a></li>
-            </ol>
-        </nav>
-    </div>
-</header>
-
+{% block page_content %}
 <main>
     <!-- Content -->
     <section>
         <!-- Intro -->
         <h1>{{ page.title }}</h1>
         <p>
-            {{ page.intro }}
+            {{ page.intro|richtext }}
         </p>
     </section>
     <main>
@@ -151,11 +133,4 @@
         </section>
     </aside>
 </main>
-
-<footer>
-    <!-- Footer -->
-    <p>
-        Footer Content
-    </p>
-</footer>
-{% endblock content %}
+{% endblock page_content %}
