@@ -1,0 +1,5 @@
+name: Intro
+context:
+  page:
+    title: Page Title
+    intro: "<strong>Page</strong> intro text."

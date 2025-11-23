@@ -1,5 +1,1 @@
 name: Home Page
-context:
-  page:
-    title: Welcome to My Blog
-    intro: "<strong>Discover</strong> my delightful blog"
