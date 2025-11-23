@@ -14,3 +14,6 @@ db.sqlite3
 
 # Local settings overrides
 blog/settings/local.py
+
+# Editor files
+.vscode/
