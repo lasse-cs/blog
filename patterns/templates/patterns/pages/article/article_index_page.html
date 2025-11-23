@@ -13,7 +13,7 @@
         <div>
             <!-- Article List -->
             {% for article in articles %}
-                {% include article.summary_template with object=article %}
+                {% include article.get_summary_template with object=article %}
             {% empty %}
                 <p>No articles found.</p>
             {% endfor %}

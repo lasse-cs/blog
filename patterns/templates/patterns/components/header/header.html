@@ -1,8 +1,15 @@
+{% load wagtailcore_tags %}
+
 <header>
     <!-- Header -->
     <div>
         <!-- Home Link -->
-        <a href="#">./DevLog</a>
+        {% wagtail_site as current_site %}
+        {% if current_site and current_site.site_name %}
+            <a href="{{ current_site.root_url }}">
+                {{ current_site.site_name }}
+            </a>
+        {% endif %}
     </div>
     <div>
         <!-- Nav Container -->

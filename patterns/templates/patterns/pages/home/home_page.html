@@ -13,81 +13,11 @@
         <!-- Main Content -->
         <div>
             <!-- Article List -->
-            <article>
-                <!-- Article Card -->
-                <header>
-                    <!-- Card Header -->
-                    <h2>Why I switched from Python to Rust</h2>
-                    <p>
-                        Oct 24, 2023
-                    </p>
-                    <ul>
-                        <li>#rust</li>
-                        <li>#backend</li>
-                        <li>#python</li>
-                    </ul>
-                </header>
-                <div>
-                    <!-- Card Body -->
-                    <p>
-                        Memory safety without garbage collection seemed like a pipe dream, until I fought the borrow checker. Here is why `cargo` has changed my workflow...
-                    </p>
-                </div>
-                <footer>
-                    <!-- Card Footer -->
-                    <a href="#">Read Article</a>
-                </footer>
-            </article>
-            <article>
-                <!-- Article Card -->
-                <header>
-                    <!-- Card Header -->
-                    <h2>Why I switched from Python to Rust</h2>
-                    <p>
-                        Oct 24, 2023
-                    </p>
-                    <ul>
-                        <li>#rust</li>
-                        <li>#backend</li>
-                        <li>#python</li>
-                    </ul>
-                </header>
-                <div>
-                    <!-- Card Body -->
-                    <p>
-                        Memory safety without garbage collection seemed like a pipe dream, until I fought the borrow checker. Here is why `cargo` has changed my workflow...
-                    </p>
-                </div>
-                <footer>
-                    <!-- Card Footer -->
-                    <a href="#">Read Article</a>
-                </footer>
-            </article>
-            <article>
-                <!-- Article Card -->
-                <header>
-                    <!-- Card Header -->
-                    <h2>Why I switched from Python to Rust</h2>
-                    <p>
-                        Oct 24, 2023
-                    </p>
-                    <ul>
-                        <li>#rust</li>
-                        <li>#backend</li>
-                        <li>#python</li>
-                    </ul>
-                </header>
-                <div>
-                    <!-- Card Body -->
-                    <p>
-                        Memory safety without garbage collection seemed like a pipe dream, until I fought the borrow checker. Here is why `cargo` has changed my workflow...
-                    </p>
-                </div>
-                <footer>
-                    <!-- Card Footer -->
-                    <a href="#">Read Article</a>
-                </footer>
-            </article>
+            {% for feed_item in feed_items %}
+                {% include feed_item.get_summary_template with object=feed_item %}
+            {% empty %}
+                <p>No items found.</p>
+            {% endfor %}
         </div>
     </main>
     <aside>

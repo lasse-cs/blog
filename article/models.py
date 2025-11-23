@@ -4,10 +4,12 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 
+from core.models import FeedMixin
+
 
 class ArticleIndexPage(Page):
     subpage_types = ["article.ArticlePage"]
-    
+
     template = "patterns/pages/article/article_index_page.html"
 
     def get_context(self, request):
@@ -16,27 +18,34 @@ class ArticleIndexPage(Page):
         return context
 
 
-class ArticlePage(Page):
+class ArticlePage(FeedMixin, Page):
     intro = RichTextField(
         help_text="Intro text for the article page.",
         default="Article intro content.",
     )
     body = StreamField(
         [
-            ("text", RichTextBlock(template="patterns/components/streamfield/blocks/text.html")),
+            (
+                "text",
+                RichTextBlock(
+                    template="patterns/components/streamfield/blocks/text.html"
+                ),
+            ),
         ],
         help_text="Main body content for the article page.",
     )
 
-    content_panels = Page.content_panels + [
-        FieldPanel("intro"),
+    content_panels = FeedMixin.panels + [
         FieldPanel("body"),
     ]
 
-    search_fields = Page.search_fields + [
-        index.SearchField("intro"),
-        index.SearchField("body"),
-    ]
+    search_fields = (
+        Page.search_fields
+        + FeedMixin.search_fields
+        + [
+            index.SearchField("body"),
+        ]
+    )
 
     parent_page_types = ["article.ArticleIndexPage"]
     subpage_types = []
