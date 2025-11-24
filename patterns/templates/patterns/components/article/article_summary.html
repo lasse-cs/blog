@@ -6,9 +6,11 @@
         <header>
             <!-- Card Header -->
             <h2>{{ article.title }}</h2>
-            <p>
-                Oct 24, 2023
-            </p>
+            {% if article.first_published_at %}
+                <p>
+                    {{ article.first_published_at|date:"M j, Y"}}
+                </p>
+            {% endif %}
         </header>
         <div>
             <!-- Card Body -->
