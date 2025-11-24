@@ -4,7 +4,6 @@ context:
     title: Article Title
     intro: "<strong>Article</strong> intro text."
 
-
 tags:
   include_block:
     page.body:
