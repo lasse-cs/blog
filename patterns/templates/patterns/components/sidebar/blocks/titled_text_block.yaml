@@ -1,0 +1,5 @@
+name: Titled Text Block
+context:
+  value:
+    title: Block Title
+    text: "<b>This is the block text!</b> It can contain rich text and stuff!"

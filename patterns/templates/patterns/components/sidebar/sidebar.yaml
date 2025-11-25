@@ -1,0 +1,11 @@
+name: Sidebar
+context:
+  value:
+    - dummy
+    - dummy
+
+tags:
+  include_block:
+    block:
+      template_name: "patterns/components/sidebar/blocks/titled_text_block.html"
+

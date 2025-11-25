@@ -20,43 +20,10 @@
             {% endfor %}
         </div>
     </main>
-    <aside>
-        <!-- Sidebar -->
-        <section>
-            <!-- About -->
-            <h2>About</h2>
-            <p>
-                This is a minimal mockup for a developer blog. I focus on web technologies and software architecture.
-            </p>
-        </section>
-        <section>
-            <!-- Topics -->
-            <h2>Topics</h2>
-            <ul>
-                <li>rust</li>
-                <li>javascript</li>
-                <li>css</li>
-                <li>backend</li>
-                <li>devops</li>
-                <li>linux</li>
-                <li>git</li>
-                <li>database</li>
-                <li>security</li>
-                <li>algorithms</li>
-                <li>system-design</li>
-            </ul>
-        </section>
-        <section>
-            <!-- Newsletter -->
-            <h2>Newsletter</h2>
-            <p>
-                Get the latest posts in your inbox. No spam.
-                <form>
-                    <input type="email" name="email" id="newsletter-email" placeholder="Email">
-                    <button type="submit">Submit</button>
-                </form>
-            </p>
-        </section>
-    </aside>
+    {% if page.sidebar %}
+        <aside>
+            {% include_block page.sidebar %}
+        </aside>
+    {% endif %}
 </div>
 {% endblock page_content %}

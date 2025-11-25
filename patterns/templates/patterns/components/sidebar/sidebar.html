@@ -1,0 +1,8 @@
+{% load wagtailcore_tags %}
+
+<div>
+    <!-- Sidebar Container -->
+    {% for block in value %}
+        {% include_block block %}
+    {% endfor %}
+</div>
