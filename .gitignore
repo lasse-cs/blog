@@ -17,3 +17,6 @@ blog/settings/local.py
 
 # Editor files
 .vscode/
+
+# Environment
+.env
