@@ -20,3 +20,5 @@ blog/settings/local.py
 
 # Environment
 .env
+
+docker/.secrets

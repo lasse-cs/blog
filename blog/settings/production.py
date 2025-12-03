@@ -14,6 +14,12 @@ STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.Manifes
 ALLOWED_HOSTS = os.environ["DJANGO_ALLOWED_HOSTS"].split(",")
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
+# Deployment settings
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+
 try:
     from .local import *
 except ImportError:

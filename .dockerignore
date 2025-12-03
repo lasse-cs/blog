@@ -4,8 +4,8 @@
 *.sqlite3
 
 # Python and others
-__pycache__
-*.pyc
+**/__pycache__
+**/*.pyc
 .DS_Store
 *.swp
 /venv/
@@ -43,3 +43,8 @@ wheels/
 .venv/
 README.md
 docker/
+.git
+.gitignore
+.gitattributes
+.dockerignore
+compose.yaml

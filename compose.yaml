@@ -1,0 +1,43 @@
+services:
+  nginx:
+    image: nginx:1.29
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - NGINX_SERVER_NAME=${NGINX_SERVER_NAME:?Must set nginx server name}
+      - NGINX_SSL_CERT_FILE=/nginx_ssl_cert_file
+      - NGINX_SSL_KEY_FILE=/run/secrets/nginx_ssl_key_file
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/templates:/etc/nginx/templates
+      - static-files:/srv/app/static/:ro
+      - media-files:/src/app/media/:ro
+    configs:
+      - nginx_ssl_cert_file
+    secrets:
+      - nginx_ssl_key_file
+
+  django:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    environment:
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:?Must set allowed hosts}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:?Must set secret key}
+      - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL:-WARNING}
+    volumes:
+      - static-files:/app/static/:rw
+      - media-files:/app/media/:rw
+  
+configs:
+  nginx_ssl_cert_file:
+    file: ${NGINX_SSL_CERT_FILE:?Must set nginx ssl cert file}
+
+secrets:
+  nginx_ssl_key_file:
+    file: ${NGINX_SSL_KEY_FILE:?Must set nginx ssl key file}
+
+volumes:
+  static-files:
+  media-files:
