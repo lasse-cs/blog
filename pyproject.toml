@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "gunicorn>=23.0.0",
+    "psycopg>=3.3.1",
     "wagtail>=7.1.2",
 ]
 

@@ -11,12 +11,24 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/templates:/etc/nginx/templates
-      - static-files:/srv/app/static/:ro
-      - media-files:/src/app/media/:ro
+      - static_files:/srv/app/static/:ro
+      - media_files:/src/app/media/:ro
     configs:
       - nginx_ssl_cert_file
     secrets:
       - nginx_ssl_key_file
+
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:?Must set postgres user name}
+      - POSTGRES_DB=${POSTGRES_DB:?Must set postgres database name}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password_file
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./docker/postgres/scripts/:/docker-entrypoint-initdb.d/
+    secrets:
+      - postgres_password_file
 
   django:
     build:
@@ -24,11 +36,18 @@ services:
       dockerfile: docker/django/Dockerfile
     environment:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:?Must set allowed hosts}
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:?Must set secret key}
+      - DJANGO_SECRET_KEY_FILE=/run/secrets/django_secret_key_file
       - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL:-WARNING}
+      - POSTGRES_USER=${POSTGRES_USER:?Must set postgres user name}
+      - POSTGRES_DB=${POSTGRES_DB:?Must set postgres database name}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password_file
+      - POSTGRES_HOST=postgres
     volumes:
-      - static-files:/app/static/:rw
-      - media-files:/app/media/:rw
+      - static_files:/app/static/:rw
+      - media_files:/app/media/:rw
+    secrets:
+     - django_secret_key_file
+     - postgres_password_file
   
 configs:
   nginx_ssl_cert_file:
@@ -37,7 +56,12 @@ configs:
 secrets:
   nginx_ssl_key_file:
     file: ${NGINX_SSL_KEY_FILE:?Must set nginx ssl key file}
+  postgres_password_file:
+    file: ${POSTGRES_PASSWORD_FILE:?Must set postgres password file}
+  django_secret_key_file:
+    file: ${DJANGO_SECRET_KEY_FILE:?Must set django secret key file}
 
 volumes:
-  static-files:
-  media-files:
+  static_files:
+  media_files:
+  db_data:

@@ -1,12 +1,14 @@
-FROM python:3.13-slim as builder
+FROM python:3.13-slim-bookworm AS builder
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-libjpeg62-turbo \
-zlib1g \
-libwebp7 \
+build-essential \
+libjpeg62-turbo-dev \
+zlib1g-dev \
+libwebp-dev \
+libpq-dev \
 && rm -rf /var/lib/apt/lists/*
 
 ENV UV_LINK_MODE=copy \
@@ -20,7 +22,7 @@ COPY ./pyproject.toml ./uv.lock /app/
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-FROM python:3.13-slim as production
+FROM python:3.13-slim-bookworm AS production
 
 RUN useradd wagtail
 WORKDIR /app
@@ -36,6 +38,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
 libjpeg62-turbo \
 zlib1g \
 libwebp7 \
+libpq5 \
 && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app/static/ /app/media/
