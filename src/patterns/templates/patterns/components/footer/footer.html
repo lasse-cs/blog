@@ -1,6 +1,6 @@
+{% load wagtailcore_tags %}
+
 <footer>
     <!-- Footer -->
-    <p>
-        Footer Content
-    </p>
+    {{ settings.core.SiteFooter.content|richtext }}
 </footer>

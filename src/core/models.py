@@ -1,6 +1,7 @@
 from django.db import models
 
 from wagtail.admin.panels import FieldPanel
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField
 from wagtail.search import index
 
@@ -29,3 +30,8 @@ class FeedMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+@register_setting
+class SiteFooter(BaseSiteSetting):
+    content = RichTextField("Footer Content", max_length=255, features=["italic", "link", "bold"])

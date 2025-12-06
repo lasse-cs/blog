@@ -1,0 +1,6 @@
+name: Footer
+context:
+  settings:
+    core:
+      SiteFooter:
+        content: <b>This is the site footer</b>
