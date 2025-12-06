@@ -48,3 +48,4 @@ docker/
 .gitattributes
 .dockerignore
 compose.yaml
+docker/
