@@ -13,7 +13,7 @@ wheels/
 db.sqlite3
 
 # Local settings overrides
-blog/settings/local.py
+src/blog/settings/local.py
 
 # Editor files
 .vscode/
@@ -22,3 +22,7 @@ blog/settings/local.py
 .env
 
 docker/.secrets
+
+# Media Files
+/src/static/
+/src/media/

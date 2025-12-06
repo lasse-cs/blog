@@ -46,7 +46,7 @@ RUN chown -R wagtail:wagtail /app
 
 COPY --from=builder /opt/venv /opt/venv
 
-ADD --chown=wagtail:wagtail . /app
+ADD --chown=wagtail:wagtail ./src /app
 
 USER wagtail
 
