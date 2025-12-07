@@ -16,3 +16,6 @@ tags:
   include_block:
     page.sidebar:
       template_name: "patterns/components/sidebar/sidebar.html"
+  main_menu:
+    current_site:
+      template_name: "patterns/components/menu/main_menu.html"
