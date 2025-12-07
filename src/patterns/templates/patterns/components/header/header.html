@@ -1,18 +1,17 @@
-{% load wagtailcore_tags menu_tags %}
+{% load custom_tags wagtailcore_tags menu_tags %}
 
-<header>
-    {% wagtail_site as current_site %}
+<header class="site-header">
+    {% if not is_pattern_library %}
+        {% wagtail_site as current_site %}
+    {% endif %}
     <!-- Header -->
     <div>
         <!-- Home Link -->
         {% if current_site and current_site.site_name %}
-            <a href="{{ current_site.root_url }}">
-                {{ current_site.site_name }}
+            <a href="{{ current_site.root_url }}" class="brand-link text-large">
+                {{ current_site.site_name | highlight_after_first_dot }}
             </a>
         {% endif %}
     </div>
-    <div>
-        <!-- Nav Container -->
-        {% main_menu current_site %}
-    </div>
+    {% main_menu current_site %}
 </header>

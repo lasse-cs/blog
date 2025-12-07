@@ -1,4 +1,8 @@
 name: Header
+context:
+  current_site:
+    root_url: "/"
+    site_name: "Lasse.co.uk"
 
 tags:
   main_menu:

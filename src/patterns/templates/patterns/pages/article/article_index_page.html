@@ -10,7 +10,7 @@
             {% include "patterns/components/intro/intro.html" %}
         </div>
         <!-- Main Content -->
-        <div>
+        <div class="article__list">
             <!-- Article List -->
             {% for article in articles %}
                 {% include article.get_summary_template with object=article %}

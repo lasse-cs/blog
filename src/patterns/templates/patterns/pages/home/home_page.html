@@ -4,14 +4,14 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block page_content %}
-<div>
+<div class="home-content">
     <!-- Content -->
-    <section>
+    <section class="home__intro">
         {% include "patterns/components/intro/intro.html" %}
     </section>
     <main>
         <!-- Main Content -->
-        <div>
+        <div class="article__list">
             <!-- Article List -->
             {% for feed_item in feed_items %}
                 {% include feed_item.get_summary_template with object=feed_item %}
@@ -21,7 +21,7 @@
         </div>
     </main>
     {% if page.sidebar %}
-        <aside>
+        <aside class="home__aside">
             {% include_block page.sidebar %}
         </aside>
     {% endif %}

@@ -1,13 +1,13 @@
 {% load wagtailcore_tags %}
 
 {% with object as article %}
-    <article>
+    <article class="article card-layout">
         <!-- Article Card -->
-        <header>
+        <header class="article-card__header">
             <!-- Card Header -->
-            <h2>{{ article.title }}</h2>
+            <h2><a href="{{ article.url }}" class="header__link">{{ article.title }}</a></h2>
             {% if article.first_published_at %}
-                <p>
+                <p class="text-small">
                     {{ article.first_published_at|date:"M j, Y"}}
                 </p>
             {% endif %}
@@ -18,7 +18,7 @@
         </div>
         <footer>
             <!-- Card Footer -->
-            <a href="{{ article.url }}">Read Article</a>
+            <a href="{{ article.url }}" class="arrow-link">Read Article</a>
         </footer>
     </article>
 {% endwith %}

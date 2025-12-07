@@ -1,14 +1,17 @@
 {% load wagtailcore_tags %}
 
 {% if menu_items %}
-<nav>
-    <!-- Navigation -->
-    <ol>
-        {% for menu_item in menu_items %}
+<div>
+    <!-- Nav Container -->
+    <nav>
+        <!-- Navigation -->
+        <ol class="nav__list">
+            {% for menu_item in menu_items %}
             <li>
-                <a href="{% pageurl menu_item %}">{{ menu_item.title }}</a>
+                <a href="{% pageurl menu_item %}" class="nav__link text-small">{{ menu_item.title }}</a>
             </li>
-        {% endfor %}
-    </ol>
-</nav>
+            {% endfor %}
+        </ol>
+    </nav>
+</div>
 {% endif %}
