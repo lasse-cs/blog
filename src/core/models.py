@@ -6,7 +6,7 @@ from wagtail.fields import RichTextField
 from wagtail.search import index
 
 
-class FeedMixin(models.Model):
+class FeedItemMixin(models.Model):
     """
     Mixin to specify that a model can be included in a Feed.
     """

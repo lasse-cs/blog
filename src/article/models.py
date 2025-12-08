@@ -4,7 +4,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 
-from core.models import FeedMixin
+from core.models import FeedItemMixin
 
 
 class ArticleIndexPage(Page):
@@ -18,7 +18,7 @@ class ArticleIndexPage(Page):
         return context
 
 
-class ArticlePage(FeedMixin, Page):
+class ArticlePage(FeedItemMixin, Page):
     intro = RichTextField(
         help_text="Intro text for the article page.",
         default="Article intro content.",
@@ -35,13 +35,13 @@ class ArticlePage(FeedMixin, Page):
         help_text="Main body content for the article page.",
     )
 
-    content_panels = Page.content_panels + FeedMixin.panels + [
+    content_panels = Page.content_panels + FeedItemMixin.panels + [
         FieldPanel("body"),
     ]
 
     search_fields = (
         Page.search_fields
-        + FeedMixin.search_fields
+        + FeedItemMixin.search_fields
         + [
             index.SearchField("body"),
         ]

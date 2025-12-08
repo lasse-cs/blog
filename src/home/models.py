@@ -3,7 +3,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from core.blocks import SidebarBlock
-from core.models import FeedMixin
+from core.models import FeedItemMixin
 
 
 class HomePage(Page):
@@ -26,5 +26,5 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["feed_items"] = Page.objects.type(FeedMixin).live().public().specific()
+        context["feed_items"] = Page.objects.type(FeedItemMixin).live().public().specific()
         return context
