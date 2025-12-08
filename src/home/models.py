@@ -3,10 +3,10 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from core.blocks import SidebarBlock
-from core.models import FeedItemMixin
+from core.models import FeedItemMixin, FeedMixin
 
 
-class HomePage(Page):
+class HomePage(FeedMixin, Page):
     intro = RichTextField(
         help_text="Intro text for the homepage.",
         default="Blog intro content.",
@@ -24,7 +24,10 @@ class HomePage(Page):
 
     template = "patterns/pages/home/home_page.html"
 
+    def get_feed_items(self):
+        return Page.objects.type(FeedItemMixin).live().public().specific().order_by("-first_published_at")
+
     def get_context(self, request):
         context = super().get_context(request)
-        context["feed_items"] = Page.objects.type(FeedItemMixin).live().public().specific()
+        context["feed_items"] = self.get_feed_items()
         return context

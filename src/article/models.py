@@ -4,17 +4,17 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 
-from core.models import FeedItemMixin
+from core.models import FeedItemMixin, FeedMixin
 
 
-class ArticleIndexPage(Page):
+class ArticleIndexPage(FeedMixin, Page):
     subpage_types = ["article.ArticlePage"]
 
     template = "patterns/pages/article/article_index_page.html"
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["articles"] = self.get_children().live().public().specific()
+        context["articles"] = self.get_feed_items()
         return context
 
 
