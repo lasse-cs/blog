@@ -1,5 +1,14 @@
 {% extends "patterns/base.html" %}
-{% load static %}
+{% load static wagtailroutablepage_tags %}
+
+{% block feed %}
+<link
+    rel="alternate"
+    type="application/rss+xml"
+    title="{{ page.feed_title }}"
+    href="{% routablepageurl page 'rss' %}"
+/>
+{% endblock feed %}
 
 {% block body_class %}template-articleindexpage{% endblock %}
 

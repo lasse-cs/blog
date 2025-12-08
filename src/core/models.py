@@ -40,16 +40,18 @@ class BaseAtomFeed(BaseRSSFeed):
         return self.descripion(obj)
 
 
-
 class FeedMixin(RoutablePageMixin):
     rss_feed_instance = BaseRSSFeed()
     atom_feed_instance = BaseAtomFeed()
 
-    @path("rss/")
+    def feed_title(self):
+        return self.rss_feed_instance.title(self)
+
+    @path("rss/", name="rss")
     def rss_feed(self, request):
         return self.rss_feed_instance(request, self)
 
-    @path("atom/")
+    @path("atom/", name="atom")
     def atom_feed(self, request):
         return self.atom_feed_instance(request, self)
 
