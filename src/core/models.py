@@ -33,6 +33,10 @@ class BaseRSSFeed(Feed):
     def item_link(self, item):
         return item.url
 
+    def item_pubdate(self, item):
+        return item.first_published_at
+
+
 class BaseAtomFeed(BaseRSSFeed):
     feed_type = Atom1Feed
     
