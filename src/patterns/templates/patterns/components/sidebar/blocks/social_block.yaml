@@ -1,0 +1,20 @@
+name: Social Block
+context:
+  value:
+    title: Connect
+  settings:
+    core:
+      SocialMediaLinks:
+        links:
+          - value:
+              url: "#"
+              display: "GitHub!"
+              type: "github"
+          - value:
+              url: "#"
+              display: "Bluesky!"
+              type: "bluesky"
+          - value:
+              url: "#"
+              display: "RSS Feed!"
+              type: "feed"

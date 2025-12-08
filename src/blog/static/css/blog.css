@@ -239,7 +239,7 @@
     gap: 1.5rem;
   }
 
-  .titled-text__title {
+  .sidebar-item__title {
     text-decoration: underline;
     text-underline-offset: 0.6rem;
     text-decoration-color: var(--primary);
@@ -249,6 +249,32 @@
     font-weight: 400;
     color: var(--text);
     padding-block-end: 1.5rem;
+  }
+
+  .sidebar-social__list {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  .social__link {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    padding-block-end: 0.25rem;
+
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.25s;
+    
+    img {
+      height: 1.5rem;
+      width: 1.5rem;  
+    }
+
+    &:hover, &:focus-visible {
+      color: var(--primary);
+    }
   }
 
   .nav__list {
