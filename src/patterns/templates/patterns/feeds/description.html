@@ -1,3 +1,7 @@
 {% load wagtailcore_tags %}
 
-{{ obj.intro|richtext }}
+{% if obj.search_description %}
+    {{ obj.search_description }}
+{% else %}
+    {{ obj.intro|richtext }}
+{% endif %}

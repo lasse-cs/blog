@@ -16,10 +16,10 @@ class BaseRSSFeed(Feed):
         return page
 
     def title(self, obj):
-        return obj.title
+        return obj.feed_title()
     
-    def descripion(self, obj):
-        return f"Feed for {obj.title}"
+    def description(self, obj):
+        return obj.feed_description
 
     def link(self, obj):
         return obj.url
@@ -28,7 +28,7 @@ class BaseRSSFeed(Feed):
         return obj.get_feed_items()[:30]
     
     def item_title(self, item):
-        return item.title
+        return item.feed_title
     
     def item_link(self, item):
         return item.url
@@ -49,7 +49,10 @@ class FeedMixin(RoutablePageMixin):
     atom_feed_instance = BaseAtomFeed()
 
     def feed_title(self):
-        return self.rss_feed_instance.title(self)
+        return self.seo_title or self.title
+
+    def feed_description(self):
+        return self.search_description or f"Feed for {self.feed_title()}"
 
     @path("rss/", name="rss")
     def rss_feed(self, request):
@@ -79,6 +82,9 @@ class FeedItemMixin(models.Model):
     search_fields = [
         index.SearchField("intro"),
     ]
+
+    def feed_title(self):
+        return self.seo_title or self.title
 
     def get_summary_template(self):
         if hasattr(self, "summary_template"):
