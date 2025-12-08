@@ -30,6 +30,10 @@ server {
 
     real_ip_header X-Forwarded-For;
 
+    location / {
+        try_files /public$uri public$uri/ @django;
+    }
+
     location ^~ /media {
         gzip on;
         gzip_comp_level 6;
@@ -68,7 +72,7 @@ server {
         expires 365d;
     }
 
-    location / {
+    location @django {
         proxy_pass http://django;
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;

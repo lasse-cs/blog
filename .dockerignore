@@ -49,3 +49,4 @@ docker/
 .dockerignore
 compose.yaml
 docker/
+public/
