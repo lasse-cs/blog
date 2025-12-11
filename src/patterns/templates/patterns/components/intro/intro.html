@@ -4,9 +4,9 @@
 <!-- Intro -->
 <div>
     <h1 class="intro__header text-very-large">{{ page.title }}</h1>
-    <div>
-        {% if page.intro %}
+    {% if page.intro %}
+        <div>
             {{ page.intro|richtext }}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 </div>
