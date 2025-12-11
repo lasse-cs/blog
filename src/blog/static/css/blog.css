@@ -95,6 +95,8 @@
         --background: var(--white);
         --background-subtle: var(--gray-light);
         --border-color: var(--gray);
+
+        --text-primary-contrast: var(--gray-very-dark);
         --text-dark: var(--gray-very-dark);
         --text: var(--gray-dark);
 
@@ -162,6 +164,26 @@
 }
 
 @layer components {
+  .skip-to-main:not(:focus) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .skip-to-main {
+    position: absolute;
+    padding: 1rem;
+    background-color: var(--background-subtle   );
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px var(--shadow-color);
+
+    --link-color: var(--primary);
+} 
+
   .article {
     padding: 2rem;
     border: 1px solid var(--border-color);
