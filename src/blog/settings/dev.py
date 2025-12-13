@@ -17,10 +17,8 @@ INSTALLED_APPS += [
     # Django Pattern Library
     "pattern_overrides",
     "pattern_library",
-
     # Django Browser Reload
     "django_browser_reload",
-
     # Django Debug Toolbar
     "debug_toolbar",
 ]

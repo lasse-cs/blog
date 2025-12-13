@@ -35,9 +35,13 @@ class ArticlePage(FeedItemMixin, Page):
         help_text="Main body content for the article page.",
     )
 
-    content_panels = Page.content_panels + FeedItemMixin.panels + [
-        FieldPanel("body"),
-    ]
+    content_panels = (
+        Page.content_panels
+        + FeedItemMixin.panels
+        + [
+            FieldPanel("body"),
+        ]
+    )
 
     search_fields = (
         Page.search_fields

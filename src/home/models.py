@@ -11,7 +11,9 @@ class HomePage(FeedMixin, Page):
         help_text="Intro text for the homepage.",
         default="Blog intro content.",
     )
-    sidebar = StreamField(SidebarBlock, help_text="Sidebar content for the homepage.", blank=True)
+    sidebar = StreamField(
+        SidebarBlock, help_text="Sidebar content for the homepage.", blank=True
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
@@ -25,7 +27,13 @@ class HomePage(FeedMixin, Page):
     template = "patterns/pages/home/home_page.html"
 
     def get_feed_items(self):
-        return Page.objects.type(FeedItemMixin).live().public().specific().order_by("-first_published_at")
+        return (
+            Page.objects.type(FeedItemMixin)
+            .live()
+            .public()
+            .specific()
+            .order_by("-first_published_at")
+        )
 
     def get_context(self, request):
         context = super().get_context(request)
