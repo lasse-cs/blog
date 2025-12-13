@@ -325,6 +325,33 @@
     --link-color: var(--text-dark);
     --link-hover-decoration: none;
   }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    margin: 0 auto;
+  }
+
+  .pagination__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    gap: 0.5rem;
+  }
+
+  .pagination__link {
+    &.active {
+      --link-decoration: underline;
+    }
+  }
+
+  .pagination__disabled {
+    color: var(--text);
+  }
 }
 
 @layer utilities {
@@ -354,8 +381,24 @@
     gap: 0.5rem;
   }
 
-  .arrow-link::after {
+  .arrow-link[data-direction="right"]::after {
     content: "→";
+    margin-inline-end: 0.25rem;
+    transition: margin 0.25s;
+  }
+  
+  .arrow-link[data-direction="right"]:hover::after, .arrow-link[data-direction="right"]:focus-within::after {
+    margin-inline-end: 0rem;
+  }
+
+  .arrow-link[data-direction="left"]::before {
+    content: "←";
+    margin-inline-start: 0.25rem;
+    transition: margin 0.25s;
+  }
+
+  .arrow-link[data-direction="left"]:hover::before, .arrow-link[data-direction="left"]:focus-within::before {
+    margin-inline-start: 0rem;
   }
 
   .visually-hidden {

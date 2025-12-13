@@ -9,6 +9,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.search import index
 
 from core.blocks import SocialLinkBlock
+from core.utilities import paginate
 
 
 class BaseRSSFeed(Feed):
@@ -27,7 +28,8 @@ class BaseRSSFeed(Feed):
         return obj.url
 
     def items(self, obj):
-        return obj.get_feed_items()[:30]
+        number = getattr(obj, "per_page", 30)
+        return obj.get_feed_items()[:number]
 
     def item_title(self, item):
         return item.feed_title
@@ -49,6 +51,7 @@ class BaseAtomFeed(BaseRSSFeed):
 class FeedMixin(RoutablePageMixin):
     rss_feed_instance = BaseRSSFeed()
     atom_feed_instance = BaseAtomFeed()
+    per_page = 10
 
     def feed_title(self):
         return self.seo_title or self.title
@@ -73,6 +76,10 @@ class FeedMixin(RoutablePageMixin):
             .specific()
             .order_by("-first_published_at")
         )
+
+    def get_paginated_feed_items(self, page_number):
+        items = self.get_feed_items()
+        return paginate(page_number, items, self.per_page)
 
 
 class FeedItemMixin(models.Model):

@@ -21,11 +21,14 @@
         <!-- Main Content -->
         <div class="article__list">
             <!-- Article List -->
-            {% for article in articles %}
+            {% for article in pagination_page %}
                 {% include article.get_summary_template with object=article %}
             {% empty %}
                 <p>No articles found.</p>
             {% endfor %}
+            {% if pagination_page %}
+                {% include "patterns/components/pagination/pagination.html" %}
+            {% endif %}
         </div>
     </main>
 </div>

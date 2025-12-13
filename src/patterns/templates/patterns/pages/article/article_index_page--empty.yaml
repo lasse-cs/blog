@@ -3,7 +3,7 @@ context:
   page:
     title: Article Index
     intro: ""
-  articles: []
+  pagination_page: []
 
 tags:
   main_menu:

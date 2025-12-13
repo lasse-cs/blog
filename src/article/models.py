@@ -14,7 +14,10 @@ class ArticleIndexPage(FeedMixin, Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["articles"] = self.get_feed_items()
+        page_number = request.GET.get("page", 1)
+        page, page_range = self.get_paginated_feed_items(page_number)
+        context["pagination_page"] = page
+        context["page_range"] = page_range
         return context
 
 

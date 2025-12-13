@@ -1,6 +1,6 @@
 name: Home Page (Empty)
 context:
-  feed_items: []
+  pagination_page: []
 
 tags:
   main_menu:

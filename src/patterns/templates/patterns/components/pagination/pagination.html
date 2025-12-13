@@ -1,0 +1,27 @@
+{% if pagination_page.has_previous or pagination_page.has_next %}
+    <nav class="pagination" aria-label="Pagination">
+        {% if pagination_page.has_previous %}
+            <a href="{% querystring page=pagination_page.previous_page_number %}" class="arrow-link" data-direction="left">Previous <span class="visually-hidden">page</span></a>
+        {% else %}
+            <span class="pagination__disabled arrow-link" data-direction="left" aria-hidden="true">Previous</span>
+        {% endif %}
+        <ol class="pagination__list">
+            {% for p in page_range %}
+                <li>
+                    {% if p != pagination_page.paginator.ELLIPSIS %}
+                        <a href="{% querystring page=p %}" {% if pagination_page.number == p %}aria-current="page"{% endif %} class="pagination__link{% if pagination_page.number == p %} active{% endif %}">
+                            <span class="visually-hidden">Page number</span> {{ p }}
+                        </a>
+                    {% else %}
+                        <span class="pagination__disabled">&hellip;</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+        {% if pagination_page.has_next %}
+            <a href="{% querystring page=pagination_page.next_page_number %}" class="arrow-link" data-direction="right">Next <span class="visually-hidden">page</span></a>
+        {% else %}
+            <span class="pagination__disabled arrow-link" data-direction="right" aria-hidden="true">Next</span>
+        {% endif %}
+    </nav>
+{% endif %}

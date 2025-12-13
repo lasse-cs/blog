@@ -2,15 +2,6 @@ name: Home Page
 context:
   page:
     sidebar: dummy
-  feed_items:
-    - title: "Article Title"
-      first_published_at: 2023-10-24T10:00:00Z
-      intro: "<strong>Article</strong> intro text."
-      get_summary_template: "patterns/components/article/article_summary.html"
-    - title: "Another Article"
-      first_published_at: 2023-10-24T10:00:00Z
-      intro: "Intro text for <em>another</em> article."
-      get_summary_template: "patterns/components/article/article_summary.html"
 
 tags:
   include_block:

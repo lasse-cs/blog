@@ -22,11 +22,14 @@
         <!-- Main Content -->
         <div class="article__list">
             <!-- Article List -->
-            {% for feed_item in feed_items %}
+            {% for feed_item in pagination_page %}
                 {% include feed_item.get_summary_template with object=feed_item %}
             {% empty %}
                 <p>No items found.</p>
             {% endfor %}
+            {% if pagination_page %}
+                {% include "patterns/components/pagination/pagination.html" %}
+            {% endif %}
         </div>
     </main>
     {% if page.sidebar %}
