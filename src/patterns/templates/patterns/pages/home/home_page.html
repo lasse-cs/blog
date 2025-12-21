@@ -2,40 +2,40 @@
 {% load static wagtailcore_tags wagtailroutablepage_tags %}
 
 {% block feed %}
-<link
-    rel="alternate"
-    type="application/rss+xml"
-    title="{{ page.feed_title }}"
-    href="{% routablepageurl page 'rss' %}"
-/>
+    <link
+        rel="alternate"
+        type="application/rss+xml"
+        title="{{ page.feed_title }}"
+        href="{% routablepageurl page 'rss' %}"
+    />
 {% endblock feed %}
 
 {% block body_class %}template-homepage{% endblock %}
 
 {% block page_content %}
-<div class="home-content">
+    <div class="home-content">
     <!-- Content -->
-    <section class="home__intro">
-        {% include "patterns/components/intro/intro.html" %}
-    </section>
-    <main id="main">
+        <section class="home__intro">
+            {% include "patterns/components/intro/intro.html" %}
+        </section>
+        <main id="main">
         <!-- Main Content -->
-        <div class="article__list">
+            <div class="article__list">
             <!-- Article List -->
-            {% for feed_item in pagination_page %}
-                {% include feed_item.get_summary_template with object=feed_item %}
-            {% empty %}
-                <p>No items found.</p>
-            {% endfor %}
-            {% if pagination_page %}
-                {% include "patterns/components/pagination/pagination.html" %}
-            {% endif %}
-        </div>
-    </main>
-    {% if page.sidebar %}
-        <aside class="home__aside">
-            {% include_block page.sidebar %}
-        </aside>
-    {% endif %}
-</div>
+                {% for feed_item in pagination_page %}
+                    {% include feed_item.get_summary_template with object=feed_item %}
+                {% empty %}
+                    <p>No items found.</p>
+                {% endfor %}
+                {% if pagination_page %}
+                    {% include "patterns/components/pagination/pagination.html" %}
+                {% endif %}
+            </div>
+        </main>
+        {% if page.sidebar %}
+            <aside class="home__aside">
+                {% include_block page.sidebar %}
+            </aside>
+        {% endif %}
+    </div>
 {% endblock page_content %}
