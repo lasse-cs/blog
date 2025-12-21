@@ -47,6 +47,8 @@ docker/
 .gitignore
 .gitattributes
 .dockerignore
+.pre-commit-config.yaml
 compose.yaml
 docker/
 public/
+.ruff_cache/
