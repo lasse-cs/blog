@@ -1,9 +1,9 @@
 from wagtail.admin.panels import FieldPanel
-from wagtail.blocks import RichTextBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 
+from core.blocks import ContentBlock
 from core.models import FeedItemMixin, FeedMixin
 
 
@@ -27,14 +27,7 @@ class ArticlePage(FeedItemMixin, Page):
         default="Article intro content.",
     )
     body = StreamField(
-        [
-            (
-                "text",
-                RichTextBlock(
-                    template="patterns/components/streamfield/blocks/text.html"
-                ),
-            ),
-        ],
+        ContentBlock,
         help_text="Main body content for the article page.",
     )
 

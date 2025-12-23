@@ -10,6 +10,10 @@ from wagtail.blocks import (
 )
 
 
+class ContentBlock(StreamBlock):
+    text = RichTextBlock(template="patterns/components/streamfield/blocks/text.html")
+
+
 class SocialMediaChoices(models.TextChoices):
     GITHUB = "github", "GitHub"
     BLUESKY = "bluesky", "BlueSky"

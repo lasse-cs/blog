@@ -14,6 +14,7 @@ from wagtail_factories.blocks import BlockFactory
 
 from core.blocks import (
     BaseSidebarItemBlock,
+    ContentBlock,
     SidebarBlock,
     SocialBlock,
     SocialLinkBlock,
@@ -62,6 +63,13 @@ class SidebarBlockFactory(StreamBlockFactory):
 
     class Meta:
         model = SidebarBlock
+
+
+class ContentBlockFactory(StreamBlockFactory):
+    text = factory.SubFactory(RichTextBlockFactory)
+
+    class Meta:
+        model = ContentBlock
 
 
 class SocialMediaLinksFactory(DjangoModelFactory):
