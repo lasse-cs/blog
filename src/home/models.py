@@ -12,7 +12,9 @@ class HomePage(FeedMixin, Page):
         default="Blog intro content.",
     )
     sidebar = StreamField(
-        SidebarBlock, help_text="Sidebar content for the homepage.", blank=True
+        SidebarBlock,
+        help_text="Sidebar content for the homepage.",
+        blank=True,
     )
 
     content_panels = Page.content_panels + [
