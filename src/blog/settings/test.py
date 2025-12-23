@@ -1,6 +1,7 @@
 # ruff: noqa: F403, F405
 
 from .base import *
+import tempfile
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -12,6 +13,8 @@ SECRET_KEY = "django-insecure-3=_$m44l@^+c_!$4o@*moeurqpqyb@bmv#v+_6(bi9vdlur%^w
 ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+MEDIA_ROOT = tempfile.gettempdir()
 
 try:
     from .local import *

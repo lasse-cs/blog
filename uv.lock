@@ -300,6 +300,30 @@ wheels = [
 ]
 
 [[package]]
+name = "factory-boy"
+version = "3.3.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "faker" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/98/75cacae9945f67cfe323829fc2ac451f64517a8a330b572a06a323997065/factory_boy-3.3.3.tar.gz", hash = "sha256:866862d226128dfac7f2b4160287e899daf54f2612778327dd03d0e2cb1e3d03", size = 164146, upload-time = "2025-02-03T09:49:04.433Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/8d/2bc5f5546ff2ccb3f7de06742853483ab75bf74f36a92254702f8baecc79/factory_boy-3.3.3-py2.py3-none-any.whl", hash = "sha256:1c39e3289f7e667c4285433f305f8d506efc2fe9c73aaea4151ebd5cdea394fc", size = 37036, upload-time = "2025-02-03T09:49:01.659Z" },
+]
+
+[[package]]
+name = "faker"
+version = "39.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tzdata" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/30/b9/0897fb5888ddda099dc0f314a8a9afb5faa7e52eaf6865c00686dfb394db/faker-39.0.0.tar.gz", hash = "sha256:ddae46d3b27e01cea7894651d687b33bcbe19a45ef044042c721ceac6d3da0ff", size = 1941757, upload-time = "2025-12-17T19:19:04.762Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/eb/5a/26cdb1b10a55ac6eb11a738cea14865fa753606c4897d7be0f5dc230df00/faker-39.0.0-py3-none-any.whl", hash = "sha256:c72f1fca8f1a24b8da10fcaa45739135a19772218ddd61b86b7ea1b8c790dce7", size = 1980775, upload-time = "2025-12-17T19:19:02.926Z" },
+]
+
+[[package]]
 name = "filelock"
 version = "3.20.1"
 source = { registry = "https://pypi.org/simple" }
@@ -388,6 +412,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-django" },
     { name = "ruff" },
+    { name = "wagtail-factories" },
 ]
 
 [package.metadata]
@@ -407,6 +432,7 @@ dev = [
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-django", specifier = ">=4.11.1" },
     { name = "ruff", specifier = ">=0.14.10" },
+    { name = "wagtail-factories", specifier = ">=4.3.0" },
 ]
 
 [[package]]
@@ -782,6 +808,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/e4/c6/d8eb86972ea7e917f457d41494b87018eb2493ea053db889bab8b19229f3/wagtail-7.1.2.tar.gz", hash = "sha256:00c6641c9e6d6ce797503fee3aa32b1fad830af75fb7f22268fdf50e1f69baca", size = 6823881, upload-time = "2025-10-23T16:24:54.81Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/ce/3b3f5f310101854711190c04638a84155790f8c7762bb1c2e715ea3d3b53/wagtail-7.1.2-py3-none-any.whl", hash = "sha256:709ecf19ba73f8b2a231c7d07d855dc8c22a9bf418cfbc69ce25033abd68417c", size = 9315952, upload-time = "2025-10-23T16:24:49.347Z" },
+]
+
+[[package]]
+name = "wagtail-factories"
+version = "4.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "factory-boy" },
+    { name = "wagtail" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cb/0f/f00ce36a1eaea91075817c65c0c4f6644dc20138e397aafd89afe2e2c3e3/wagtail_factories-4.3.0.tar.gz", hash = "sha256:27c19078ceade5e408aef0edfa3378b7992e5bed4d4c7e8216cbdd53f9732464", size = 9613, upload-time = "2025-08-15T08:49:46.4Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2e/5c/dc0bcc00512d27423e3bb2b4eee44f3bcbd1c1569910d01d17b6e0e0cc27/wagtail_factories-4.3.0-py2.py3-none-any.whl", hash = "sha256:6d3129244642a400462344e35168e5eb89598d5b63a4cfb7f26a5a6052f50d95", size = 10513, upload-time = "2025-08-15T08:49:45.549Z" },
 ]
 
 [[package]]
