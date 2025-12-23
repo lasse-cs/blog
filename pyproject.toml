@@ -17,9 +17,17 @@ dev = [
     "django-pattern-library>=1.5.0",
     "djhtml>=3.0.10",
     "pre-commit>=4.5.1",
+    "pytest>=9.0.2",
+    "pytest-django>=4.11.1",
     "ruff>=0.14.10",
 ]
 
 
 [tool.ruff]
 extend-exclude = ["**/migrations/*.py"]
+
+
+[tool.pytest]
+pythonpath = ["src"]
+DJANGO_SETTINGS_MODULE = "blog.settings.test"
+python_files = ["**/tests/test_*.py"]

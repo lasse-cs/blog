@@ -52,3 +52,5 @@ compose.yaml
 docker/
 public/
 .ruff_cache/
+.pytest_cache/
+.github/

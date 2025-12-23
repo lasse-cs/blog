@@ -26,3 +26,6 @@ jobs:
       
       - name: Check template formatting
         run: git ls-files "*.html" | xargs uv run djhtml --check
+
+      - name: Run the tests
+        run: uv run pytest
