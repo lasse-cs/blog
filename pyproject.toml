@@ -29,6 +29,7 @@ extend-exclude = ["**/migrations/*.py"]
 
 
 [tool.pytest]
-pythonpath = ["src"]
+addopts = ["--reuse-db"]
 DJANGO_SETTINGS_MODULE = "blog.settings.test"
+pythonpath = ["src"]
 python_files = ["**/tests/test_*.py"]

@@ -16,6 +16,17 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 MEDIA_ROOT = tempfile.gettempdir()
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "TEST": {
+            # Don't use in-memory sqlite database
+            # So that possible to reuse the DB
+            "NAME": "test_db.sqlite3",
+        },
+    }
+}
+
 try:
     from .local import *
 except ImportError:
