@@ -12,6 +12,10 @@ SECRET_KEY = "django-insecure-3=_$m44l@^+c_!$4o@*moeurqpqyb@bmv#v+_6(bi9vdlur%^w
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ["*"]
 
+INSTALLED_APPS += [
+    "activity.test",
+]
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 MEDIA_ROOT = tempfile.gettempdir()
@@ -19,6 +23,7 @@ MEDIA_ROOT = tempfile.gettempdir()
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
         "TEST": {
             # Don't use in-memory sqlite database
             # So that possible to reuse the DB

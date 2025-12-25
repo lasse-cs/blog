@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "home",
     "search",
     "article",
+    "activity",
     "core",
     "patterns",
     "wagtail.contrib.forms",

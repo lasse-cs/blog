@@ -28,14 +28,16 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     # Django Browser Reload
-    urlpatterns += [
-        path("__reload__/", include("django_browser_reload.urls")),
-    ]
-
-    from debug_toolbar.toolbar import debug_toolbar_urls
+    if apps.is_installed("django_browser_reload"):
+        urlpatterns += [
+            path("__reload__/", include("django_browser_reload.urls")),
+        ]
 
     # Django Debug Toolbar
-    urlpatterns += debug_toolbar_urls()
+    if apps.is_installed("debug_toolbar"):
+        from debug_toolbar.toolbar import debug_toolbar_urls
+
+        urlpatterns += debug_toolbar_urls()
 
     # Add pattern library
     if apps.is_installed("pattern_library"):
