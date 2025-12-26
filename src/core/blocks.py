@@ -60,12 +60,19 @@ class SocialBlock(BaseSidebarItemBlock):
         icon = "link-external"
 
 
+class ActivityBlock(BaseSidebarItemBlock):
+    class Meta:
+        template = "patterns/components/sidebar/blocks/activity_block.html"
+
+
 class SidebarBlock(StreamBlock):
     text = TitledTextBlock()
     social = SocialBlock()
+    activity = ActivityBlock()
 
     class Meta:
         template = "patterns/components/sidebar/sidebar.html"
         block_counts = {
             "social": {"max_num": 1},
+            "activity": {"max_num": 1},
         }
