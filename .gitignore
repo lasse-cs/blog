@@ -6,6 +6,9 @@ dist/
 wheels/
 *.egg-info
 
+# Node packages
+node_modules/
+
 # Virtual environments
 .venv
 
@@ -26,3 +29,6 @@ docker/.secrets
 # Media Files
 /src/static/
 /src/media/
+
+# Built static files
+/src/blog/static/js/

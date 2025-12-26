@@ -1,3 +1,16 @@
+FROM node:22 AS build-static
+
+COPY ./package.json ./package-lock.json ./vite.config.js /app/
+
+WORKDIR /app/
+
+# Install dependencies
+RUN ["npm", "ci"]
+
+COPY ./src/static_src /app/src/static_src
+
+RUN ["npm", "run", "build"]
+
 FROM python:3.13-slim-bookworm AS builder
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -49,5 +62,8 @@ COPY --from=builder /opt/venv /opt/venv
 ADD --chown=wagtail:wagtail ./src /app
 
 USER wagtail
+
+# Copy the build JS from the previous stage
+COPY --from=build-static --chown=wagtail:wagtail /app/src/blog/static/js/ /app/blog/static/js/
 
 CMD ["gunicorn", "--bind", ":8000", "blog.wsgi:application"]

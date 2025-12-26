@@ -1,0 +1,14 @@
+{
+  "name": "lasse-blog",
+  "version": "0.0.1",
+  "description": "JavaScript for Lasse's blog",
+  "scripts": {
+    "build": "vite build",
+    "build-watch": "vite build --watch"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0"
+  },
+  "dependencies": {
+  }
+}
