@@ -1,0 +1,17 @@
+{% extends 'patterns/base.html' %}
+
+{% block title %}
+    Page Not Found
+{% endblock title %}
+
+{% block page_content %}
+    <main id="main">
+        <div class="error__container">
+            <h1 class="error__title">404</h1>
+            <p>Sorry, the page you're looking for doesn't exist.</p>
+            <a href="{{ current_site.root_url|default:"/" }}" class="arrow-link" data-direction="left">
+                Return to Home
+            </a>
+        </div>
+    </main>
+{% endblock page_content %}

@@ -18,6 +18,7 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
 ]
 
+handler404 = "blog.views.page_not_found"
 
 if settings.DEBUG:
     from django.conf.urls.static import static
