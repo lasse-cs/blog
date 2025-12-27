@@ -81,6 +81,22 @@ server {
 }
 
 server {
+    listen 443 ssl default_server;
+    server_name _:
+
+    # LOGS
+    access_log  /var/log/nginx/access.log;
+    error_log   /var/log/nginx/error.log;
+    ssl_certificate ${NGINX_SSL_CERT_FILE};
+    ssl_certificate_key ${NGINX_SSL_KEY_FILE};
+
+    ssl_protocols TLSv1.3 TLSv1.2;
+    ssl_prefer_server_ciphers off;
+
+    return 444;
+}
+
+server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
