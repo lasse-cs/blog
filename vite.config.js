@@ -16,6 +16,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 activity: resolve(__dirname, "src/static_src/js/activity.js"),
+                blog: resolve(__dirname, "src/static_src/js/blog.js"),
             },
             output: {
                 entryFileNames: `[name].js`,
