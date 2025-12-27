@@ -1,6 +1,7 @@
 services:
   nginx:
     image: nginx:1.29
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -21,6 +22,7 @@ services:
 
   postgres:
     image: postgres:17
+    restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRES_USER:?Must set postgres user name}
       - POSTGRES_DB=${POSTGRES_DB:?Must set postgres database name}
@@ -35,6 +37,7 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
+    restart: unless-stopped
     environment:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:?Must set allowed hosts}
       - DJANGO_SECRET_KEY_FILE=/run/secrets/django_secret_key_file
