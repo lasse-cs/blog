@@ -36,7 +36,7 @@ PATTERN_LIBRARY = {
     ),
     "TEMPLATE_SUFFIX": ".html",
     "PATTERN_BASE_TEMPLATE_NAME": "patterns/base_pattern.html",
-    "BASE_TEMPLATE_NAMES": ["patterns/base.html"],
+    "BASE_TEMPLATE_NAMES": ["patterns/base.html", "patterns/pages/error/500.html"],
 }
 
 # Debug Toolbar should be as early as possible in the middleware list
