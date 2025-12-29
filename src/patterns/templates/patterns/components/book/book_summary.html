@@ -31,7 +31,7 @@
         </div>
         <footer>
             <!-- Card Footer -->
-            <a href="{{ book.url }}" class="arrow-link" data-direction="right">See Details <span class="visually-hidden">about {{ book.title }}</span></a>
+            <a href="{% pageurl book %}" class="arrow-link" data-direction="right">See Details <span class="visually-hidden">about {{ book.title }}</span></a>
         </footer>
     </article>
 {% endwith %}

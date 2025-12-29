@@ -5,7 +5,7 @@
         <!-- Article Card -->
         <header class="article-card__header">
             <!-- Card Header -->
-            <h2><a href="{{ article.url }}" class="header__link">{{ article.title }}</a></h2>
+            <h2><a href="{% pageurl article %}" class="header__link">{{ article.title }}</a></h2>
             {% if article.first_published_at %}
                 <p class="text-small">
                     {{ article.first_published_at|date:"M j, Y"}}
@@ -18,7 +18,7 @@
         </div>
         <footer>
             <!-- Card Footer -->
-            <a href="{{ article.url }}" class="arrow-link" data-direction="right">Read Article <span class="visually-hidden">{{ article.title }}</span></a>
+            <a href="{% pageurl article %}" class="arrow-link" data-direction="right">Read Article <span class="visually-hidden">{{ article.title }}</span></a>
         </footer>
     </article>
 {% endwith %}
