@@ -23,6 +23,10 @@ SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 
+INSTALLED_APPS += [
+    "django.contrib.postgres",
+]
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
