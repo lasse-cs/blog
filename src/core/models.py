@@ -22,7 +22,7 @@ class BaseRSSFeed(Feed):
         return obj.feed_title()
 
     def description(self, obj):
-        return obj.feed_description
+        return obj.feed_description()
 
     def link(self, obj):
         return obj.url
@@ -32,7 +32,7 @@ class BaseRSSFeed(Feed):
         return obj.get_feed_items()[:number]
 
     def item_title(self, item):
-        return item.feed_title
+        return item.feed_title()
 
     def item_link(self, item):
         return item.url
