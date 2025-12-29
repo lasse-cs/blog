@@ -38,6 +38,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": os.environ["MEMCACHED_LOCATIONS"].split(","),
+    }
+}
+
 try:
     from .local import *
 except ImportError:

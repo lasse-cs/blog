@@ -42,6 +42,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:?Must set allowed hosts}
       - DJANGO_SECRET_KEY_FILE=/run/secrets/django_secret_key_file
       - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL:-WARNING}
+      - MEMCACHED_LOCATIONS=memcached:11211
       - POSTGRES_USER=${POSTGRES_USER:?Must set postgres user name}
       - POSTGRES_DB=${POSTGRES_DB:?Must set postgres database name}
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password_file
@@ -53,6 +54,10 @@ services:
      - django_secret_key_file
      - postgres_password_file
   
+  memcached:
+    image: memcached:1.6
+    restart: unless-stopped
+
 configs:
   nginx_ssl_cert_file:
     file: ${NGINX_SSL_CERT_FILE:?Must set nginx ssl cert file}
