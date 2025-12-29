@@ -1,0 +1,35 @@
+{% extends 'patterns/base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block page_content %}
+    <main id="main">
+        <article class="book-content">
+            <div class="book__image">
+                {% if page.cover_image %}
+                    {% image page.cover_image max-300x300 format-webp %}
+                {% else %}
+                    {% include "patterns/components/book/book_placeholder.html" %}
+                {% endif %}
+            </div>
+            <div class="book__info">
+                <h1>{{ page.title }}</h1>
+                <ul class="book__author__list">
+                    {% for book_author in page.book_authors.all %}
+                        <li>
+                            {% if not forloop.first %} & {% endif %}{{ book_author.author.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {{ page.blurb|richtext }}
+                <div class="book__progress">
+                    Progress: {{ page.progress }}%
+                    {% include "patterns/components/meter/meter.html" with progress=page.progress %}
+                </div>
+            </div>
+            <div class="book__intro highlighted-text">
+                <h2>About this Book</h2>
+                {{ page.intro|richtext }}
+            </div>
+        </article>
+    </main>
+{% endblock page_content %}

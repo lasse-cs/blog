@@ -2,4 +2,5 @@ name: Main Menu
 context:
   menu_items:
     - title: Articles
+    - title: Books
     - title: About

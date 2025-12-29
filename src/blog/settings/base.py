@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "search",
     "article",
     "activity",
+    "book",
     "core",
     "patterns",
     "wagtail.contrib.forms",

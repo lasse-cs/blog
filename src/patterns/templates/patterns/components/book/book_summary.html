@@ -1,0 +1,37 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% with object as book %}
+    <article class="card card-layout">
+        <header>
+            <div class="book__image">
+                {% if book.cover_image %}
+                    {% image book.cover_image max-300x300 format-webp %}
+                {% else %}
+                    {% include "patterns/components/book/book_placeholder.html" %}
+                {% endif %}
+            </div>
+            <h2 class="book__card__title">
+                <a href="{% pageurl book %}" class="header__link">
+                    {{ book.title }}
+                </a>
+            </h2>
+            <ul class="book__author__list">
+                {% for book_author in book.book_authors.all %}
+                    <li>
+                        {% if not forloop.first %} & {% endif %}{{ book_author.author.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="book__progress">
+                {% include "patterns/components/meter/meter.html" with progress=book.progress %}
+            </div>
+        </header>
+        <div>
+            {{ book.intro|richtext|truncatechars_html:400 }}
+        </div>
+        <footer>
+            <!-- Card Footer -->
+            <a href="{{ book.url }}" class="arrow-link" data-direction="right">See Details <span class="visually-hidden">about {{ book.title }}</span></a>
+        </footer>
+    </article>
+{% endwith %}

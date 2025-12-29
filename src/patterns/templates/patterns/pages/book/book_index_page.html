@@ -1,0 +1,36 @@
+{% extends "patterns/base.html" %}
+{% load static wagtailcore_tags wagtailroutablepage_tags %}
+
+{% block feed %}
+    <link
+        rel="alternate"
+        type="application/rss+xml"
+        title="{{ page.feed_title }}"
+        href="{% routablepageurl page 'rss' %}"
+    />
+{% endblock feed %}
+
+{% block page_content %}
+    <div>
+    <!-- Content -->
+        <section class="book-index__intro">
+            {% include "patterns/components/intro/intro.html" %}
+        </section>
+        <main id="main">
+        <!-- Main Content -->
+            <div class="book__list">
+            <!-- Book List -->
+                <div class="book__grid">
+                    {% for feed_item in pagination_page %}
+                        {% include feed_item.get_summary_template with object=feed_item %}
+                    {% empty %}
+                        <p>No books found.</p>
+                    {% endfor %}
+                </div>
+                {% if pagination_page %}
+                    {% include "patterns/components/pagination/pagination.html" %}
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock page_content %}
