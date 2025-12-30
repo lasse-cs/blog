@@ -417,6 +417,10 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
+
+    @media (width < 720px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   .book__image {
