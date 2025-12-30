@@ -78,9 +78,7 @@
 
 @layer base {
     :root {
-        --orange-very-light: #fff3e0;
-        --orange-light: #ff6d00;
-        --orange-dark: #e65100;
+        --crimson: crimson;
 
         --white: #ffffff;
 
@@ -91,7 +89,7 @@
 
         --border-radius: 0.5rem;
 
-        --primary: var(--orange-dark);
+        --primary: var(--crimson);
         --background: var(--white);
         --background-subtle: var(--gray-light);
         --border-color: var(--gray);
