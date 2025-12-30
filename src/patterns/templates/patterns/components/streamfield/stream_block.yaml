@@ -6,4 +6,4 @@ context:
 tags:
   include_block:
     block with unique_id=block.id:
-      template_name: "patterns/components/streamfield/blocks/text.html"
+      template_name: "non_patterns/streamfield/helper.html"

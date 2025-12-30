@@ -515,3 +515,11 @@
     }
   }
 }
+
+@layer prism {
+  /* Remove the background color on PrismJS and add a subtle border */
+  :not(pre)>code[class*=language-], pre[class*=language-] {
+    background: 0 0 !important;
+    border: 1px solid var(--border-color)
+  }
+}

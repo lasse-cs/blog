@@ -10,6 +10,7 @@ dependencies = [
     "psycopg>=3.3.1",
     "pymemcache>=4.0.0",
     "wagtail>=7.2.1",
+    "wagtailcodeblock>=1.30.0.0",
 ]
 
 [dependency-groups]

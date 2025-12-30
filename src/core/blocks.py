@@ -9,9 +9,12 @@ from wagtail.blocks import (
     URLBlock,
 )
 
+from wagtailcodeblock.blocks import CodeBlock
+
 
 class ContentBlock(StreamBlock):
     text = RichTextBlock(template="patterns/components/streamfield/blocks/text.html")
+    code = CodeBlock(template="patterns/components/streamfield/blocks/code.html")
 
 
 class SocialMediaChoices(models.TextChoices):
