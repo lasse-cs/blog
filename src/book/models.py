@@ -4,11 +4,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model
 from wagtail.models import Page, Orderable
 from wagtail.search import index
 
+from core.blocks import ContentBlock
 from core.models import FeedItemMixin, FeedMixin
 
 
@@ -88,6 +89,7 @@ class BookPage(FeedItemMixin, Page):
             FieldPanel("cover_image"),
             FieldPanel("blurb"),
             FieldPanel("progress"),
+            InlinePanel("book_notes"),
         ]
     )
 
@@ -104,3 +106,20 @@ class BookPage(FeedItemMixin, Page):
 
     summary_template = "patterns/components/book/book_summary.html"
     template = "patterns/pages/book/book_page.html"
+
+
+class BookNote(models.Model):
+    book = ParentalKey(BookPage, on_delete=models.CASCADE, related_name="book_notes")
+    content = StreamField(ContentBlock, help_text="The notes content")
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_modified_at = models.DateTimeField(auto_now=True)
+
+    panels = [
+        FieldPanel("content"),
+    ]
+
+    def __str__(self):
+        return f"Note for {self.book.title}, created at {self.created_at}"
+
+    class Meta:
+        ordering = ["-created_at"]

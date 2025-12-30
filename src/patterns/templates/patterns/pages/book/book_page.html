@@ -30,6 +30,7 @@
                 <h2>About this Book</h2>
                 {{ page.intro|richtext }}
             </div>
+            {% include "patterns/components/book/book_notes.html" %}
         </article>
     </main>
 {% endblock page_content %}

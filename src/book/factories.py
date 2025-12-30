@@ -1,9 +1,10 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from wagtail_factories import PageFactory, ImageFactory
+from wagtail_factories import ImageFactory, PageFactory, StreamFieldFactory
 
-from book.models import Author, BookAuthor, BookIndexPage, BookPage
+from core.factories import ContentBlockFactory
+from book.models import Author, BookAuthor, BookIndexPage, BookNote, BookPage
 
 
 class AuthorFactory(DjangoModelFactory):
@@ -47,3 +48,11 @@ class BookPageWithTwoAuthorsFactory(BookPageFactory):
     author2 = factory.RelatedFactory(
         BookAuthorFactory, factory_related_name="book", sort_order=2
     )
+
+
+class BookNoteFactory(DjangoModelFactory):
+    book = factory.SubFactory(BookPageWithAuthorFactory)
+    content = StreamFieldFactory(ContentBlockFactory)
+
+    class Meta:
+        model = BookNote

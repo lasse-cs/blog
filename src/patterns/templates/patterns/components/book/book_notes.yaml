@@ -1,0 +1,12 @@
+name: Book Notes
+context: 
+  page:
+    book_notes:
+      all:
+        - created_at: 2025-01-12
+        - created_at: 2025-01-11
+
+tags:
+  include_block:
+    note.content:
+      template_name: "patterns/components/streamfield/stream_block.html"

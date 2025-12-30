@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+
+<section class="book__notes">
+    {% if page.book_notes.all %}
+        <h2 class="book__notes__title">My Notes</h2>
+        {% for note in page.book_notes.all %}
+            <div class="book__note">
+                <div class="book__note__date">{{ note.created_at|date:"M d, Y" }}</div>
+                {% include_block note.content %}
+            </div>
+        {% endfor %}
+    {% endif %}
+</section>
