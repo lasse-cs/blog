@@ -21,5 +21,5 @@ def test_site_footer_factory():
 
 
 def test_content_block_factory():
-    content_block = ContentBlockFactory(**{"0": "text"})
-    assert len(content_block) == 1
+    content_block = ContentBlockFactory(**{"0": "text", "1": "code"})
+    assert len(content_block) == 2

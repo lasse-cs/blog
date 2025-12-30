@@ -4,6 +4,8 @@ from factory.django import DjangoModelFactory
 from wagtail.blocks import RichTextBlock
 from wagtail.rich_text import RichText
 
+from wagtailcodeblock.blocks import CodeBlock
+
 from wagtail_factories import (
     SiteFactory,
     StreamBlockFactory,
@@ -65,8 +67,17 @@ class SidebarBlockFactory(StreamBlockFactory):
         model = SidebarBlock
 
 
+class CodeBlockFactory(StructBlockFactory):
+    language = "python"
+    code = "print('Hello World!')"
+
+    class Meta:
+        model = CodeBlock
+
+
 class ContentBlockFactory(StreamBlockFactory):
     text = factory.SubFactory(RichTextBlockFactory)
+    code = factory.SubFactory(CodeBlockFactory)
 
     class Meta:
         model = ContentBlock
