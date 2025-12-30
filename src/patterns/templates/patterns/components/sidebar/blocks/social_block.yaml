@@ -18,3 +18,7 @@ context:
               url: "#"
               display: "RSS Feed!"
               type: "feed"
+          - value:
+              url: "#"
+              display: "LinkedIn!"
+              type: "linkedin"

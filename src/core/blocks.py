@@ -20,6 +20,7 @@ class ContentBlock(StreamBlock):
 class SocialMediaChoices(models.TextChoices):
     GITHUB = "github", "GitHub"
     BLUESKY = "bluesky", "BlueSky"
+    LINKEDIN = "linkedin", "LinkedIn"
     FEED = "feed", "Feed"
 
 
