@@ -8,7 +8,7 @@
             {% for link in settings.core.SocialMediaLinks.links %}
                 <li>
                     {% with 'icons/'|add:link.value.type|add:'.svg' as icon_static %}
-                        <a href="{{ link.value.url }}" target="_blank" class="social__link"><img class="social__icon" src="{% static icon_static %}">{{ link.value.display }}</a>
+                        <a href="{{ link.value.url }}" target="_blank" class="social__link"><img class="social__icon" src="{% static icon_static %}" alt="">{{ link.value.display }}</a>
                     {% endwith %}
                 </li>
             {% endfor %}
