@@ -87,6 +87,7 @@
         --gray-dark: #666666;
         --gray-very-dark: #333333;
 
+        --border-radius-small: 0.25rem;
         --border-radius: 0.5rem;
 
         --primary: var(--crimson);
@@ -98,7 +99,6 @@
         --text-dark: var(--gray-very-dark);
         --text: var(--gray-dark);
 
-        --border-radius-large: 0.5rem;
 
         --shadow-color: rgba(102, 102, 102, 0.2);
 
@@ -185,7 +185,7 @@
   .card {
     padding: 2rem;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-large);
+    border-radius: var(--border-radius);
     box-shadow: 0 2px 8px var(--shadow-color);
   }
 
@@ -247,6 +247,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    position: relative;
+    overflow-x: clip;
   }
 
   .site-footer {
@@ -310,11 +313,81 @@
   .nav__list {
     list-style: none;
     display: flex;
+    flex-wrap: wrap;
     gap: 2.5rem;
   }
 
   .nav__link {
     --link-color: var(--text);
+  }
+
+  #main-nav {
+    @media (width < 768px) {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s, display 1s, translate 1s;
+      transition-behavior: allow-discrete;
+      translate: 100% 0;
+
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      right: 0;
+
+      .nav__list {
+        flex-direction: column;
+        gap: 1rem;
+        border-left: var(--border-color) solid 1px;
+        border-bottom: var(--border-color) solid 1px;
+        background-color: var(--background);
+        margin-block: 0;
+        padding-inline: 4rem;
+        padding-block-end: 1.5rem;
+        padding-block-start: 3rem;
+      }
+    }
+  }
+
+  [aria-controls="main-nav"] {
+    position: relative;
+    z-index: 100;
+    cursor: pointer;
+
+    --icon-color: var(--text);
+
+    background: var(--background-subtle);
+    border: var(--border-color) solid 1px;
+    border-radius: var(--border-radius-small);
+
+    display: none;
+
+    &:hover, &:focus-visible {
+      --border-color: var(--primary);
+      --icon-color: var(--primary);
+    }
+
+    @media (width < 768px) {
+      display: grid;
+      place-content: center;
+
+      &[aria-expanded="true"] ~ #main-nav {
+        display: block;
+        opacity: 1;
+        translate: 0 0;
+
+        @starting-style {
+          opacity: 0;
+          translate: 100% 0;
+        }
+      }
+    }
+  }
+
+  .nav__icon {
+    height: 1.5rem;
+    width: 1.5rem;
+
+    fill: var(--icon-color);
   }
 
   .brand-link {
@@ -379,12 +452,12 @@
       "intro intro"
       "notes notes" / 1fr 2fr;
 
-      @media (width < 960px) {
+    @media (width < 960px) {
       grid-template:
-      "image" auto
-      "info" auto
-      "intro" auto
-      "notes notes" auto / 1fr;
+        "image" auto
+        "info" auto
+        "intro" auto
+        "notes notes" auto / 1fr;
     }
   }
 
@@ -425,7 +498,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 
-    @media (width < 720px) {
+    @media (width < 768px) {
       grid-template-columns: repeat(1, 1fr);
     }
   }

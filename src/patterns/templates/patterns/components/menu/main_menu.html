@@ -1,9 +1,13 @@
-{% load wagtailcore_tags %}
+{% load custom_tags wagtailcore_tags %}
 
 {% if menu_items %}
-    <div>
-    <!-- Nav Container -->
-        <nav>
+    <div class="nav__wrapper">
+        <button aria-controls="main-nav" aria-expanded="false">
+            <span class="visually-hidden">Menu</span>
+            {% svg_icon 'bars' class_name="nav__icon" %}
+        </button>
+        <!-- Nav Container -->
+        <nav id="main-nav">
         <!-- Navigation -->
             <ol class="nav__list">
                 {% for menu_item in menu_items %}
