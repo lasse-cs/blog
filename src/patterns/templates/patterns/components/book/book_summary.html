@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load custom_tags wagtailcore_tags wagtailimages_tags %}
 
 {% with object as book %}
     <article class="card card-layout">
@@ -7,7 +7,7 @@
                 {% if book.cover_image %}
                     {% image book.cover_image max-300x300 format-webp %}
                 {% else %}
-                    {% include "patterns/components/book/book_placeholder.html" %}
+                    {% svg_icon 'book_placeholder' %}
                 {% endif %}
             </div>
             <h2 class="book__card__title">

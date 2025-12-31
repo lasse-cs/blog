@@ -285,6 +285,7 @@
 
   .social__link {
     --link-color: var(--text);
+    --icon-color: var(--link-color);
 
     display: flex;
     gap: 0.5rem;
@@ -292,9 +293,17 @@
 
     padding-block-end: 0.25rem;
 
-    img {
-      height: 1.5rem;
-      width: 1.5rem;  
+    &:hover, &:focus-visible {
+      --icon-color: var(--link-hover-color);
+    }
+  }
+
+  .social__icon {
+    height: 1.5rem;
+    width: 1.5rem;
+
+    svg {
+      fill: var(--icon-color);
     }
   }
 

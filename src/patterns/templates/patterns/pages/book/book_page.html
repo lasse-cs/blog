@@ -1,5 +1,5 @@
 {% extends 'patterns/base.html' %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load custom_tags wagtailcore_tags wagtailimages_tags %}
 
 {% block page_content %}
     <main id="main">
@@ -8,7 +8,7 @@
                 {% if page.cover_image %}
                     {% image page.cover_image max-300x300 format-webp %}
                 {% else %}
-                    {% include "patterns/components/book/book_placeholder.html" %}
+                    {% svg_icon 'book_placeholder' %}
                 {% endif %}
             </div>
             <div class="book__info">

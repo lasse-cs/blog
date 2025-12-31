@@ -1,4 +1,4 @@
-{% load static %}
+{% load custom_tags %}
 
 <section>
     <!-- Social -->
@@ -7,9 +7,7 @@
         <ul class="sidebar-social__list">
             {% for link in settings.core.SocialMediaLinks.links %}
                 <li>
-                    {% with 'icons/'|add:link.value.type|add:'.svg' as icon_static %}
-                        <a href="{{ link.value.url }}" target="_blank" class="social__link"><img class="social__icon" src="{% static icon_static %}" alt="">{{ link.value.display }}</a>
-                    {% endwith %}
+                    <a href="{{ link.value.url }}" target="_blank" class="social__link">{% svg_icon link.value.type class_name="social__icon" %}{{ link.value.display }}</a>
                 </li>
             {% endfor %}
         </ul>
