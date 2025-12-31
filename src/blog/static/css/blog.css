@@ -86,6 +86,7 @@
         --gray: #e0e0e0;
         --gray-dark: #666666;
         --gray-very-dark: #333333;
+        --black: #1a1a1a;
 
         --border-radius-small: 0.25rem;
         --border-radius: 0.5rem;
@@ -105,6 +106,16 @@
         --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
         --font-regular: 1rem;
+    }
+
+    [data-theme="dark"] {
+      --primary: rgb(247, 71, 71);
+      --background: var(--black);
+      --background-subtle: var(--gray-very-dark);
+      --border-color: var(--gray-dark);
+      --text: var(--gray);
+      --text-dark: var(--gray-light);
+      --shadow-color: rgba(50, 50, 50, 0.2);
     }
 
     html {
@@ -310,11 +321,21 @@
     }
   }
 
+  .nav__wrapper {
+    display: flex;
+    gap: 1.5rem;
+
+    align-items: center;
+    padding-inline: 2px;
+  }
+
   .nav__list {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 2.5rem;
+    gap: 1.5rem;
+
+    padding-inline-start: 0;
   }
 
   .nav__link {
@@ -348,23 +369,31 @@
     }
   }
 
-  [aria-controls="main-nav"] {
+  .nav__button {
     position: relative;
     z-index: 100;
     cursor: pointer;
-
-    --icon-color: var(--text);
-
     background: var(--background-subtle);
     border: var(--border-color) solid 1px;
     border-radius: var(--border-radius-small);
 
-    display: none;
+    --icon-color: var(--text);
 
     &:hover, &:focus-visible {
       --border-color: var(--primary);
       --icon-color: var(--primary);
     }
+
+    height: max-content;
+    padding: 2px;
+
+    display: grid;
+    place-content: center;
+  }
+
+  [aria-controls="main-nav"] {
+    display: none;
+
 
     @media (width < 768px) {
       display: grid;
@@ -604,6 +633,21 @@
   /* Remove the background color on PrismJS and add a subtle border */
   :not(pre)>code[class*=language-], pre[class*=language-] {
     background: 0 0 !important;
-    border: 1px solid var(--border-color)
+    border: 1px solid var(--border-color);
+  }
+
+  /* Remove text shadow */
+  code[class*=language-], pre[class*=language-] {
+    text-shadow: none !important;
+  }
+
+  /* Set the text color to be determined by the variable */
+  code[class*=language-] >:not(span), pre[class*=language-] >:not(span) {
+    color: var(--text) !important;
+  }
+
+  /* Remove token backgrounds */
+  .language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url {
+    background: 0 0 !important;
   }
 }

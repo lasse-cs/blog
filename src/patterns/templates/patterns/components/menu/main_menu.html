@@ -1,8 +1,8 @@
 {% load custom_tags wagtailcore_tags %}
 
-{% if menu_items %}
-    <div class="nav__wrapper">
-        <button aria-controls="main-nav" aria-expanded="false">
+<div class="nav__wrapper">
+    {% if menu_items %}
+        <button aria-controls="main-nav" aria-expanded="false" class="nav__button">
             <span class="visually-hidden">Menu</span>
             {% svg_icon 'bars' class_name="nav__icon" %}
         </button>
@@ -17,5 +17,9 @@
                 {% endfor %}
             </ol>
         </nav>
-    </div>
-{% endif %}
+    {% endif %}
+    <button class="nav__button" id="theme-toggle">
+        <span class="visually-hidden">Toggle Theme</span>
+        {% svg_icon 'theme' class_name="nav__icon" %}
+    </button>
+</div>
