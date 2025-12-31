@@ -482,11 +482,8 @@
       "notes notes" / 1fr 2fr;
 
     @media (width < 960px) {
-      grid-template:
-        "image" auto
-        "info" auto
-        "intro" auto
-        "notes" auto / 1fr;
+      display: flex;
+      flex-direction: column;
     }
   }
 
