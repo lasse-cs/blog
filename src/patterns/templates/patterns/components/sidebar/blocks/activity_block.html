@@ -1,4 +1,8 @@
+{% load activity_tags %}
+
 <section>
     <!-- Activity -->
     <h2 class="sidebar-item__title text-heading-small">{{ value.title }}</h2>
+    {% recent_activity as activities %}
+    {{ activities|json_script:"activity-data" }}
 </section>

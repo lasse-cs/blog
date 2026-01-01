@@ -12,11 +12,11 @@ class ActivityManager(models.Manager):
     def counts_by_day(self):
         return (
             self.annotate(
-                activity_day=Trunc(
+                activity_date=Trunc(
                     "created", "day", output_field=models.DateTimeField()
                 )
             )
-            .values("activity_day")
+            .values("activity_date")
             .annotate(activities=models.Count("id"))
         )
 
