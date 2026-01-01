@@ -24,7 +24,6 @@ server {
     add_header Strict-Transport-Security "max-age=63072000" always;
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
-    add_header Cache-control "no-store";
     add_header Referrer-Policy "strict-origin-when-cross-origin";
     add_header Permissions-Policy "accelerometer=(), autoplay=(), camera=(), cross-origin-isolated=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()";
 
@@ -77,6 +76,8 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_redirect off;
+
+        add_header Cache-control "no-store";
     }
 }
 
