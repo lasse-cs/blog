@@ -40,9 +40,15 @@ PATTERN_LIBRARY = {
 }
 
 # Debug Toolbar should be as early as possible in the middleware list
-MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-] + MIDDLEWARE
+# However, it must come after middleware which encodes responses.
+# In our case - that is two by default
+MIDDLEWARE = (
+    MIDDLEWARE[:2]
+    + [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+    + MIDDLEWARE[2:]
+)
 
 MIDDLEWARE += [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
