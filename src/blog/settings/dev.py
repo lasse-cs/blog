@@ -41,13 +41,13 @@ PATTERN_LIBRARY = {
 
 # Debug Toolbar should be as early as possible in the middleware list
 # However, it must come after middleware which encodes responses.
-# In our case - that is two by default
+# In our case - that is one by default
 MIDDLEWARE = (
-    MIDDLEWARE[:2]
+    MIDDLEWARE[:1]
     + [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     ]
-    + MIDDLEWARE[2:]
+    + MIDDLEWARE[1:]
 )
 
 MIDDLEWARE += [
