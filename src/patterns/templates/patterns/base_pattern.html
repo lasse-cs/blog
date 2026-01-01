@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pattern Library</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
+    {% block js %}
+      <script type="module" src="{% static 'js/blog.js' %}"></script>
+    {% endblock js %}
   </head>
   <body>
     <div class="body-container">
@@ -14,7 +17,5 @@
         {{ pattern_library_rendered_pattern }}
       {% endblock content %}
     </div>
-
-    <script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
   </body>
 </html>

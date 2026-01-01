@@ -1,22 +1,8 @@
-const navToggle = document.querySelector('[aria-controls="main-nav"]');
-const primaryNav = document.querySelector('#main-nav');
+import { Application } from "@hotwired/stimulus"
 
-navToggle.addEventListener("click", () => {
-    const navOpened = navToggle.getAttribute("aria-expanded");
-    if (navOpened === "false") {
-        navToggle.setAttribute("aria-expanded", "true");
-    } else {
-        navToggle.setAttribute("aria-expanded", "false");
-    }
-});
+import NavController from "@/controllers/nav_controller"
+import ThemeController from "@/controllers/theme_controller"
 
-const themeToggle = document.querySelector('#theme-toggle');
-
-themeToggle.addEventListener("click", () => { 
-    const currentTheme = document.documentElement.getAttribute('data-theme') || "light";
-    if (currentTheme === "light") {
-        document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-        document.documentElement.removeAttribute("data-theme");
-    }
-});
+window.Stimulus = Application.start()
+Stimulus.register("nav", NavController);
+Stimulus.register("theme", ThemeController);

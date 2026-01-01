@@ -22,6 +22,7 @@ export default defineConfig({
                 entryFileNames: `[name].js`,
                 chunkFileNames: `[name].js`,
                 manualChunks: {
+                    stimulus: ["@hotwired/stimulus"],
                 },
             },
         },

@@ -29,6 +29,21 @@
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
 
+        {% block js %}
+            {# Initialise the theme here #}
+            <script>
+                const stored = localStorage ? localStorage.getItem("theme") : null;
+                if (stored) {
+                    document.documentElement.setAttribute("data-theme", stored === "dark" ? "dark" : "light");
+                } else {
+                    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                    console.log(prefersDark);
+                    document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
+                }
+            </script>
+            <script type="module" src="{% static 'js/blog.js' %}"></script>
+        {% endblock js %}
+
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock extra_css %}
@@ -52,8 +67,6 @@
             {% endblock content %}
         </div>
         {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
-
         {% block extra_js %}
         {% endblock extra_js %}
     </body>
