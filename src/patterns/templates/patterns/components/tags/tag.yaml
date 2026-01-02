@@ -1,0 +1,6 @@
+name: Tag
+context:
+  tag:
+    name: Tag
+    slug: tag
+    url: "#"

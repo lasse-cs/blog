@@ -1,0 +1,17 @@
+name: Tags
+context:
+  label: Tags
+  tags:
+    - name: Tag1
+      slug: tag1
+      url: "#"
+    - name: Tag2
+      slug: tag2
+    - name: LongerTag
+      slug: longertag
+    - name: Tag4
+      slug: tag4
+    - name: Tag5
+      slug: tag5
+    - name: Tag6
+      slug: tag6

@@ -1,0 +1,12 @@
+{% load tag_tags %}
+
+<section>
+    <!-- Tags -->
+    <h2 class="sidebar-item__title text-heading-small" id="tags-sidebar">{{ value.title }}</h2>
+    {% tag_list as tags %}
+    {% if tags %}
+        <nav aria-labelledby="tags-sidebar">
+            {% include 'patterns/components/tags/tag_list.html' %}
+        </nav>
+    {% endif %}
+</section>

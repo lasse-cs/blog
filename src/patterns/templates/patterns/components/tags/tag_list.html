@@ -1,0 +1,7 @@
+<ul class="tag__list" {% if label %}aria-label="{{ label }}"{% endif %}>
+    {% for tag in tags %}
+        <li>
+            {% include "patterns/components/tags/tag.html" %}
+        </li>
+    {% endfor %}
+</ul>

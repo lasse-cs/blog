@@ -69,14 +69,21 @@ class ActivityBlock(BaseSidebarItemBlock):
         template = "patterns/components/sidebar/blocks/activity_block.html"
 
 
+class TagBlock(BaseSidebarItemBlock):
+    class Meta:
+        template = "patterns/components/sidebar/blocks/tag_block.html"
+
+
 class SidebarBlock(StreamBlock):
     text = TitledTextBlock()
     social = SocialBlock()
     activity = ActivityBlock()
+    tag = TagBlock()
 
     class Meta:
         template = "patterns/components/sidebar/sidebar.html"
         block_counts = {
             "social": {"max_num": 1},
             "activity": {"max_num": 1},
+            "tag": {"max_num": 1},
         }

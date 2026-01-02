@@ -79,6 +79,7 @@
 @layer base {
     :root {
         --crimson: rgb(220, 20, 60);
+        --crimson-light: rgb(247, 71, 71);
 
         --white: #ffffff;
 
@@ -90,13 +91,15 @@
 
         --border-radius-small: 0.25rem;
         --border-radius: 0.5rem;
+        --border-radius-large: 1rem;
 
         --primary: var(--crimson);
+        --primary-light: var(--crimson-light);
         --background: var(--white);
         --background-subtle: var(--gray-light);
         --border-color: var(--gray);
 
-        --text-primary-contrast: var(--gray-very-dark);
+        --text-primary-contrast: var(--gray-light);
         --text-dark: var(--gray-very-dark);
         --text: var(--gray-dark);
 
@@ -109,7 +112,8 @@
     }
 
     [data-theme="dark"] {
-      --primary: rgb(247, 71, 71);
+      --primary: var(--crimson-light);
+      --primary-light: var(--crimson);
       --background: var(--black);
       --background-subtle: var(--gray-very-dark);
       --border-color: var(--gray-dark);
@@ -583,6 +587,36 @@
   .day__label {
     font-family: var(--font-family);
     fill: var(--text);
+  }
+
+  .tag__list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 1rem;
+  }
+
+  .tag {
+    padding: 0.2rem 1rem 0.3rem 1rem;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius-large);
+    font-weight: 600;
+    color: var(--text-primary-contrast);
+    box-shadow: 0 2px 8px var(--shadow-color);
+
+    transition: background-color 0.25s;
+  }
+
+  .tag__link {
+    --link-color: var(--text-primary-contrast);
+    --link-hover-color: var(--text-primary-contrast);
+    display: inline-block;
+  }
+
+  .tag__link:hover .tag, .tag__link:focus-visible .tag{
+    background-color: var(--primary);
   }
 }
 
