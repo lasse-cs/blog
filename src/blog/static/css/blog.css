@@ -78,7 +78,7 @@
 
 @layer base {
     :root {
-        --crimson: crimson;
+        --crimson: rgb(220, 20, 60);
 
         --white: #ffffff;
 
@@ -545,6 +545,44 @@
   .book__note__date {
     color: var(--primary);
     font-weight: bolder;
+  }
+
+  .activity-svg-container {
+    max-width: 240px;
+  }
+
+  .day__box {
+    stroke: var(--border-color);
+    fill: var(--primary);
+
+    &.none {
+      fill-opacity: 0;
+    }
+
+    &.very-low {
+      fill-opacity: 0.2;
+    }
+
+    &.low {
+      fill-opacity: 0.4;
+    }
+
+    &.medium {
+      fill-opacity: 0.6;
+    }
+
+    &.high {
+      fill-opacity: 1;
+    }
+
+    &.very-high {
+      fill-opacity: 1;
+    }
+  }
+
+  .day__label {
+    font-family: var(--font-family);
+    fill: var(--text);
   }
 }
 
