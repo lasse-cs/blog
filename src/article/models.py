@@ -52,3 +52,4 @@ class ArticlePage(FeedItemMixin, Page):
 
     summary_template = "patterns/components/article/article_summary.html"
     template = "patterns/pages/article/article_page.html"
+    track_activity = True

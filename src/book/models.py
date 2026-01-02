@@ -52,6 +52,7 @@ class BookIndexPage(FeedMixin, Page):
     per_page = 12
     subpage_types = ["book.BookPage"]
     template = "patterns/pages/book/book_index_page.html"
+    track_activity = True
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -103,6 +104,7 @@ class BookPage(FeedItemMixin, Page):
 
     parent_page_types = ["book.BookIndexPage"]
     subpage_types = []
+    track_activity = True
 
     summary_template = "patterns/components/book/book_summary.html"
     template = "patterns/pages/book/book_page.html"

@@ -27,6 +27,7 @@ class HomePage(FeedMixin, Page):
     max_count = 1
 
     template = "patterns/pages/home/home_page.html"
+    track_activity = True
 
     def get_feed_items(self):
         return (
