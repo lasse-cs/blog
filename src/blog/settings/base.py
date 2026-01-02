@@ -235,3 +235,7 @@ LOGGING = {
 
 # Wagtailcodeblock
 WAGTAIL_CODE_BLOCK_THEME = None
+
+
+# Umami Tracking
+UMAMI_HOST = os.getenv("UMAMI_HOST")

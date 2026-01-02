@@ -32,6 +32,8 @@ DATABASES = {
     }
 }
 
+UMAMI_HOST = None
+
 try:
     from .local import *
 except ImportError:

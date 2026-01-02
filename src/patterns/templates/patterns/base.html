@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}
+{% load analytics_tags static wagtailcore_tags wagtailuserbar %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +47,9 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock extra_css %}
+        {% block analytics %}
+            {% analytics_tracker %}
+        {% endblock analytics %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">

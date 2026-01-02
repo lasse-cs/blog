@@ -127,3 +127,8 @@ class SocialMediaLinks(BaseSiteSetting):
         ],
         help_text="Social Media Links",
     )
+
+
+@register_setting
+class AnalyticsSettings(BaseSiteSetting):
+    umami_id = models.CharField("The Umami Website ID", max_length=50, blank=True)

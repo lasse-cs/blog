@@ -23,7 +23,7 @@ from core.blocks import (
     SocialMediaChoices,
     TitledTextBlock,
 )
-from core.models import SiteFooter, SocialMediaLinks
+from core.models import AnalyticsSettings, SiteFooter, SocialMediaLinks
 
 
 class RichTextBlockFactory(BlockFactory):
@@ -97,3 +97,11 @@ class SiteFooterFactory(DjangoModelFactory):
 
     class Meta:
         model = SiteFooter
+
+
+class AnalyticsSettingsFactory(DjangoModelFactory):
+    site = factory.SubFactory(SiteFactory)
+    umami_id = factory.Faker("uuid4")
+
+    class Meta:
+        model = AnalyticsSettings
