@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .background { fill: #ffffff; stroke: #e0e0e0; }
+    .text { fill: #666666; }
+    .primary { fill: crimson; }
+
+    @media (prefers-color-scheme: dark) {
+      .background { fill: #1a1a1a; stroke: 666666; }
+      .text { fill: #e0e0e0; }
+      .primary { fill: #f74747 }
+    }
+  </style>
+  <rect x="2" y="2" width="96" height="96" class="background" rx="16" />
+  <text
+    x="50"
+    y="65"
+    font-size="48"
+    font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    font-weight="700"
+    text-anchor="middle"
+  >
+    <tspan x="45" class="text">L</tspan>
+    <tspan x="64" class="text primary">S</tspan>
+  </text>
+</svg>
