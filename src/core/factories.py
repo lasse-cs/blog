@@ -7,6 +7,7 @@ from wagtail.rich_text import RichText
 from wagtailcodeblock.blocks import CodeBlock
 
 from wagtail_factories import (
+    PageFactory,
     SiteFactory,
     StreamBlockFactory,
     StreamFieldFactory,
@@ -23,7 +24,7 @@ from core.blocks import (
     SocialMediaChoices,
     TitledTextBlock,
 )
-from core.models import AnalyticsSettings, SiteFooter, SocialMediaLinks
+from core.models import AnalyticsSettings, SiteFooter, SocialMediaLinks, TaggablePage
 
 
 class RichTextBlockFactory(BlockFactory):
@@ -105,3 +106,14 @@ class AnalyticsSettingsFactory(DjangoModelFactory):
 
     class Meta:
         model = AnalyticsSettings
+
+
+class TaggablePageFactory(PageFactory):
+    @factory.post_generation
+    def tags(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+        self.tags.add(*extracted)
+
+    class Meta:
+        model = TaggablePage

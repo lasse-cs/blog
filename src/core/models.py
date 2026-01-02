@@ -2,10 +2,15 @@ from django.contrib.syndication.views import Feed
 from django.db import models
 from django.utils.feedgenerator import Atom1Feed
 
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
+from taggit.models import TagBase, ItemBase
+
 from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Page
 from wagtail.search import index
 
 from core.blocks import SocialLinkBlock
@@ -132,3 +137,42 @@ class SocialMediaLinks(BaseSiteSetting):
 @register_setting
 class AnalyticsSettings(BaseSiteSetting):
     umami_id = models.CharField("The Umami Website ID", max_length=50, blank=True)
+
+
+class PageTag(TagBase):
+    pass
+
+
+class TaggedPage(ItemBase):
+    tag = models.ForeignKey(
+        PageTag,
+        related_name="tagged_pages",
+        on_delete=models.CASCADE,
+    )
+    content_object = ParentalKey(
+        to="core.TaggablePage",
+        on_delete=models.CASCADE,
+        related_name="tagged_items",
+    )
+
+    def __str__(self):
+        return f"{self.tag} - {self.content_object}"
+
+
+class TaggablePage(Page):
+    """
+    Base for a page that supports tags.
+    Use a separate "pool" of tags from the default taggit Tag model.
+
+    Use a separate concrete (non-creatable) base class to allow multiple
+    page models to share the pool of tags.
+    """
+
+    tags = ClusterTaggableManager(through="core.TaggedPage", blank=True)
+
+    # is_creatable is not inherited by subclasses
+    is_creatable = False
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel("tags"),
+    ]

@@ -3,6 +3,7 @@ from core.factories import (
     ContentBlockFactory,
     SiteFooterFactory,
     SocialMediaLinksFactory,
+    TaggablePageFactory,
 )
 
 from wagtail.rich_text import RichText
@@ -23,3 +24,13 @@ def test_site_footer_factory():
 def test_content_block_factory():
     content_block = ContentBlockFactory(**{"0": "text", "1": "code"})
     assert len(content_block) == 2
+
+
+@pytest.mark.django_db
+def test_taggable_page_factory():
+    taggable_page = TaggablePageFactory(tags=["red", "green", "blue"])
+    assert set(taggable_page.tags.all().values_list("name", flat=True)) == {
+        "red",
+        "green",
+        "blue",
+    }

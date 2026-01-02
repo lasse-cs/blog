@@ -14,6 +14,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS += [
     "activity.test",
+    "core.test",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
