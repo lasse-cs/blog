@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pattern_library import register_context_modifier
 
 from core.utilities import paginate
@@ -14,15 +16,22 @@ def add_paginator(context, request):
 ARTICLES = [
     {
         "title": "Article Title",
-        "first_published_at": "2023-10-24T10:00:00Z",
+        "first_published_at": datetime(2023, 10, 24, 10, 0, 0),
         "intro": "Article intro text",
         "get_summary_template": "patterns/components/article/article_summary.html",
     },
     {
         "title": "Another Title",
-        "first_published_at": "2023-10-23T10:00:00Z",
+        "first_published_at": datetime(2023, 10, 23, 10, 0, 0),
         "intro": "Intro text for <em>another</em> article.",
         "get_summary_template": "patterns/components/article/article_summary.html",
+        "tags": {
+            "all": {
+                "name": "Tag1",
+                "slug": "tag1",
+                "url": "#",
+            },
+        },
     },
 ]
 

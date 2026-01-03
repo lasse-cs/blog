@@ -7,14 +7,17 @@
             <!-- Card Header -->
             <h2><a href="{% pageurl article %}" class="header__link">{{ article.title }}</a></h2>
             {% if article.first_published_at %}
-                <p class="text-small">
+                <p class="text-small article__date">
                     {{ article.first_published_at|date:"M j, Y"}}
                 </p>
             {% endif %}
         </header>
-        <div>
+        <div class="article-card__body">
             <!-- Card Body -->
-            {{ article.intro|richtext }}
+            <div>
+                {{ article.intro|richtext }}
+            </div>
+            {% include "patterns/components/tags/tag_list.html" with tags=article.tags.all %}
         </div>
         <footer>
             <!-- Card Footer -->

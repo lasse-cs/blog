@@ -18,6 +18,7 @@
                 <div class="article__intro">
                     {{ page.intro|richtext }}
                 </div>
+                {% include "patterns/components/tags/tag_list.html" with tags=page.tags.all %}
             </header>
             <div>
                 {% include_block page.body %}
