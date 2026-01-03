@@ -38,7 +38,6 @@
                     document.documentElement.setAttribute("data-theme", stored === "dark" ? "dark" : "light");
                 } else {
                     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-                    console.log(prefersDark);
                     document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
                 }
             </script>

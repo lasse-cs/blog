@@ -41,7 +41,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
@@ -55,7 +55,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
@@ -69,7 +69,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
@@ -83,7 +83,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
@@ -97,7 +97,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
@@ -111,7 +111,7 @@ BOOKS = [
     {
         "title": "Clean Code",
         "blurb": "<p>A handbook of agile software craftsmanship that explores professionalism, naming, error handling, and how to write maintainable software.</p>",
-        "progess": 80,
+        "progress": 80,
         "intro": "<p>“Clean Code” delves into what it means to write code that is understandable, tidy, and resilient to change. It’s a practical, disciplined guide for developers who care about craftsmanship over shortcuts.</p>",
         "book_authors": {
             "all": [
