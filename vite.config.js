@@ -24,6 +24,7 @@ export default defineConfig({
                 assetFileNames: `css/[name].css`,
                 manualChunks: {
                     stimulus: ["@hotwired/stimulus"],
+                    d3: ["d3"],
                 },
             },
         },
