@@ -1,3 +1,18 @@
+::view-transition-old(theme-switch) {
+  animation-delay: 600ms;
+}
+
+::view-transition-new(theme-switch) {
+  animation: circle-in 600ms;
+}
+
+
+@keyframes circle-in {
+  from { clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); }
+  to { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); }
+}
+
+
 @view-transition {
   navigation: auto;
 }
