@@ -17,7 +17,7 @@
             <div>
                 {{ article.intro|richtext }}
             </div>
-            {% include "patterns/components/tags/tag_list.html" with tags=article.tags.all %}
+            {% include "patterns/components/tags/tag_list.html" with tags=article.tags.all label="tags" %}
         </div>
         <footer>
             <!-- Card Footer -->
