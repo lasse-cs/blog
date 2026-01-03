@@ -1,5 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.db import models
+from django.urls import reverse
 from django.utils.feedgenerator import Atom1Feed
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -140,7 +141,8 @@ class AnalyticsSettings(BaseSiteSetting):
 
 
 class PageTag(TagBase):
-    pass
+    def get_absolute_url(self):
+        return reverse("tagged_pages", args=(self.slug,))
 
 
 class TaggedPage(ItemBase):
@@ -176,3 +178,12 @@ class TaggablePage(Page):
     promote_panels = Page.promote_panels + [
         FieldPanel("tags"),
     ]
+
+    def get_tag_summary_template(self):
+        if hasattr(self, "tag_summary_template"):
+            return self.tag_summary_template
+        if hasattr(self, "summary_template"):
+            return self.summary_template
+        raise NotImplementedError(
+            "You must define a tag_summary_template or summary_template."
+        )

@@ -2,8 +2,8 @@ from core.models import TaggablePage
 
 
 class PageWithTags(TaggablePage):
-    pass
+    summary_template = "test/summary.html"
 
 
 class AnotherPageWithTags(TaggablePage):
-    pass
+    summary_template = "test/summary.html"

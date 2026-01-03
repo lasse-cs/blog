@@ -4,7 +4,6 @@ context:
   tags:
     - name: Tag1
       slug: tag1
-      url: "#"
     - name: Tag2
       slug: tag2
     - name: LongerTag

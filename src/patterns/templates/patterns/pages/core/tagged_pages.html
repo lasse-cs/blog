@@ -1,0 +1,28 @@
+{% extends "patterns/base.html" %}
+{% load static %}
+
+{% block body_class %}template-tagged-pages{% endblock %}
+
+{% block page_content %}
+    <div class="tagged-pages-content">
+        <main id="main">
+            <div>
+                <h1 class="intro__header text-very-large">
+                    Items tagged: "{{ tag.name }}"
+                </h1>
+            </div>
+        <!-- Main Content -->
+            <div class="article__list">
+            <!-- Article List -->
+                {% for tagged_page in pagination_page %}
+                    {% include tagged_page.get_tag_summary_template with object=tagged_page %}
+                {% empty %}
+                    <p>No items found.</p>
+                {% endfor %}
+                {% if pagination_page %}
+                    {% include "patterns/components/pagination/pagination.html" %}
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock page_content %}

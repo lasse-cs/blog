@@ -19,17 +19,19 @@ ARTICLES = [
         "first_published_at": datetime(2023, 10, 24, 10, 0, 0),
         "intro": "Article intro text",
         "get_summary_template": "patterns/components/article/article_summary.html",
+        "get_tag_summary_template": "patterns/components/article/article_summary.html",
     },
     {
         "title": "Another Title",
         "first_published_at": datetime(2023, 10, 23, 10, 0, 0),
         "intro": "Intro text for <em>another</em> article.",
         "get_summary_template": "patterns/components/article/article_summary.html",
+        "get_tag_summary_template": "patterns/components/article/article_summary.html",
         "tags": {
             "all": {
                 "name": "Tag1",
                 "slug": "tag1",
-                "url": "#",
+                "get_absolute_url": "#",
             },
         },
     },
@@ -146,5 +148,13 @@ def add_book_index_paginator(context, request):
     books = list(BOOKS)
     books.extend([None] * 22)
     page, page_range = paginate(1, books, per_page=6)
+    context["pagination_page"] = page
+    context["page_range"] = page_range
+
+
+@register_context_modifier(template="patterns/pages/core/tagged_pages.html")
+def add_tags_paginator(context, request):
+    items = list(ARTICLES)
+    page, page_range = paginate(1, items, per_page=3)
     context["pagination_page"] = page
     context["page_range"] = page_range

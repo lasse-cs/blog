@@ -1,0 +1,10 @@
+name: Tagged Pages
+context:
+  tag:
+    name: Tag
+    slug: tag
+
+tags:
+  main_menu:
+    current_site:
+      template_name: "patterns/components/menu/main_menu.html"

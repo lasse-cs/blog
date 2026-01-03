@@ -1,7 +1,7 @@
 from wagtail_factories import PageFactory, StreamFieldFactory
 
 from article.models import ArticleIndexPage, ArticlePage
-from core.factories import ContentBlockFactory
+from core.factories import ContentBlockFactory, TaggablePageFactory
 
 
 class ArticleIndexPageFactory(PageFactory):
@@ -9,7 +9,7 @@ class ArticleIndexPageFactory(PageFactory):
         model = ArticleIndexPage
 
 
-class ArticlePageFactory(PageFactory):
+class ArticlePageFactory(TaggablePageFactory):
     body = StreamFieldFactory(ContentBlockFactory)
 
     class Meta:

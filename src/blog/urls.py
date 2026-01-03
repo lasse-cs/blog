@@ -8,7 +8,7 @@ from wagtail import urls as wagtail_urls
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
-from blog.views import error_500_test
+from blog import views as blog_views
 from search import views as search_views
 
 urlpatterns = [
@@ -17,7 +17,8 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("sitemap.xml", sitemap),
     path("search/", search_views.search, name="search"),
-    path("error-500-test/", error_500_test, name="server_error"),
+    path("error-500-test/", blog_views.error_500_test, name="server_error"),
+    path("", include("core.urls")),
 ]
 
 handler404 = "blog.views.page_not_found"
