@@ -605,7 +605,7 @@
 
   .tag {
     padding: 0.2rem 1rem 0.3rem 1rem;
-    background-color: var(--primary-light);
+    background-color: var(--primary);
     border-radius: var(--border-radius-large);
     font-weight: 600;
     color: var(--text-primary-contrast);
@@ -621,7 +621,7 @@
   }
 
   .tag__link:hover .tag, .tag__link:focus-visible .tag{
-    background-color: var(--primary);
+    background-color: var(--primary-light);
   }
 }
 
