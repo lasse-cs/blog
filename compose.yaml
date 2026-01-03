@@ -51,6 +51,7 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password_file
       - POSTGRES_HOST=postgres
       - UMAMI_HOST=${UMAMI_HOST}
+      - WAGTAILADMIN_BASE_URL=${WAGTAILADMIN_BASE_URL:?Must set admin base url}
     volumes:
       - media_files:/app/media/:rw
     secrets:
