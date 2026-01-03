@@ -1,5 +1,9 @@
 services:
   nginx:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+      target: nginx
     image: nginx:1.29
     restart: unless-stopped
     ports:
@@ -12,8 +16,6 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/templates:/etc/nginx/templates
-      - ./public:/srv/app/public:ro
-      - static_files:/srv/app/static/:ro
       - media_files:/src/app/media/:ro
     configs:
       - nginx_ssl_cert_file
@@ -37,6 +39,7 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
+      target: production
     restart: unless-stopped
     environment:
       - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:?Must set allowed hosts}
@@ -49,7 +52,6 @@ services:
       - POSTGRES_HOST=postgres
       - UMAMI_HOST=${UMAMI_HOST}
     volumes:
-      - static_files:/app/static/:rw
       - media_files:/app/media/:rw
     secrets:
      - django_secret_key_file
@@ -72,6 +74,5 @@ secrets:
     file: ${DJANGO_SECRET_KEY_FILE:?Must set django secret key file}
 
 volumes:
-  static_files:
   media_files:
   db_data:

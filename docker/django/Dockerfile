@@ -66,4 +66,15 @@ USER wagtail
 # Copy the build JS from the previous stage
 COPY --from=build-static --chown=wagtail:wagtail /app/src/static_built/ /app/static_built/
 
+# Collect static files
+RUN ["python", "manage.py", "collectstatic", "--settings", "blog.settings.build"]
+
 CMD ["gunicorn", "--bind", ":8000", "blog.wsgi:application"]
+
+FROM nginx:1.29 AS nginx
+
+# Copy in the public files
+COPY ./public/ /srv/app/public/
+
+# Copy in the build static files
+COPY --from=production /app/static/ /srv/app/static/

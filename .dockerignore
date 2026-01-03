@@ -1,6 +1,7 @@
 # Django project
 src/media/
 src/static/
+src/static_built/
 **/*.sqlite3
 
 # Python and others
@@ -49,8 +50,6 @@ docker/
 .dockerignore
 .pre-commit-config.yaml
 compose.yaml
-docker/
-public/
 .ruff_cache/
 .pytest_cache/
 .github/
