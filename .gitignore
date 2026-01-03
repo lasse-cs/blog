@@ -31,4 +31,4 @@ docker/.secrets
 /src/media/
 
 # Built static files
-/src/blog/static/js/
+/src/static_built/

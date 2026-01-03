@@ -8,19 +8,20 @@ export default defineConfig({
     publicDir: false,
     resolve: {
         alias: {
-            "@": resolve(__dirname, "src/static_src/js"),
+            "@": resolve(__dirname, "src/static_src/"),
         },
     },
     build: {
-        outDir: resolve(__dirname, "src/blog/static/js"),
+        outDir: resolve(__dirname, "src/static_built/"),
         rollupOptions: {
             input: {
                 activity: resolve(__dirname, "src/static_src/js/activity.js"),
                 blog: resolve(__dirname, "src/static_src/js/blog.js"),
             },
             output: {
-                entryFileNames: `[name].js`,
-                chunkFileNames: `[name].js`,
+                entryFileNames: `js/[name].js`,
+                chunkFileNames: `js/[name].js`,
+                assetFileNames: `css/[name].css`,
                 manualChunks: {
                     stimulus: ["@hotwired/stimulus"],
                 },
