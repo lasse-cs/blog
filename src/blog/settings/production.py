@@ -15,6 +15,8 @@ STORAGES["staticfiles"]["BACKEND"] = "blog.storage.ManifestStaticFilesStorage"
 ALLOWED_HOSTS = os.environ["DJANGO_ALLOWED_HOSTS"].split(",")
 SECRET_KEY = Path(os.environ["DJANGO_SECRET_KEY_FILE"]).read_text().strip()
 
+WAGTAILADMIN_BASE_URL = os.environ["WAGTAILADMIN_BASE_URL"]
+
 # Deployment settings
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
