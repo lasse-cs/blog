@@ -204,6 +204,16 @@ WAGTAILDOCS_EXTENSIONS = [
 ]
 
 
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {
+            "features": ["bold", "italic", "link", "document-link", "ol", "ul"],
+        },
+    },
+}
+
+
 # Basic Logging Configuration
 LOGGING = {
     "version": 1,
