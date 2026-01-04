@@ -205,12 +205,12 @@
   .skip-to-main {
     position: absolute;
     padding: 1rem;
-    background-color: var(--background-subtle   );
+    background-color: var(--background-subtle);
     border-radius: var(--border-radius);
     box-shadow: 0 2px 8px var(--shadow-color);
 
     --link-color: var(--primary);
-} 
+  } 
 
   .card {
     padding: 2rem;
@@ -527,7 +527,7 @@
     margin: 0;
 
     li {
-      display: inline-block
+      display: inline-block;
     }
   }
 
