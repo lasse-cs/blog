@@ -6,7 +6,7 @@ docker compose build django
 docker compose build nginx
 
 echo "Recreate containers"
-docker compose up -d
+docker compose down && docker compose up -d
 
 if [ "${MIGRATE:-0}" = 1 ]; then
     echo "Running migrations"
