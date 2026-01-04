@@ -2,6 +2,7 @@
 
 import django.db.models.deletion
 from django.db import migrations, models
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -25,29 +26,25 @@ class Migration(migrations.Migration):
             """,
         ),
         
-        # Change the inheritance without touching the database schema
+        # Need to change the base.
+        # Recreate the ArticlePage model in state so it inherits from TaggablePage
         migrations.SeparateDatabaseAndState(
             state_operations=[
-                # Remove old page_ptr relationship  
-                migrations.RemoveField(
-                    model_name='articlepage',
-                    name='page_ptr',
-                ),
-                # Add new taggablepage_ptr relationship
-                migrations.AddField(
-                    model_name='articlepage',
-                    name='taggablepage_ptr',
-                    field=models.OneToOneField(
-                        auto_created=True,
-                        on_delete=django.db.models.deletion.CASCADE,
-                        parent_link=True,
-                        primary_key=True,
-                        serialize=False,
-                        to='core.taggablepage',
-                    ),
+                migrations.DeleteModel(name='ArticlePage'),
+                migrations.CreateModel(
+                    name='ArticlePage',
+                    fields=[
+                        ('taggablepage_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='core.taggablepage')),
+                        ('intro', wagtail.fields.RichTextField(default='Article intro content.', help_text='Intro text for the article page.')),
+                        ('body', wagtail.fields.StreamField([('text', 0), ('code', 3)], block_lookup={0: ('wagtail.blocks.RichTextBlock', (), {'template': 'patterns/components/streamfield/blocks/text.html'}), 1: ('wagtail.blocks.ChoiceBlock', [], {'choices': [('bash', 'Bash/Shell'), ('css', 'CSS'), ('diff', 'diff'), ('html', 'HTML'), ('javascript', 'Javascript'), ('json', 'JSON'), ('python', 'Python'), ('scss', 'SCSS'), ('yaml', 'YAML')], 'help_text': 'Coding language', 'identifier': 'language', 'label': 'Language'}), 2: ('wagtail.blocks.TextBlock', (), {'identifier': 'code', 'label': 'Code'}), 3: ('wagtail.blocks.StructBlock', [[('language', 1), ('code', 2)]], {'template': 'patterns/components/streamfield/blocks/code.html'})}, help_text='Main body content for the article page.')),
+                    ],
+                    options={
+                        'abstract': False,
+                    },
+                    bases=('core.taggablepage',),
                 ),
             ],
-            # Rename the column in the database
+            # Actually - just rename the column in the database
             database_operations=[
                 migrations.RunSQL(
                     sql='ALTER TABLE article_articlepage RENAME COLUMN page_ptr_id TO taggablepage_ptr_id',
