@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: docker/django/Dockerfile
       target: nginx
-    image: nginx:1.29
     restart: unless-stopped
     ports:
       - "80:80"
