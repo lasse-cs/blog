@@ -54,4 +54,4 @@ compose.yaml
 .pytest_cache/
 .github/
 Procfile
-deploy.sh
+scripts/
