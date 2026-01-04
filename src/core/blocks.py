@@ -6,15 +6,41 @@ from wagtail.blocks import (
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    TextBlock,
     URLBlock,
 )
 
 from wagtailcodeblock.blocks import CodeBlock
 
 
+class HeadingLevelChoices(models.TextChoices):
+    H2 = "h2", "h2"
+    H3 = "h3", "h3"
+    H4 = "h4", "h4"
+
+
+class HeadingBlock(StructBlock):
+    level = ChoiceBlock(
+        choices=HeadingLevelChoices.choices,
+        default=HeadingLevelChoices.H2,
+        help_text="The level of this heading",
+        required=True,
+    )
+    heading = TextBlock(
+        max_length=127,
+        help_text="The text for this heading",
+        required=True,
+    )
+
+    class Meta:
+        icon = "title"
+        template = "patterns/components/streamfield/blocks/heading.html"
+
+
 class ContentBlock(StreamBlock):
     text = RichTextBlock(template="patterns/components/streamfield/blocks/text.html")
     code = CodeBlock(template="patterns/components/streamfield/blocks/code.html")
+    heading = HeadingBlock()
 
 
 class SocialMediaChoices(models.TextChoices):

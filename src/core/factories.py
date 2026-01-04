@@ -19,6 +19,7 @@ from core.blocks import (
     ActivityBlock,
     BaseSidebarItemBlock,
     ContentBlock,
+    HeadingBlock,
     SidebarBlock,
     SocialBlock,
     SocialLinkBlock,
@@ -90,9 +91,18 @@ class CodeBlockFactory(StructBlockFactory):
         model = CodeBlock
 
 
+class HeadingBlockFactory(StructBlockFactory):
+    level = "h2"
+    heading = factory.Faker("text", max_nb_chars=127)
+
+    class Meta:
+        model = HeadingBlock
+
+
 class ContentBlockFactory(StreamBlockFactory):
     text = factory.SubFactory(RichTextBlockFactory)
     code = factory.SubFactory(CodeBlockFactory)
+    # heading = factory.SubFactory(HeadingBlockFactory)
 
     class Meta:
         model = ContentBlock
