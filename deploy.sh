@@ -6,7 +6,8 @@ git fetch origin main
 git reset --hard origin/main
 
 echo "Docker Build"
-docker compose build
+docker compose build django
+docker compose build nginx
 
 echo "Recreate containers"
 docker compose up -d
