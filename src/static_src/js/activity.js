@@ -30,7 +30,7 @@ const xScale = d3.scaleBand()
   .paddingInner(0.2);
 
 
-const days = ["M", "T", "W", "T", "F", "S", "S"]
+const days = ["S", "M", "T", "W", "T", "F", "S"]
 
 const squareSize = xScale.bandwidth()
 
