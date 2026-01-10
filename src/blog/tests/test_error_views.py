@@ -6,6 +6,7 @@ from django.test import Client
 
 
 @pytest.mark.django_db
+@pytest.mark.usefixtures("site")
 def test_404_view(client):
     response = client.get("/this-view-should-not-be-found/")
     assert response.status_code == 404

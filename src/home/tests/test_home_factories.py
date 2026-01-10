@@ -5,7 +5,12 @@ from wagtail.rich_text import RichText
 from home.factories import HomePageFactory
 
 
-@pytest.mark.django_db
+pytestmark = [
+    pytest.mark.django_db,
+    pytest.mark.usefixtures("site"),
+]
+
+
 def test_home_page_factory():
     home_page = HomePageFactory(
         sidebar__0__text__title="Title",

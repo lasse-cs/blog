@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from django.conf import settings
@@ -8,8 +9,13 @@ from wagtail.models import Locale, Page, Site
 from wagtail_factories import SiteFactory
 
 
+@pytest.fixture(scope="session", autouse=True)
+def set_env():
+    os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "1"
+
+
 @pytest.fixture
-def site():
+def live_site(live_server):
     # Ensure that all site and page objects are deleted.
     # Wagtail will initially create ones, but we don't
     # want those
@@ -20,9 +26,9 @@ def site():
     language_code = get_supported_content_language_variant(settings.LANGUAGE_CODE)
     Locale.objects.get_or_create(language_code=language_code)
 
-    yield SiteFactory(is_default_site=True)
-
-
-@pytest.fixture
-def root_page(site: Site):
-    yield site.root_page
+    site = SiteFactory(
+        hostname=live_server.thread.host,
+        port=live_server.thread.port,
+        is_default_site=True,
+    )
+    yield site

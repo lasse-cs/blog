@@ -29,6 +29,9 @@ dev = [
     "time-machine>=3.2.0",
     "wagtail-factories>=4.3.0",
 ]
+playwright = [
+    "pytest-playwright>=0.7.2",
+]
 
 
 [tool.ruff]
@@ -39,4 +42,4 @@ extend-exclude = ["**/migrations/*.py"]
 addopts = ["--reuse-db"]
 DJANGO_SETTINGS_MODULE = "blog.settings.test"
 pythonpath = ["src"]
-python_files = ["**/tests/test_*.py"]
+python_files = ["**/tests/test_*.py", "**/functional_tests/test_*.py"]

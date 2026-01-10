@@ -5,13 +5,17 @@ from wagtail.rich_text import RichText
 from article.factories import ArticlePageFactory
 
 
-@pytest.mark.django_db
+pytestmark = [
+    pytest.mark.django_db,
+    pytest.mark.usefixtures("site"),
+]
+
+
 def test_article_page_factory():
     article_page = ArticlePageFactory()
     assert article_page.intro == "Article intro content."
 
 
-@pytest.mark.django_db
 def test_article_page_factory_with_content():
     article_page = ArticlePageFactory(
         intro=RichText("<b>Hi There!</b>"), body__0__text="Hello There!"
