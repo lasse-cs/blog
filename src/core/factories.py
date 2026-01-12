@@ -7,6 +7,7 @@ from wagtail.rich_text import RichText
 from wagtailcodeblock.blocks import CodeBlock
 
 from wagtail_factories import (
+    ImageFactory,
     PageFactory,
     SiteFactory,
     StreamBlockFactory,
@@ -130,6 +131,11 @@ class AnalyticsSettingsFactory(DjangoModelFactory):
 
     class Meta:
         model = AnalyticsSettings
+
+
+class SEOSettingsFactory(DjangoModelFactory):
+    site = factory.SubFactory(SiteFactory)
+    og_image = factory.SubFactory(ImageFactory)
 
 
 class TaggablePageFactory(PageFactory):

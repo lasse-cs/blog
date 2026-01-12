@@ -1,0 +1,38 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% if page.seo_title %}
+    <meta property="og:title" content="{{ page.seo_title }}">
+{% elif page.title %}
+    <meta property="og:title" content="{{ page.seo_title }}">
+{% elif og_title %}
+    <meta property="og:title" content="{{ og_title }}">
+{% endif %}
+
+{% if page.search_description %}
+    <meta property="og:description" content="{{ page.search_description }}">
+{% elif og_description %}
+    <meta property="og:description" content="{{ og_description }}">
+{% endif %}
+
+{% if page.og_type %}
+    <meta property="og:type" content="{{ page.og_type }}">
+{% elif og_type %}
+    <meta property="og:type" content="{{ og_type }}">
+{% else %}
+    <meta property="og:type" content="website">
+{% endif %}
+
+{% if page.full_url %}
+    <meta property="og:url" content="{{ page.full_url }}">
+{% elif og_url %}
+    <meta property="og:url" content="{{ og_url }}">
+{% endif %}
+
+{% wagtail_site as current_site %}
+{% if current_site and current_site.site_name %}
+    <meta property="og:site_name" content="{{ current_site.site_name }}">
+{% endif %}
+{% if current_site and settings.core.SEOSettings.og_image %}
+    {% image settings.core.SEOSettings.og_image width-800 as og_image %}
+    <meta property="og:image" content="{{ current_site.root_url }}{{ og_image.url }}">
+{% endif %}

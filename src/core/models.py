@@ -13,9 +13,13 @@ from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
+from wagtail.images import get_image_model
 
 from core.blocks import SocialLinkBlock
 from core.utilities import paginate
+
+
+Image = get_image_model()
 
 
 class BaseRSSFeed(Feed):
@@ -138,6 +142,18 @@ class SocialMediaLinks(BaseSiteSetting):
 @register_setting
 class AnalyticsSettings(BaseSiteSetting):
     umami_id = models.CharField("The Umami Website ID", max_length=50, blank=True)
+
+
+@register_setting
+class SEOSettings(BaseSiteSetting):
+    og_image = models.ForeignKey(
+        Image,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="The default og_image for this Site",
+    )
 
 
 class PageTag(TagBase):
