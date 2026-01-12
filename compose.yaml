@@ -15,7 +15,7 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/templates:/etc/nginx/templates
-      - media_files:/src/app/media/:ro
+      - media_files:/srv/app/media/:ro
     configs:
       - nginx_ssl_cert_file
     secrets:
