@@ -32,3 +32,15 @@ class Activity(models.Model):
 
     class Meta:
         ordering = ["-created"]
+
+    def __str__(self):
+        return f"{self.action}: {self.content_object}"
+
+    def get_activity_description(self):
+        return str(self)
+
+    def get_activity_url(self):
+        url = getattr(self.content_object, "url", None)
+        if not url:
+            url = getattr(self.content_object, "get_absolute_url", None)
+        return url
