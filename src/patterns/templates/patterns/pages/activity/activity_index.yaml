@@ -1,0 +1,14 @@
+name: Activity Index
+context:
+  activities_by_day:
+    2025-01-04:
+      - get_activity_description: "Published: Hello!"
+        get_activity_url: "#"
+    2025-01-03:
+      - get_activity_description: "Published: Hello!"
+        get_activity_url: "#"
+
+tags:
+  main_menu:
+    current_site:
+      template_name: "patterns/components/menu/main_menu.html"

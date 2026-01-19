@@ -34,7 +34,7 @@ class Activity(models.Model):
         ordering = ["-created"]
 
     def __str__(self):
-        return f"{self.action}: {self.content_object}"
+        return f"{ActivityActions(self.action).label}: {self.content_object}"
 
     def get_activity_description(self):
         return str(self)

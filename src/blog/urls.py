@@ -19,6 +19,7 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
     path("error-500-test/", blog_views.error_500_test, name="server_error"),
     path("", include("core.urls")),
+    path("activity/", include("activity.urls")),
 ]
 
 handler404 = "blog.views.page_not_found"

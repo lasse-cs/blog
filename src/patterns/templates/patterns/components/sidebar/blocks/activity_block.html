@@ -1,15 +1,5 @@
-{% load activity_tags static %}
-
-<script type="module" src="{% static 'js/activity.js' %}">
-</script>
-
 <section>
     <!-- Activity -->
     <h2 class="sidebar-item__title text-heading-small">{{ value.title }}</h2>
-    <p>Activity in the last week:</p>
-    {% recent_activity as activities %}
-    {{ activities|json_script:"activity-data" }}
-    <div class="activity-svg-container">
-
-    </div>
+    {% include "patterns/components/activity/recent_activity.html" %}
 </section>

@@ -1,3 +1,5 @@
+from django.db.models import prefetch_related_objects
+
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
@@ -11,6 +13,11 @@ class ArticleIndexPage(FeedMixin, Page):
     subpage_types = ["article.ArticlePage"]
 
     template = "patterns/pages/article/article_index_page.html"
+
+    def get_paginated_feed_items(self, page_number):
+        page, page_range = super().get_paginated_feed_items(page_number)
+        prefetch_related_objects(page.object_list, "tags")
+        return page, page_range
 
     def get_context(self, request):
         context = super().get_context(request)

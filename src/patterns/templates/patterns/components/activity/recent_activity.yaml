@@ -1,0 +1,19 @@
+name: Recent Activity
+tags:
+  recent_activity:
+    as activities:
+      raw:
+        - activity_date: 2020-01-01
+          activities: 0
+        - activity_date: 2020-01-02
+          activities: 1
+        - activity_date: 2020-01-03
+          activities: 2
+        - activity_date: 2020-01-04
+          activities: 3
+        - activity_date: 2020-01-05
+          activities: 4
+        - activity_date: 2020-01-06
+          activities: 5
+        - activity_date: 2020-01-07
+          activities: 6
