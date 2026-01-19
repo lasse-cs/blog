@@ -20,7 +20,7 @@
         </section>
         <main id="main">
         <!-- Main Content -->
-            <div class="article__list">
+            <div class="article__list flex-column" data-gap="lg">
             <!-- Article List -->
                 {% for feed_item in pagination_page %}
                     {% include feed_item.get_summary_template with object=feed_item %}

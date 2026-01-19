@@ -1,11 +1,11 @@
 {% if pagination_page.has_previous or pagination_page.has_next %}
-    <nav class="pagination" aria-label="Pagination">
+    <nav class="pagination center-block" data-gap="md" aria-label="Pagination">
         {% if pagination_page.has_previous %}
             <a href="{% querystring page=pagination_page.previous_page_number %}" class="arrow-link" data-direction="left">Previous <span class="visually-hidden">page</span></a>
         {% else %}
             <span class="pagination__disabled arrow-link" data-direction="left" aria-hidden="true">Previous</span>
         {% endif %}
-        <ol class="pagination__list">
+        <ol class="pagination__list unstyled-list" data-gap="sm">
             {% for p in page_range %}
                 <li>
                     {% if p != pagination_page.paginator.ELLIPSIS %}

@@ -19,7 +19,7 @@
             <div>
                 {% include "patterns/components/intro/intro.html" %}
             </div>
-            <div class="article__list">
+            <div class="article__list flex-column" data-gap="lg">
             <!-- Article List -->
                 {% for article in pagination_page %}
                     {% include article.get_summary_template with object=article %}

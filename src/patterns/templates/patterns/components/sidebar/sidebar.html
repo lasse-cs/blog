@@ -1,6 +1,6 @@
 {% load wagtailcore_tags %}
 
-<div class="sidebar">
+<div class="sidebar flex-column" data-gap="lg">
     <!-- Sidebar Container -->
     {% for block in value %}
         {% include_block block %}

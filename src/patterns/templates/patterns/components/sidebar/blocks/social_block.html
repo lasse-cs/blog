@@ -4,10 +4,10 @@
     <!-- Social -->
     <h2 class="sidebar-item__title text-heading-small">{{ value.title }}</h2>
     {% if settings.core.SocialMediaLinks.links %}
-        <ul class="sidebar-social__list">
+        <ul class="sidebar-social__list unstyled-list">
             {% for link in settings.core.SocialMediaLinks.links %}
                 <li>
-                    <a href="{{ link.value.url }}" target="_blank" class="social__link">{% svg_icon link.value.type class_name="social__icon" %}{{ link.value.display }}</a>
+                    <a href="{{ link.value.url }}" target="_blank" class="social__link" data-gap="sm">{% svg_icon link.value.type class_name="social__icon" %}{{ link.value.display }}</a>
                 </li>
             {% endfor %}
         </ul>

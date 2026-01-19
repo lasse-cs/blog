@@ -4,16 +4,16 @@
 {% block page_content %}
     <main id="main">
         <article class="book-content">
-            <div class="book__image">
+            <div class="book__image grid-center">
                 {% if page.cover_image %}
                     {% image page.cover_image max-300x300 format-webp %}
                 {% else %}
                     {% svg_icon 'book_placeholder' %}
                 {% endif %}
             </div>
-            <div class="book__info">
+            <div class="book__info flex-column" data-gap="md">
                 <h1>{{ page.title }}</h1>
-                <ul class="book__author__list">
+                <ul class="book__author__list unstyled-list">
                     {% for book_author in page.book_authors.all %}
                         <li>
                             {% if not forloop.first %} & {% endif %}{{ book_author.author.name }}

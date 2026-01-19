@@ -6,7 +6,7 @@
 
 {% block page_content %}
     <main id="main">
-        <div class="error__container">
+        <div class="error__container flex-column" data-gap="md">
             <h1 class="error__title">404</h1>
             <p>Sorry, the page you're looking for doesn't exist.</p>
             <a href="{{ current_site.root_url|default:"/" }}" class="arrow-link" data-direction="left">

@@ -3,7 +3,7 @@
 {% with object as book %}
     <article class="card card-layout">
         <header>
-            <div class="book__image">
+            <div class="book__image grid-center">
                 {% if book.cover_image %}
                     {% image book.cover_image max-300x300 format-webp %}
                 {% else %}
@@ -15,7 +15,7 @@
                     {{ book.title }}
                 </a>
             </h2>
-            <ul class="book__author__list">
+            <ul class="book__author__list unstyled-list">
                 {% for book_author in book.book_authors.all %}
                     <li>
                         {% if not forloop.first %} & {% endif %}{{ book_author.author.name }}

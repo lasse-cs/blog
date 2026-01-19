@@ -12,7 +12,7 @@
                 </h1>
             </div>
         <!-- Main Content -->
-            <div class="article__list">
+            <div class="article__list flex-column" data-gap="lg">
             <!-- Article List -->
                 {% for tagged_page in pagination_page %}
                     {% include tagged_page.get_tag_summary_template with object=tagged_page %}

@@ -10,7 +10,7 @@
                 </h1>
                 {% include "patterns/components/activity/recent_activity.html" %}
             </div>
-            <div class="article__list">
+            <div class="article__list flex-column" data-gap="lg">
                 {% for date_key, activities in activities_by_day.items %}
                     <h2>{{ date_key }}</h2>
                     <ul class="unstyled-list">

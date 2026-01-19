@@ -1,5 +1,5 @@
 {% if tags %}
-    <ul class="tag__list" {% if label %}aria-label="{{ label }}"{% endif %}>
+    <ul class="tag__list unstyled-list" data-gap="md" {% if label %}aria-label="{{ label }}"{% endif %}>
         {% for tag in tags %}
             <li>
                 {% include "patterns/components/tags/tag.html" %}

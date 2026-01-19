@@ -3,7 +3,7 @@
 {% with object as article %}
     <article class="card card-layout">
         <!-- Article Card -->
-        <header class="article-card__header">
+        <header class="article-card__header flex-column" data-gap="sm">
             <!-- Card Header -->
             <h2><a href="{% pageurl article %}" class="header__link">{{ article.title }}</a></h2>
             {% if article.first_published_at %}
