@@ -20,6 +20,7 @@ ARTICLES = [
         "intro": "Article intro text",
         "get_summary_template": "patterns/components/article/article_summary.html",
         "get_tag_summary_template": "patterns/components/article/article_summary.html",
+        "get_search_summary_template": "patterns/components/article/article_summary.html",
     },
     {
         "title": "Another Title",
@@ -27,6 +28,7 @@ ARTICLES = [
         "intro": "Intro text for <em>another</em> article.",
         "get_summary_template": "patterns/components/article/article_summary.html",
         "get_tag_summary_template": "patterns/components/article/article_summary.html",
+        "get_search_summary_template": "patterns/components/article/article_summary.html",
         "tags": {
             "all": {
                 "name": "Tag1",
@@ -51,6 +53,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
     {
         "title": "Clean Code",
@@ -65,6 +68,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
     {
         "title": "Clean Code",
@@ -79,6 +83,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
     {
         "title": "Clean Code",
@@ -93,6 +98,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
     {
         "title": "Clean Code",
@@ -107,6 +113,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
     {
         "title": "Clean Code",
@@ -121,6 +128,7 @@ BOOKS = [
         },
         "cover_image": "dummy",
         "get_summary_template": "patterns/components/book/book_summary.html",
+        "get_search_summary_template": "patterns/components/book/book_summary.html",
     },
 ]
 
@@ -137,6 +145,16 @@ def add_article_index_paginator(context, request):
 @register_context_modifier(template="patterns/pages/home/home_page.html")
 def add_home_page_paginator(context, request):
     items = [*ARTICLES, *BOOKS]
+    items.extend([None] * 22)
+    page, page_range = paginate(1, items, per_page=4)
+    context["pagination_page"] = page
+    context["page_range"] = page_range
+
+
+@register_context_modifier(template="patterns/pages/search/search.html")
+def add_search_page_paginator(context, request):
+    items = [*ARTICLES, *BOOKS]
+    items = [{"specific": item} for item in items]
     items.extend([None] * 22)
     page, page_range = paginate(1, items, per_page=4)
     context["pagination_page"] = page

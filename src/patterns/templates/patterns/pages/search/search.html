@@ -5,34 +5,33 @@
 
 {% block title %}Search{% endblock %}
 
-{% block content %}
-    <h1>Search</h1>
+{% block page_content %}
+    <div class="search">
+        <main id="main">
+            <div>
+                <h1 class="intro__header text-very-large">
+                    Search
+                </h1>
+            </div>
 
-    <form action="{% url 'search' %}" method="get">
-        <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-        <input type="submit" value="Search" class="button">
-    </form>
+            <div class="search__form">
+                {% include "patterns/components/search/form.html" %}
+            </div>
 
-    {% if search_results %}
-        <ul>
-            {% for result in search_results %}
-                <li>
-                    <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-                    {% if result.search_description %}
-                        {{ result.search_description }}
+            <div class="article__list flex-column" data-gap="lg">
+                {% for search_result in pagination_page %}
+                    {% with search_result.specific as search_result %}
+                        {% include search_result.get_search_summary_template with object=search_result %}
+                    {% endwith %}
+                {% empty %}
+                    {% if search_query %}
+                        <p>No search results found.</p>
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-
-        {% if search_results.has_previous %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% if search_results.has_next %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-        {% endif %}
-    {% elif search_query %}
-        No results found
-    {% endif %}
-{% endblock %}
+                {% endfor %}
+                {% if pagination_page %}
+                    {% include "patterns/components/pagination/pagination.html" %}
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock page_content %}

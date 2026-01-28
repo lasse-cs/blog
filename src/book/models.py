@@ -11,6 +11,7 @@ from wagtail.search import index
 
 from core.blocks import ContentBlock
 from core.models import FeedItemMixin, FeedMixin
+from search.models import SearchItemPageMixin
 
 
 Image = get_image_model()
@@ -63,7 +64,7 @@ class BookIndexPage(FeedMixin, Page):
         return context
 
 
-class BookPage(FeedItemMixin, Page):
+class BookPage(FeedItemMixin, SearchItemPageMixin, Page):
     blurb = RichTextField(
         help_text="The blurb for the book.",
         default="Book blurb",

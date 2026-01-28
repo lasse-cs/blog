@@ -95,6 +95,11 @@ class ActivityBlock(BaseSidebarItemBlock):
         template = "patterns/components/sidebar/blocks/activity_block.html"
 
 
+class SearchBlock(BaseSidebarItemBlock):
+    class Meta:
+        template = "patterns/components/sidebar/blocks/search_block.html"
+
+
 class TagBlock(BaseSidebarItemBlock):
     class Meta:
         template = "patterns/components/sidebar/blocks/tag_block.html"
@@ -105,6 +110,7 @@ class SidebarBlock(StreamBlock):
     social = SocialBlock()
     activity = ActivityBlock()
     tag = TagBlock()
+    search = SearchBlock()
 
     class Meta:
         template = "patterns/components/sidebar/sidebar.html"
@@ -112,4 +118,5 @@ class SidebarBlock(StreamBlock):
             "social": {"max_num": 1},
             "activity": {"max_num": 1},
             "tag": {"max_num": 1},
+            "search": {"max_num": 1},
         }

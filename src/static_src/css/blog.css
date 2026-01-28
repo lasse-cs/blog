@@ -132,6 +132,8 @@
         --gap-lg: 1.5rem;
         --gap-xl: 2rem;
         --gap-2xl: 4rem;
+
+        color-scheme: light;
     }
 
     [data-theme="dark"] {
@@ -143,6 +145,8 @@
       --text: var(--gray);
       --text-dark: var(--gray-light);
       --shadow-color: rgba(50, 50, 50, 0.2);
+
+      color-scheme: dark;
     }
 
     html {
@@ -346,6 +350,10 @@
 
     --link-color: var(--primary);
   } 
+
+  .search__form {
+    margin-block-end: 2rem;
+  }
 
   .card {
     padding: 2rem;
@@ -700,6 +708,18 @@
 
   .tag__link:hover .tag, .tag__link:focus-visible .tag{
     background-color: var(--primary-light);
+  }
+
+  input[type="search"] {
+    padding: 0.4rem;
+    width: 100%;
+
+    color: var(--text-dark);
+
+    &:focus-visible {
+      border-color: var(--primary);
+      outline-color: var(--primary);
+    }
   }
 }
 

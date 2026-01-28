@@ -9,17 +9,16 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
 from blog import views as blog_views
-from search import views as search_views
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("sitemap.xml", sitemap),
-    path("search/", search_views.search, name="search"),
     path("error-500-test/", blog_views.error_500_test, name="server_error"),
     path("", include("core.urls")),
     path("activity/", include("activity.urls")),
+    path("search/", include("search.urls")),
 ]
 
 handler404 = "blog.views.page_not_found"

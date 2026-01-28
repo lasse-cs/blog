@@ -7,6 +7,7 @@ from wagtail.search import index
 
 from core.blocks import ContentBlock
 from core.models import FeedItemMixin, FeedMixin, TaggablePage
+from search.models import SearchItemPageMixin
 
 
 class ArticleIndexPage(FeedMixin, Page):
@@ -28,7 +29,7 @@ class ArticleIndexPage(FeedMixin, Page):
         return context
 
 
-class ArticlePage(FeedItemMixin, TaggablePage):
+class ArticlePage(FeedItemMixin, SearchItemPageMixin, TaggablePage):
     intro = RichTextField(
         help_text="Intro text for the article page.",
         default="Article intro content.",

@@ -1,0 +1,4 @@
+name: Search Block
+context:
+  value:
+    title: Search
