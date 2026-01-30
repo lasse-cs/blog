@@ -17,11 +17,9 @@ from wagtail_factories import (
 from wagtail_factories.blocks import BlockFactory
 
 from core.blocks import (
-    ActivityBlock,
     BaseSidebarItemBlock,
     ContentBlock,
     HeadingBlock,
-    SidebarBlock,
     SocialBlock,
     SocialLinkBlock,
     SocialMediaChoices,
@@ -64,24 +62,9 @@ class SocialBlockFactory(BaseSidebarItemBlockFactory):
         model = SocialBlock
 
 
-class ActivityBlockFactory(BaseSidebarItemBlockFactory):
-    class Meta:
-        model = ActivityBlock
-
-
 class TagBlockFactory(BaseSidebarItemBlockFactory):
     class Meta:
         model = TagBlock
-
-
-class SidebarBlockFactory(StreamBlockFactory):
-    text = factory.SubFactory(TitledTextBlockFactory)
-    social = factory.SubFactory(SocialBlockFactory)
-    activity = factory.SubFactory(ActivityBlockFactory)
-    tag = factory.SubFactory(TagBlockFactory)
-
-    class Meta:
-        model = SidebarBlock
 
 
 class CodeBlockFactory(StructBlockFactory):

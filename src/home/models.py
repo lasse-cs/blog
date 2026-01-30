@@ -4,8 +4,8 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from core.blocks import SidebarBlock
 from core.models import FeedItemMixin, FeedMixin, TaggablePage
+from home.blocks import HomePageSidebarBlock
 
 
 class HomePage(FeedMixin, Page):
@@ -14,7 +14,7 @@ class HomePage(FeedMixin, Page):
         default="Blog intro content.",
     )
     sidebar = StreamField(
-        SidebarBlock,
+        HomePageSidebarBlock,
         help_text="Sidebar content for the homepage.",
         blank=True,
     )
