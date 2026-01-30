@@ -1,7 +1,7 @@
 import factory
 from wagtail_factories import PageFactory, StreamBlockFactory, StreamFieldFactory
 
-from activity.test.factories import ActivityBlockFactory
+from activity.factories import ActivityBlockFactory
 from core.factories import SocialBlockFactory, TagBlockFactory, TitledTextBlockFactory
 from home.blocks import HomePageSidebarBlock
 from home.models import HomePage
