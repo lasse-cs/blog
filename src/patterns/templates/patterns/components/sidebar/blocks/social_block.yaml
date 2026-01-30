@@ -22,3 +22,7 @@ context:
               url: "#"
               display: "LinkedIn!"
               type: "linkedin"
+          - value:
+              url: "#"
+              display: "Twitter!"
+              type: "twitter"

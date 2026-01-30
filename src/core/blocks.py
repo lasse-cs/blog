@@ -48,6 +48,7 @@ class SocialMediaChoices(models.TextChoices):
     BLUESKY = "bluesky", "BlueSky"
     LINKEDIN = "linkedin", "LinkedIn"
     FEED = "feed", "Feed"
+    TWITTER = "twitter", "Twitter"
 
 
 class SocialLinkBlock(StructBlock):
