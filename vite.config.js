@@ -15,7 +15,6 @@ export default defineConfig({
         outDir: resolve(__dirname, "src/static_built/"),
         rollupOptions: {
             input: {
-                activity: resolve(__dirname, "src/static_src/js/activity.js"),
                 blog: resolve(__dirname, "src/static_src/js/blog.js"),
             },
             output: {

@@ -1,9 +1,8 @@
-{% load activity_tags static %}
+{% load activity_tags %}
 
-<script type="module" src="{% static 'js/activity.js' %}">
-</script>
 <p>Activity in the last week:</p>
-{% recent_activity as activities %}
-{{ activities|json_script:"activity-data" }}
-<div class="activity-svg-container">
+<div data-controller="activity">
+    {% recent_activity as activities %}
+    {{ activities|json_script:"activity-data" }}
+    <div data-activity-target="svgContainer" class="activity-svg-container"></div>
 </div>
