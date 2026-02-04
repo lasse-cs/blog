@@ -9,7 +9,7 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg>=3.3.1",
     "pymemcache>=4.0.0",
-    "wagtail>=7.2.2,<7.3",
+    "wagtail>=7.3,<7.4",
     "wagtailcodeblock>=1.30.0.0",
 ]
 
