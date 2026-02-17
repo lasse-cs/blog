@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "search",
     "article",
     "activity",
+    "analytics",
     "book",
     "core",
     "patterns",
@@ -250,3 +251,5 @@ WAGTAIL_CODE_BLOCK_THEME = None
 
 # Umami Tracking
 UMAMI_HOST = os.getenv("UMAMI_HOST")
+UMAMI_API_KEY = os.getenv("UMAMI_API_KEY")
+UMAMI_API_BASE = os.getenv("UMAMI_API_BASE")

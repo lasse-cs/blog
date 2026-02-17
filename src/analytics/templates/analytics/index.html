@@ -1,0 +1,158 @@
+{% extends 'wagtailadmin/base.html' %}
+
+{% block titletag %}
+    Analytics
+{% endblock titletag %}
+
+{% block content %}
+    {% include 'wagtailadmin/shared/header.html' with title="Analytics" icon="desktop" %}
+
+    <div class="nice-padding">
+        {% if not has_umami_config %}
+            <div class="help-block help-warning">
+                <p>Analytics is not configured. Please set UMAMI_API_BASE, UMAMI_API_KEY in settings and configure the Umami Website ID in Site Settings.</p>
+            </div>
+        {% else %}
+            {% if active_users is None and stats is None %}
+                <div class="help-block help-warning">
+                    <p>Unable to fetch analytics data. Please check your Umami configuration.</p>
+                </div>
+            {% else %}
+                {% if warnings %}
+                    <div class="help-block help-warning">
+                        <p>Some analytics sections could not be loaded. Showing available data.</p>
+                    </div>
+                {% endif %}
+                {% if fetched_at %}
+                    <p style="color: #666; font-size: 0.9em;">Last updated: {{ fetched_at|date:"H:i" }}</p>
+                {% endif %}
+                <section class="w-panel">
+                    <h2 class="w-panel__heading w-panel__heading--label">Active Users</h2>
+                    <div class="w-panel__content">
+                        <p style="font-size: 2em; font-weight: bold;">{{ active_users }}</p>
+                    </div>
+                </section>
+
+                {% if stats %}
+                    <section class="w-panel">
+                        <h2 class="w-panel__heading w-panel__heading--label">Last 7 Days</h2>
+                        <div class="w-panel__content">
+                            <table class="listing">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Current Period</th>
+                                        <th>Previous Period</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Pageviews</td>
+                                        <td>{{ stats.pageviews }}</td>
+                                        <td>{{ stats.comparison.pageviews }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visitors</td>
+                                        <td>{{ stats.visitors }}</td>
+                                        <td>{{ stats.comparison.visitors }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visits</td>
+                                        <td>{{ stats.visits }}</td>
+                                        <td>{{ stats.comparison.visits }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bounces</td>
+                                        <td>{{ stats.bounces }}</td>
+                                        <td>{{ stats.comparison.bounces }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Time</td>
+                                        <td>{{ stats.totaltime }}</td>
+                                        <td>{{ stats.comparison.totaltime }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                {% endif %}
+
+                {% if metrics %}
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        {% if metrics.paths %}
+                            <section class="w-panel">
+                                <h2 class="w-panel__heading w-panel__heading--label">Top Paths</h2>
+                                <div class="w-panel__content">
+                                    <table class="listing">
+                                        <thead>
+                                            <tr>
+                                                <th>Path</th>
+                                                <th>Views</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metric in metrics.paths %}
+                                                <tr>
+                                                    <td>{{ metric.x }}</td>
+                                                    <td>{{ metric.y }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        {% endif %}
+
+                        {% if metrics.referrers %}
+                            <section class="w-panel">
+                                <h2 class="w-panel__heading w-panel__heading--label">Top Referrers</h2>
+                                <div class="w-panel__content">
+                                    <table class="listing">
+                                        <thead>
+                                            <tr>
+                                                <th>Referrer</th>
+                                                <th>Visits</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metric in metrics.referrers %}
+                                                <tr>
+                                                    <td>{{ metric.x|default:"Direct" }}</td>
+                                                    <td>{{ metric.y }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        {% endif %}
+
+                        {% if metrics.countries %}
+                            <section class="w-panel">
+                                <h2 class="w-panel__heading w-panel__heading--label">Top Countries</h2>
+                                <div class="w-panel__content">
+                                    <table class="listing">
+                                        <thead>
+                                            <tr>
+                                                <th>Country</th>
+                                                <th>Visitors</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for metric in metrics.countries %}
+                                                <tr>
+                                                    <td>{{ metric.x }}</td>
+                                                    <td>{{ metric.y }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock content %}

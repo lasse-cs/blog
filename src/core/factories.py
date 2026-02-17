@@ -128,5 +128,10 @@ class TaggablePageFactory(PageFactory):
             return
         self.tags.add(*extracted)
 
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        if create:
+            instance.save()
+
     class Meta:
         model = TaggablePage
