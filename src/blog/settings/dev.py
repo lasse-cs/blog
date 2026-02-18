@@ -21,6 +21,8 @@ INSTALLED_APPS += [
     "django_browser_reload",
     # Django Debug Toolbar
     "debug_toolbar",
+    # Wagtail Styleguide
+    "wagtail.contrib.styleguide",
 ]
 
 TEMPLATES[0]["OPTIONS"]["builtins"] = [
