@@ -26,7 +26,7 @@ from core.blocks import (
     TagBlock,
     TitledTextBlock,
 )
-from core.models import AnalyticsSettings, SiteFooter, SocialMediaLinks, TaggablePage
+from core.models import SiteFooter, SocialMediaLinks, TaggablePage
 
 
 class RichTextBlockFactory(BlockFactory):
@@ -106,14 +106,6 @@ class SiteFooterFactory(DjangoModelFactory):
 
     class Meta:
         model = SiteFooter
-
-
-class AnalyticsSettingsFactory(DjangoModelFactory):
-    site = factory.SubFactory(SiteFactory)
-    umami_id = factory.Faker("uuid4")
-
-    class Meta:
-        model = AnalyticsSettings
 
 
 class SEOSettingsFactory(DjangoModelFactory):

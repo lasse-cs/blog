@@ -140,11 +140,6 @@ class SocialMediaLinks(BaseSiteSetting):
 
 
 @register_setting
-class AnalyticsSettings(BaseSiteSetting):
-    umami_id = models.CharField("The Umami Website ID", max_length=50, blank=True)
-
-
-@register_setting
 class SEOSettings(BaseSiteSetting):
     og_image = models.ForeignKey(
         Image,

@@ -1,6 +1,6 @@
 import pytest
 
-from core.factories import AnalyticsSettingsFactory
+from analytics.factories import AnalyticsSettingsFactory
 from analytics.templatetags.analytics_tags import analytics_tracker
 
 

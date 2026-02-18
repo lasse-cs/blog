@@ -10,7 +10,7 @@ from django.utils import timezone
 from wagtail.admin.viewsets.base import ViewSet
 
 from analytics.client import MetricType, Stats, UmamiClient, UmamiClientError
-from core.models import AnalyticsSettings
+from analytics.models import AnalyticsSettings
 
 
 logger = logging.getLogger(__name__)

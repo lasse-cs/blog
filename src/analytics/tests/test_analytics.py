@@ -8,7 +8,7 @@ from pytest_django.asserts import assertTemplateUsed
 
 from django.urls import reverse
 
-from core.factories import AnalyticsSettingsFactory
+from analytics.factories import AnalyticsSettingsFactory
 
 
 UMAMI_API_BASE = "https://umami.example/api"

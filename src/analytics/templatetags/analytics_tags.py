@@ -2,7 +2,7 @@ from django import template
 from django.conf import settings
 from django.utils.html import format_html
 
-from core.models import AnalyticsSettings
+from analytics.models import AnalyticsSettings
 
 register = template.Library()
 
