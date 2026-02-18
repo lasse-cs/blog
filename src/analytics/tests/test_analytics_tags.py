@@ -1,7 +1,7 @@
 import pytest
 
 from core.factories import AnalyticsSettingsFactory
-from core.templatetags.analytics_tags import analytics_tracker
+from analytics.templatetags.analytics_tags import analytics_tracker
 
 
 @pytest.mark.django_db
