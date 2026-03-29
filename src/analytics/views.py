@@ -1,19 +1,16 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import timedelta
-import logging
 
 from django.conf import settings
 from django.core.cache import cache
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import path
 from django.utils import timezone
 from wagtail.admin.viewsets.base import ViewSet
 
-from analytics.client import MetricType, Stats, UmamiClient, UmamiClientError
+from analytics.client import MetricType, Stats, UmamiClient
 from analytics.models import AnalyticsSettings
-
-
-logger = logging.getLogger(__name__)
 
 
 def _get_client():
@@ -51,13 +48,24 @@ def get_active_users(website_id: str) -> dict:
 
     with _get_client() as client:
         active = client.active_users(website_id=website_id)
-
-    data = {"value": active, "fetched_at": timezone.now()}
-    cache.set(cache_key, data, timeout=300)
-    return data
+    cache.set(cache_key, active, timeout=300)
+    return active
 
 
-def get_stats_metrics(website_id: str) -> dict:
+def get_stats(website_id: str) -> dict:
+    cache_key = f"analytics:stats:{website_id}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    start_at, end_at = _get_time_range_days(7)
+    stats = _fetch_stats(start_at, end_at, website_id)
+    if stats:
+        cache.set(cache_key, stats)
+    return stats
+
+
+def get_metrics(website_id: str) -> dict:
     cache_key = f"analytics:stats_metrics:{website_id}"
     cached = cache.get(cache_key)
     if cached is not None:
@@ -65,11 +73,9 @@ def get_stats_metrics(website_id: str) -> dict:
 
     start_at, end_at = _get_time_range_days(7)
 
-    results = {"stats": None, "paths": [], "referrers": [], "countries": []}
-    warnings: list[str] = []
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    metrics = {"paths": [], "referrers": [], "countries": []}
+    with ThreadPoolExecutor(max_workers=3) as executor:
         futures = {
-            executor.submit(_fetch_stats, start_at, end_at, website_id): "stats",
             executor.submit(
                 _fetch_metrics, start_at, end_at, MetricType.PATH, website_id
             ): "paths",
@@ -82,79 +88,43 @@ def get_stats_metrics(website_id: str) -> dict:
         }
         for future in as_completed(futures):
             key = futures[future]
-            try:
-                results[key] = future.result()
-            except UmamiClientError as e:
-                warnings.append(key)
-                logger.warning("Unable to fetch analytics %s: %s", key, e)
-            except Exception:
-                warnings.append(key)
-                logger.exception("Unexpected runtime error fetching analytics %s", key)
+            metrics[key] = future.result()
 
-    data = {
-        "stats": results["stats"],
-        "metrics": {
-            "paths": results["paths"],
-            "referrers": results["referrers"],
-            "countries": results["countries"],
-        },
-        "fetched_at": timezone.now(),
-        "warnings": warnings,
-    }
-
-    if (
-        results["stats"]
-        or results["paths"]
-        or results["referrers"]
-        or results["countries"]
-    ):
-        cache.set(
-            cache_key,
-            {
-                "stats": data["stats"],
-                "metrics": data["metrics"],
-                "fetched_at": data["fetched_at"],
-            },
-            timeout=1200,
-        )
-
-    return data
+    if metrics:
+        cache.set(cache_key, metrics, timeout=1200)
+    return metrics
 
 
 def index(request):
-    website_id = None
-    try:
-        analytics_settings = AnalyticsSettings.for_request(request)
-        website_id = analytics_settings.umami_id
-    except Exception:
-        logger.exception("Failed to read analytics settings for request")
-
+    analytics_settings = AnalyticsSettings.for_request(request)
+    website_id = analytics_settings.umami_id
     umami_configured = bool(
         settings.UMAMI_API_BASE and settings.UMAMI_API_KEY and website_id
     )
+    return render(
+        request, "analytics/index.html", {"umami_configured": umami_configured}
+    )
 
-    context = {
-        "active_users": None,
-        "stats": None,
-        "metrics": None,
-        "fetched_at": None,
-        "warnings": [],
-        "has_umami_config": umami_configured,
-    }
 
-    if umami_configured:
-        try:
-            active_data = get_active_users(website_id)
-            context["active_users"] = active_data["value"]
-            stats_metrics = get_stats_metrics(website_id)
-            context["stats"] = stats_metrics["stats"]
-            context["metrics"] = stats_metrics["metrics"]
-            context["fetched_at"] = stats_metrics["fetched_at"]
-            context["warnings"] = stats_metrics["warnings"]
-        except UmamiClientError as e:
-            logger.warning("Unable to fetch analytics dashboard data: %s", e)
+def active_users(request):
+    analytics_settings = AnalyticsSettings.for_request(request)
+    website_id = analytics_settings.umami_id
+    active_users = get_active_users(website_id)
+    return JsonResponse({"active_users": active_users})
 
-    return render(request, "analytics/index.html", context)
+
+def stats(request):
+    analytics_settings = AnalyticsSettings.for_request(request)
+    website_id = analytics_settings.umami_id
+    stats = get_stats(website_id)
+    return JsonResponse({"stats": stats})
+
+
+def metrics(request):
+    analytics_settings = AnalyticsSettings.for_request(request)
+    website_id = analytics_settings.umami_id
+    metrics = get_metrics(website_id)
+    return JsonResponse({"metrics": metrics})
 
 
 class AnalyticsViewSet(ViewSet):
@@ -166,4 +136,7 @@ class AnalyticsViewSet(ViewSet):
     def get_urlpatterns(self):
         return [
             path("", index, name="index"),
+            path("active_users/", active_users, name="active_users"),
+            path("stats/", stats, name="stats"),
+            path("metrics/", metrics, name="metrics"),
         ]

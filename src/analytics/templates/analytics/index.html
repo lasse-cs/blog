@@ -1,5 +1,7 @@
 {% extends 'wagtailadmin/base.html' %}
 
+{% load wagtailadmin_tags %}
+
 {% block titletag %}
     Analytics
 {% endblock titletag %}
@@ -8,151 +10,111 @@
     {% include 'wagtailadmin/shared/header.html' with title="Analytics" icon="desktop" %}
 
     <div class="nice-padding">
-        {% if not has_umami_config %}
-            <div class="help-block help-warning">
-                <p>Analytics is not configured. Please set UMAMI_API_BASE, UMAMI_API_KEY in settings and configure the Umami Website ID in Site Settings.</p>
-            </div>
-        {% else %}
-            {% if active_users is None and stats is None %}
-                <div class="help-block help-warning">
-                    <p>Unable to fetch analytics data. Please check your Umami configuration.</p>
+        <section
+            class="w-summary loading-mask"
+            data-controller="content-loader analytics-summary"
+            data-content-loader-url-value="{% url 'analytics:stats' %}"
+            data-content-loader-loading-class="loading"
+            data-action="content-loader:loaded->analytics-summary#updateStats content-loader:failed->analytics-summary#onFailure"
+        >
+            <h2 class="w-sr-only">Summary Statistics</h2>
+            <ul class="w-summary__list">
+                <li data-controller="content-loader"
+                    data-content-loader-url-value="{% url 'analytics:active_users' %}"
+                    data-content-loader-loading-class="loading"
+                    data-action="content-loader:loaded->analytics-summary#updateActiveUsers:stop"
+                >
+                    {% icon name="user" title="Active Users" %}
+                    <span>
+                        <span data-analytics-summary-target="activeUsers">-</span> active users
+                    </span>
+                </li>
+                <li>
+                    {% icon name="view" title="Page Views" %}
+                    <span>
+                        <span data-analytics-summary-target="pageviews">-</span> page views
+                    </span>
+                </li>
+                <li>
+                    {% icon name="login" title="Visits" %}
+                    <span>
+                        <span data-analytics-summary-target="visits">-</span> visits
+                    </span>
+                </li>
+                <li>
+                    {% icon name="group" title="Visitors" %}
+                    <span>
+                        <span data-analytics-summary-target="visitors">-</span> visitors
+                    </span>
+                </li>
+                <li>
+                    {% icon name="link-external" title="Bounces" %}
+                    <span>
+                        <span data-analytics-summary-target="bounces">-</span> bounces
+                    </span>
+                </li>
+            </ul>
+        </section>
+        <section class="loading-mask"
+                 data-controller="content-loader analytics-metrics"
+                 data-content-loader-url-value="{% url 'analytics:metrics' %}"
+                 data-content-loader-loading-class="loading"
+                 data-action="content-loader:loaded->analytics-metrics#updateMetrics content-loader:failed->analytics-metrics#onFailure"
+        >
+            <h2>Metrics</h2>
+            <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 16rem;">
+                    <h3>Paths</h3>
+                    <table class="listing">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Path
+                                </th>
+                                <th>
+                                    Visits
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-analytics-metrics-target="pathsTableBody">
+                        </tbody>
+                    </table>
                 </div>
-            {% else %}
-                {% if warnings %}
-                    <div class="help-block help-warning">
-                        <p>Some analytics sections could not be loaded. Showing available data.</p>
-                    </div>
-                {% endif %}
-                {% if fetched_at %}
-                    <p style="color: #666; font-size: 0.9em;">Last updated: {{ fetched_at|date:"H:i" }}</p>
-                {% endif %}
-                <section class="w-panel">
-                    <h2 class="w-panel__heading w-panel__heading--label">Active Users</h2>
-                    <div class="w-panel__content">
-                        <p style="font-size: 2em; font-weight: bold;">{{ active_users }}</p>
-                    </div>
-                </section>
-
-                {% if stats %}
-                    <section class="w-panel">
-                        <h2 class="w-panel__heading w-panel__heading--label">Last 7 Days</h2>
-                        <div class="w-panel__content">
-                            <table class="listing">
-                                <thead>
-                                    <tr>
-                                        <th>Metric</th>
-                                        <th>Current Period</th>
-                                        <th>Previous Period</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Pageviews</td>
-                                        <td>{{ stats.pageviews }}</td>
-                                        <td>{{ stats.comparison.pageviews }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Visitors</td>
-                                        <td>{{ stats.visitors }}</td>
-                                        <td>{{ stats.comparison.visitors }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Visits</td>
-                                        <td>{{ stats.visits }}</td>
-                                        <td>{{ stats.comparison.visits }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bounces</td>
-                                        <td>{{ stats.bounces }}</td>
-                                        <td>{{ stats.comparison.bounces }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total Time</td>
-                                        <td>{{ stats.totaltime }}</td>
-                                        <td>{{ stats.comparison.totaltime }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-                {% endif %}
-
-                {% if metrics %}
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-                        {% if metrics.paths %}
-                            <section class="w-panel">
-                                <h2 class="w-panel__heading w-panel__heading--label">Top Paths</h2>
-                                <div class="w-panel__content">
-                                    <table class="listing">
-                                        <thead>
-                                            <tr>
-                                                <th>Path</th>
-                                                <th>Views</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for metric in metrics.paths %}
-                                                <tr>
-                                                    <td>{{ metric.x }}</td>
-                                                    <td>{{ metric.y }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </section>
-                        {% endif %}
-
-                        {% if metrics.referrers %}
-                            <section class="w-panel">
-                                <h2 class="w-panel__heading w-panel__heading--label">Top Referrers</h2>
-                                <div class="w-panel__content">
-                                    <table class="listing">
-                                        <thead>
-                                            <tr>
-                                                <th>Referrer</th>
-                                                <th>Visits</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for metric in metrics.referrers %}
-                                                <tr>
-                                                    <td>{{ metric.x|default:"Direct" }}</td>
-                                                    <td>{{ metric.y }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </section>
-                        {% endif %}
-
-                        {% if metrics.countries %}
-                            <section class="w-panel">
-                                <h2 class="w-panel__heading w-panel__heading--label">Top Countries</h2>
-                                <div class="w-panel__content">
-                                    <table class="listing">
-                                        <thead>
-                                            <tr>
-                                                <th>Country</th>
-                                                <th>Visitors</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for metric in metrics.countries %}
-                                                <tr>
-                                                    <td>{{ metric.x }}</td>
-                                                    <td>{{ metric.y }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </section>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endif %}
-        {% endif %}
+                <div style="flex: 1; min-width: 16rem;">
+                    <h3>Referrers</h3>
+                    <table class="listing">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Referrer
+                                </th>
+                                <th>
+                                    Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-analytics-metrics-target="referrersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div style="flex: 1; min-width: 16rem;">
+                    <h3>Countries</h3>
+                    <table class="listing">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Country
+                                </th>
+                                <th>
+                                    Count
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-analytics-metrics-target="countriesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </div>
 {% endblock content %}
