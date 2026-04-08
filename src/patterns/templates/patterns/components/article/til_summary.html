@@ -1,7 +1,7 @@
 {% load wagtailcore_tags %}
 
 {% with object as article %}
-    <article class="card card-layout">
+    <article class="card card-layout til">
         <header class="article-card__header flex-column" data-gap="sm">
             <h2><a href="{% pageurl article %}" class="header__link">{{ article.title }}</a></h2>
             {% if article.first_published_at %}
@@ -17,7 +17,7 @@
             {% include "patterns/components/tags/tag_list.html" with tags=article.tags.all label="tags" %}
         </div>
         <footer>
-            <a href="{% pageurl article %}" class="arrow-link" data-direction="right">Read Article <span class="visually-hidden">{{ article.title }}</span></a>
+            <a href="{% pageurl article %}" class="arrow-link" data-direction="right">Read TIL <span class="visually-hidden">{{ article.title }}</span></a>
         </footer>
     </article>
 {% endwith %}

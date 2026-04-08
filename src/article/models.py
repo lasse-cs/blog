@@ -61,3 +61,14 @@ class ArticlePage(FeedItemMixin, SearchItemPageMixin, TaggablePage):
     summary_template = "patterns/components/article/article_summary.html"
     template = "patterns/pages/article/article_page.html"
     track_activity = True
+
+
+class TILIndexPage(ArticleIndexPage):
+    subpage_types = ["article.TILPage"]
+    template = "patterns/pages/article/article_index_page.html"
+
+
+class TILPage(ArticlePage):
+    parent_page_types = ["article.TILIndexPage"]
+    summary_template = "patterns/components/article/til_summary.html"
+    template = "patterns/pages/article/article_page.html"

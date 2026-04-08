@@ -18,7 +18,7 @@
                 {% include "patterns/components/search/form.html" %}
             </div>
 
-            <div class="article__list flex-column" data-gap="lg">
+            <div class="article__list" data-gap="lg">
                 {% for search_result in pagination_page %}
                     {% with search_result.specific as search_result %}
                         {% include search_result.get_search_summary_template with object=search_result %}

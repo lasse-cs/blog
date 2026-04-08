@@ -39,6 +39,47 @@ ARTICLES = [
     },
 ]
 
+TILS = [
+    {
+        "title": "TIL Title",
+        "first_published_at": datetime(2023, 10, 24, 10, 0, 0),
+        "intro": "TIL intro text",
+        "get_summary_template": "patterns/components/article/til_summary.html",
+        "get_tag_summary_template": "patterns/components/article/til_summary.html",
+        "get_search_summary_template": "patterns/components/article/til_summary.html",
+    },
+    {
+        "title": "Another TIL Title",
+        "first_published_at": datetime(2023, 10, 23, 10, 0, 0),
+        "intro": "Intro text for <em>another</em> til.",
+        "get_summary_template": "patterns/components/article/til_summary.html",
+        "get_tag_summary_template": "patterns/components/article/til_summary.html",
+        "get_search_summary_template": "patterns/components/article/til_summary.html",
+        "tags": {
+            "all": {
+                "name": "Tag1",
+                "slug": "tag1",
+                "get_absolute_url": "#",
+            },
+        },
+    },
+    {
+        "title": "And Another TIL Title",
+        "first_published_at": datetime(2023, 10, 23, 10, 0, 0),
+        "intro": "Intro text for <em>another</em> til.",
+        "get_summary_template": "patterns/components/article/til_summary.html",
+        "get_tag_summary_template": "patterns/components/article/til_summary.html",
+        "get_search_summary_template": "patterns/components/article/til_summary.html",
+        "tags": {
+            "all": {
+                "name": "Tag1",
+                "slug": "tag1",
+                "get_absolute_url": "#",
+            },
+        },
+    },
+]
+
 BOOKS = [
     {
         "title": "Clean Code",
@@ -142,11 +183,20 @@ def add_article_index_paginator(context, request):
     context["page_range"] = page_range
 
 
+@register_context_modifier(template="patterns/pages/article/til_index_page.html")
+def add_til_index_paginator(context, request):
+    articles = list(TILS)
+    articles.extend([None] * 22)
+    page, page_range = paginate(1, articles, per_page=2)
+    context["pagination_page"] = page
+    context["page_range"] = page_range
+
+
 @register_context_modifier(template="patterns/pages/home/home_page.html")
 def add_home_page_paginator(context, request):
-    items = [*ARTICLES, *BOOKS]
+    items = [*ARTICLES, *TILS, *BOOKS]
     items.extend([None] * 22)
-    page, page_range = paginate(1, items, per_page=4)
+    page, page_range = paginate(1, items, per_page=7)
     context["pagination_page"] = page
     context["page_range"] = page_range
 

@@ -1,0 +1,10 @@
+name: TIL Summary
+context:
+  object:
+    title: "TIL Title"
+    first_published_at: 2023-10-24T10:00:00Z
+    intro: "<strong>TIL</strong> intro text."
+    tags:
+      all:
+        - name: "Tag"
+          slug: "tag"
