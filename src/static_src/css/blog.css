@@ -102,6 +102,7 @@
         --gray: #e0e0e0;
         --gray-dark: #666666;
         --gray-very-dark: #333333;
+        --gray-even-darker: #1e1e1e;
         --black: #1a1a1a;
 
         --border-radius-small: 0.25rem;
@@ -110,8 +111,8 @@
 
         --primary: var(--crimson);
         --primary-light: var(--crimson-light);
-        --background: var(--white);
-        --background-subtle: var(--gray-light);
+        --background: var(--gray-light);
+        --background-subtle: var(--white);
         --border-color: var(--gray);
 
         --text-primary-contrast: var(--gray-light);
@@ -140,7 +141,7 @@
       --primary: var(--crimson-light);
       --primary-light: var(--crimson);
       --background: var(--black);
-      --background-subtle: var(--gray-very-dark);
+      --background-subtle: var(--gray-even-darker);
       --border-color: var(--gray-dark);
       --text: var(--gray);
       --text-dark: var(--gray-light);
@@ -357,9 +358,9 @@
 
   .card {
     padding: 2rem;
-    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     box-shadow: 0 2px 8px var(--shadow-color);
+    background-color: var(--background-subtle);
   }
 
   .article-card__body .tag__list {
@@ -506,13 +507,14 @@
     position: relative;
     z-index: 100;
     cursor: pointer;
-    background: var(--background-subtle);
-    border: var(--border-color) solid 1px;
+    background: var(--background);
+    border: none;
     border-radius: var(--border-radius-small);
 
     --icon-color: var(--text);
 
     &:hover, &:focus-visible {
+      outline: var(--border-color) solid 1px;
       --border-color: var(--primary);
       --icon-color: var(--primary);
     }
@@ -547,6 +549,7 @@
     width: 1.5rem;
 
     fill: var(--icon-color);
+    transition: fill 0.25s;
   }
 
   .brand-link {
