@@ -1,5 +1,5 @@
 {% extends "patterns/base.html" %}
-{% load static wagtailcore_tags %}
+{% load custom_tags static wagtailcore_tags %}
 
 {% block body_class %}template-articlepage{% endblock %}
 
@@ -10,11 +10,20 @@
             <header class="article__header flex-column" data-gap="sm">
             <!-- Article Header -->
                 <h1>{{ page.title }}</h1>
-                {% if page.first_published_at %}
-                    <p class="article__date text-small">
-                        {{ page.first_published_at|date:"M j, Y"}}
-                    </p>
-                {% endif %}
+                <div class="article__meta text-small">
+                    {% if page.first_published_at %}
+                        <p class="article__date">
+                            {{ page.first_published_at|date:"M j, Y"}}
+                        </p>
+                    {% endif %}
+                    <div class="article__actions">
+                        <button data-controller="clipboard" data-action="clipboard#copy" class="copy__button flex center-inline" data-gap="xs" data-clipboard-copied-class="copy__success">
+                            {% svg_icon "link" class_name="copy__icon copy__icon__link" %}
+                            {% svg_icon "check" class_name="copy__icon copy__icon__success" %}
+                            Copy Link
+                        </button>
+                    </div>
+                </div>
                 <div class="article__intro">
                     {{ page.intro|richtext }}
                 </div>
