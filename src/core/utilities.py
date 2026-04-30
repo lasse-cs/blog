@@ -9,7 +9,7 @@ def paginate(page_number, items, per_page=10):
     except PageNotAnInteger:
         page = paginator.page(1)
     except EmptyPage:
-        if page_number <= 0:
+        if int(page_number) <= 0:
             page = paginator.page(1)
         else:
             page = paginator.page(paginator.num_pages)
