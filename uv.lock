@@ -2,6 +2,10 @@ version = 1
 revision = 3
 requires-python = ">=3.13"
 
+[options]
+exclude-newer = "2026-04-28T20:59:03.046780686Z"
+exclude-newer-span = "P2D"
+
 [[package]]
 name = "anyascii"
 version = "0.3.3"
