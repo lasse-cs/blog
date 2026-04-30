@@ -13,7 +13,7 @@ def activity_index(request):
     activities_by_day = {
         date: list(group)
         for date, group in groupby(
-            pagination_page, lambda activity: activity.created.date
+            pagination_page, lambda activity: activity.created.date()
         )
     }
     context = {
