@@ -27,6 +27,7 @@
                 <div class="article__intro">
                     {{ page.intro|richtext }}
                 </div>
+                {% include "patterns/components/table_of_contents/table_of_contents.html" with items=page.table_of_contents only %}
                 {% include "patterns/components/tags/tag_list.html" with tags=page.tags.all %}
             </header>
             <div>

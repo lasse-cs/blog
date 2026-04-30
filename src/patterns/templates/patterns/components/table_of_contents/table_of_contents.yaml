@@ -1,0 +1,21 @@
+name: Table Of Contents
+context:
+  items:
+    - level: h2
+      heading: Getting Started
+      children:
+        - level: h3
+          heading: Install Dependencies
+          children:
+            - level: h4
+              heading: Optional Tooling
+              children: []
+        - level: h3
+          heading: Project Structure
+          children: []
+    - level: h2
+      heading: Deployment
+      children:
+        - level: h3
+          heading: Build
+          children: []

@@ -4,6 +4,25 @@ context:
     title: Article Title
     first_published_at: 2023-10-24T10:00:00Z
     intro: "<strong>Article</strong> intro text."
+    table_of_contents:
+      - level: h2
+        heading: Getting Started
+        children:
+          - level: h3
+            heading: Install Dependencies
+            children:
+              - level: h4
+                heading: Optional Tooling
+                children: []
+          - level: h3
+            heading: Project Structure
+            children: []
+      - level: h2
+        heading: Deployment
+        children:
+          - level: h3
+            heading: Build
+            children: []
     tags:
       all:
         - name: "Tag"

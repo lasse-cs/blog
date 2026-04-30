@@ -1,0 +1,10 @@
+{% if items %}
+    <nav class="toc flex-column" data-gap="sm" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="text-heading-small">Contents</h2>
+        <ol class="toc__list unstyled-list" data-gap="xs">
+            {% for item in items %}
+                {% include "patterns/components/table_of_contents/table_of_contents_item.html" with item=item only %}
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}

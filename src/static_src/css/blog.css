@@ -798,6 +798,20 @@
       outline-color: var(--primary);
     }
   }
+
+  .toc__item {
+    &[data-level="h3"] {
+      margin-inline-start: 0.5rem;
+    }
+
+    &[data-level="h4"] {
+      margin-inline-start: 0.75rem;
+    }
+  }
+
+  .toc {
+    margin-bottom: 0.5rem;
+  }
 }
 
 @layer prism {

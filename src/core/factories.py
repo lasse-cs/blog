@@ -20,6 +20,7 @@ from core.blocks import (
     BaseSidebarItemBlock,
     ContentBlock,
     HeadingBlock,
+    HeadingLevelChoices,
     SocialBlock,
     SocialLinkBlock,
     SocialMediaChoices,
@@ -76,7 +77,7 @@ class CodeBlockFactory(StructBlockFactory):
 
 
 class HeadingBlockFactory(StructBlockFactory):
-    level = "h2"
+    level = HeadingLevelChoices.H2
     heading = factory.Faker("text", max_nb_chars=127)
 
     class Meta:
@@ -86,7 +87,7 @@ class HeadingBlockFactory(StructBlockFactory):
 class ContentBlockFactory(StreamBlockFactory):
     text = factory.SubFactory(RichTextBlockFactory)
     code = factory.SubFactory(CodeBlockFactory)
-    # heading = factory.SubFactory(HeadingBlockFactory)
+    heading = factory.SubFactory(HeadingBlockFactory)
 
     class Meta:
         model = ContentBlock

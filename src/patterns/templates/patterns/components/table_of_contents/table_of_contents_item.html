@@ -1,0 +1,10 @@
+<li class="toc__item" data-level="{{ item.level }}">
+    <a href="#{{ item.heading|slugify }}">{{ item.heading }}</a>
+    {% if item.children %}
+        <ol class="toc__list unstyled-list" data-gap="xs">
+            {% for child in item.children %}
+                {% include "patterns/components/table_of_contents/table_of_contents_item.html" with item=child only %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+</li>

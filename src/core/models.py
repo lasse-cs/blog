@@ -2,12 +2,14 @@ from django.contrib.syndication.views import Feed
 from django.db import models
 from django.urls import reverse
 from django.utils.feedgenerator import Atom1Feed
+from dataclasses import dataclass, field
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TagBase, ItemBase
 
 from wagtail.admin.panels import FieldPanel
+from wagtail.blocks import ListBlock, StreamBlock, StructBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
@@ -15,11 +17,18 @@ from wagtail.models import Page
 from wagtail.search import index
 from wagtail.images import get_image_model
 
-from core.blocks import SocialLinkBlock
+from core.blocks import HeadingBlock, SocialLinkBlock, HeadingLevelChoices
 from core.utilities import paginate
 
 
 Image = get_image_model()
+
+
+@dataclass
+class TableOfContentsItem:
+    level: str
+    heading: str
+    children: list["TableOfContentsItem"] = field(default_factory=list)
 
 
 class BaseRSSFeed(Feed):
@@ -120,6 +129,69 @@ class FeedItemMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class TableOfContentsMixin:
+    toc_source_fields = []
+    toc_max_level = HeadingLevelChoices.H3
+
+    @property
+    def table_of_contents(self):
+        level_order = {
+            HeadingLevelChoices.H2: 2,
+            HeadingLevelChoices.H3: 3,
+            HeadingLevelChoices.H4: 4,
+        }
+        max_level = level_order[self.toc_max_level]
+
+        toc = []
+        stack = []
+
+        for toc_source_field in self.toc_source_fields:
+            stream_value = getattr(self, toc_source_field, None)
+            for level, heading in self._walk_headings(None, stream_value):
+                order = level_order[level]
+                if order > max_level:
+                    continue
+
+                node = TableOfContentsItem(level=level, heading=heading)
+                while stack and stack[-1][0] >= order:
+                    stack.pop()
+                if stack:
+                    stack[-1][1].children.append(node)
+                else:
+                    toc.append(node)
+                stack.append((order, node))
+        return toc
+
+    def _walk_headings(self, block, value):
+        if value is None:
+            return
+
+        # We're at the top StreamValue
+        if block is None:
+            for child in value:
+                yield from self._walk_headings(child.block, child.value)
+
+        # We're at a heading block
+        elif isinstance(block, HeadingBlock):
+            yield (value["level"], value["heading"])
+
+        # We're at a StreamBlock
+        elif isinstance(block, StreamBlock):
+            for child in value:
+                yield from self._walk_headings(child.block, child.value)
+
+        # We're at a StructBlock
+        elif isinstance(block, StructBlock):
+            for name, child_def in block.child_blocks.items():
+                yield from self._walk_headings(child_def, value.get(name))
+
+        # We're at a ListBlock
+        elif isinstance(block, ListBlock):
+            for item in value:
+                item_block = block.child_block
+                yield from self._walk_headings(item_block, item)
 
 
 @register_setting

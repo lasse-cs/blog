@@ -6,7 +6,7 @@ from wagtail.models import Page
 from wagtail.search import index
 
 from core.blocks import ContentBlock
-from core.models import FeedItemMixin, FeedMixin, TaggablePage
+from core.models import FeedItemMixin, FeedMixin, TableOfContentsMixin, TaggablePage
 from search.models import SearchItemPageMixin
 
 
@@ -29,7 +29,9 @@ class ArticleIndexPage(FeedMixin, Page):
         return context
 
 
-class ArticlePage(FeedItemMixin, SearchItemPageMixin, TaggablePage):
+class ArticlePage(
+    TableOfContentsMixin, FeedItemMixin, SearchItemPageMixin, TaggablePage
+):
     intro = RichTextField(
         help_text="Intro text for the article page.",
         default="Article intro content.",
@@ -61,6 +63,7 @@ class ArticlePage(FeedItemMixin, SearchItemPageMixin, TaggablePage):
     summary_template = "patterns/components/article/article_summary.html"
     template = "patterns/pages/article/article_page.html"
     track_activity = True
+    toc_source_fields = ["body"]
 
 
 class TILIndexPage(ArticleIndexPage):
