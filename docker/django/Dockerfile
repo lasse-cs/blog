@@ -1,6 +1,6 @@
 FROM node:22 AS build-static
 
-COPY ./package.json ./package-lock.json ./vite.config.js /app/
+COPY ./package.json ./package-lock.json ./vite.config.js ./tsconfig.json /app/
 
 WORKDIR /app/
 
@@ -12,7 +12,7 @@ COPY ./src/static_src /app/src/static_src
 RUN ["npm", "run", "build"]
 
 FROM python:3.13-slim-bookworm AS builder
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /bin/
 
 WORKDIR /app
 
