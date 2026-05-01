@@ -1,8 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 import * as d3 from "d3";
 
+type ActivityByDayJson = {
+    activity_date: string;
+    activities: number;
+}
+
+type ActivityByDay = {
+    activity_date: Date;
+    activities: number;
+}
+
 export default class extends Controller {
     static targets = [ "svgContainer" ]
+
+    declare readonly svgContainerTarget: HTMLElement;
 
     connect() {
         const dataScript = this.element.querySelector('script[type="application/json"]');
@@ -10,19 +22,19 @@ export default class extends Controller {
             return;
         }
 
-        const data = JSON.parse(dataScript.textContent);
-        data.forEach(element => {
-            element.activity_date = new Date(element.activity_date)
-        });
-        data.sort((a, b) => a.activity_date - b.activity_date);
+        const rawData: ActivityByDayJson[] = JSON.parse(dataScript.textContent);
+        const data: ActivityByDay[] = rawData.map(({ activity_date, activities }) => ({
+            activity_date: new Date(activity_date), activities: activities
+        }));
+        data.sort((a, b) => a.activity_date.getTime() - b.activity_date.getTime());
 
-        const activityExtent = [1, d3.max(data.map(d => d.activities))];
+        const activityExtent = [1, d3.max(data.map(d => d.activities)) ?? 1];
 
-        const activityScale = d3.scaleQuantize()
+        const activityScale = d3.scaleQuantize<string>()
             .domain(activityExtent)
             .range(["very-low", "low", "medium", "high", "very-high"]);
 
-        const getActivityIndicator = (activities) => {
+        const getActivityIndicator = (activities: number) => {
             if (activities === 0) {
                 return "none";
             } else {
@@ -30,7 +42,7 @@ export default class extends Controller {
             }
         }
 
-        const xScale = d3.scaleBand()
+        const xScale = d3.scaleBand<Date>()
             .domain(data.map(d => d.activity_date))
             .range([2, 225])
             .paddingInner(0.2);
@@ -50,7 +62,6 @@ export default class extends Controller {
 
         boxAndLabel
             .append("rect")
-            .attr("class", "day-box")
             .attr("width", squareSize)
             .attr("height", squareSize)
             .attr("rx", 5)

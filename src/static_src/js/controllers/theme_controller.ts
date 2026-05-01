@@ -1,16 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
+type Theme = "light" | "dark";
+
 export default class extends Controller {
-    toggle(event) {
+    toggle(event: MouseEvent) {
         const currentTheme = document.documentElement.getAttribute('data-theme') || "light";
         this.setTheme(currentTheme === "dark" ? "light" : "dark", event);
     }
 
-    setTheme(theme, event) {
+    setTheme(theme: Theme, event: MouseEvent) {
         if (!document.startViewTransition) {
             this.updateTheme(theme);
         } else {
-            const rect = event.target.getBoundingClientRect();
+            const button = event.currentTarget as Element;
+            const rect = button.getBoundingClientRect();
 
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
@@ -33,7 +36,7 @@ export default class extends Controller {
         }
     }
 
-    updateTheme(theme) {
+    updateTheme(theme: Theme) {
         if (theme === "dark") {
             document.documentElement.setAttribute("data-theme", theme);
         } else {

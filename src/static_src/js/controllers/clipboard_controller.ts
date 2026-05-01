@@ -1,11 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
-import { thresholdFreedmanDiaconis } from "d3";
 
 export default class extends Controller {
     static classes = ["copied"];
     static values = {
         resetDelay: { type: Number, default: 2000 },
     }
+
+    declare readonly copiedClass: string;
+    declare readonly resetDelayValue: number;
+
+    private timeout: number | null = null;
 
     connect() {
         this.timeout = null;
@@ -31,7 +35,7 @@ export default class extends Controller {
         }, this.resetDelayValue);
     }
 
-    async copy(event) {
+    async copy(event: Event) {
         event.preventDefault();
         try {
             await navigator.clipboard.writeText(window.location.href);

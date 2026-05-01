@@ -15,7 +15,7 @@ export default defineConfig({
         outDir: resolve(__dirname, "src/static_built/"),
         rollupOptions: {
             input: {
-                blog: resolve(__dirname, "src/static_src/js/blog.js"),
+                blog: resolve(__dirname, "src/static_src/js/blog.ts"),
             },
             output: {
                 entryFileNames: `js/[name].js`,
