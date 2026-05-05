@@ -36,7 +36,10 @@ playwright = [
 
 [tool.uv]
 exclude-newer = "P2D"
-
+exclude-newer-package = {
+    django = false,
+    wagtail = false,
+}
 
 [tool.ruff]
 extend-exclude = ["**/migrations/*.py"]
