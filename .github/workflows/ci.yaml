@@ -33,5 +33,18 @@ jobs:
       - name: Install playwright
         run: uv sync --locked --group playwright && uv run -m playwright install --with-deps
 
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build static assets
+        run: npm build
+
       - name: Run Functional Tests
         run: uv run pytest src/functional_tests

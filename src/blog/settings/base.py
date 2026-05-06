@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "activity",
     "analytics",
     "book",
+    "vite",
     "core",
     "patterns",
     "wagtail.contrib.forms",
@@ -253,3 +254,7 @@ WAGTAIL_CODE_BLOCK_THEME = None
 UMAMI_HOST = os.getenv("UMAMI_HOST")
 UMAMI_API_KEY = os.getenv("UMAMI_API_KEY")
 UMAMI_API_BASE = os.getenv("UMAMI_API_BASE")
+
+
+# Vite Manifest
+VITE_MANIFEST = os.path.join(BASE_DIR, "static_built", ".vite", "manifest.json")

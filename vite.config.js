@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+    root: resolve(__dirname, "src/static_src/"),
     publicDir: false,
     resolve: {
         alias: {
@@ -12,6 +13,7 @@ export default defineConfig({
         },
     },
     build: {
+        manifest: true,
         outDir: resolve(__dirname, "src/static_built/"),
         rollupOptions: {
             input: {

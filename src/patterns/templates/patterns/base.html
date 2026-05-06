@@ -1,4 +1,4 @@
-{% load analytics_tags static wagtailcore_tags wagtailuserbar %}
+{% load analytics_tags static vite_tags wagtailcore_tags wagtailuserbar %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,9 +28,6 @@
         {% block feed %}
         {% endblock feed %}
 
-        {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
-
         {% block js %}
             {# Initialise the theme here #}
             <script>
@@ -42,9 +39,7 @@
                     document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
                 }
             </script>
-            <link rel="modulepreload" href="{% static 'js/stimulus.js' %}">
-            <link rel="modulepreload" href="{% static 'js/d3.js' %}">
-            <script type="module" src="{% static 'js/blog.js' %}"></script>
+            {% vite 'js/blog.ts'%}
         {% endblock js %}
 
         {% block extra_css %}
