@@ -3,6 +3,8 @@ import os
 
 import pytest
 
+from django.templatetags.static import static
+
 from vite.templatetags import vite_tags
 from vite.templatetags.vite_tags import load_manifest, walk_manifest
 
@@ -56,21 +58,21 @@ def test_walking_manifest(manifest):
         "views/foo.js",
     )
     assert foo_result.css_files == [
-        "assets/foo-5UjPuW-k.css",
-        "assets/shared-ChJ_j-JJ.css",
+        static("assets/foo-5UjPuW-k.css"),
+        static("assets/shared-ChJ_j-JJ.css"),
     ]
-    assert foo_result.js_files == ["assets/foo-BRBmoGS9.js"]
-    assert foo_result.modulepreloads == ["assets/shared-B7PI925R.js"]
+    assert foo_result.js_files == [static("assets/foo-BRBmoGS9.js")]
+    assert foo_result.modulepreloads == [static("assets/shared-B7PI925R.js")]
 
     bar_result = walk_manifest(
         manifest,
         "views/bar.js",
     )
     assert bar_result.css_files == [
-        "assets/shared-ChJ_j-JJ.css",
+        static("assets/shared-ChJ_j-JJ.css"),
     ]
-    assert bar_result.js_files == ["assets/bar-gkvgaI9m.js"]
-    assert bar_result.modulepreloads == ["assets/shared-B7PI925R.js"]
+    assert bar_result.js_files == [static("assets/bar-gkvgaI9m.js")]
+    assert bar_result.modulepreloads == [static("assets/shared-B7PI925R.js")]
 
 
 def test_load_manifest_reloads_when_mtime_changes(tmp_path, settings):

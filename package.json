@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "JavaScript for Lasse's blog",
   "scripts": {
+    "dev": "vite",
     "build": "tsc && vite build",
     "build-watch": "vite build --watch"
   },

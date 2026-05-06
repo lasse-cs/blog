@@ -4,6 +4,8 @@ import os
 
 from django.conf import settings
 from django.template import Library
+from django.templatetags.static import static
+from django.utils.safestring import mark_safe
 
 register = Library()
 _manifest_cache: tuple[int, dict] | None = None
@@ -24,12 +26,12 @@ class ViteManifestWalkState:
     modulepreloads: set[str] = field(default_factory=set)
 
 
-def append_once(target_list, seen_set, file_path):
+def append_static_file(target_list, seen_set, file_path):
     if file_path in seen_set:
         return
 
     seen_set.add(file_path)
-    target_list.append(file_path)
+    target_list.append(static(file_path))
 
 
 def load_manifest():
@@ -64,14 +66,14 @@ def walk_manifest(manifest, entry_point, context=None, state=None):
     is_entry = entry.get("isEntry", False)
     state.entries.add(entry_point)
     for css_file in entry.get("css", []):
-        append_once(context.css_files, state.css_files, css_file)
+        append_static_file(context.css_files, state.css_files, css_file)
     if is_entry:
         if referenced_file.endswith(".css"):
-            append_once(context.css_files, state.css_files, referenced_file)
+            append_static_file(context.css_files, state.css_files, referenced_file)
         elif referenced_file.endswith(".js"):
-            append_once(context.js_files, state.js_files, referenced_file)
+            append_static_file(context.js_files, state.js_files, referenced_file)
     elif referenced_file.endswith(".js"):
-        append_once(
+        append_static_file(
             context.modulepreloads,
             state.modulepreloads,
             referenced_file,
@@ -84,5 +86,14 @@ def walk_manifest(manifest, entry_point, context=None, state=None):
 
 @register.inclusion_tag("vite/vite.html")
 def vite(entry_point):
-    manifest = load_manifest()
-    return {"manifest": walk_manifest(manifest, entry_point)}
+    if hasattr(settings, "VITE_SERVER_URL"):
+        result = ViteManifestContext(
+            js_files=[
+                mark_safe(f"{settings.VITE_SERVER_URL}/@vite/client"),
+                mark_safe(f"{settings.VITE_SERVER_URL}/{entry_point}"),
+            ]
+        )
+    else:
+        manifest = load_manifest()
+        result = walk_manifest(manifest, entry_point)
+    return {"manifest": result}

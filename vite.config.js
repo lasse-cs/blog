@@ -12,6 +12,11 @@ export default defineConfig({
             "@": resolve(__dirname, "src/static_src/"),
         },
     },
+    server: {
+        cors: {
+            origin: "http://localhost:8000",
+        },
+    },
     build: {
         manifest: true,
         outDir: resolve(__dirname, "src/static_built/"),

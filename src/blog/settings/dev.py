@@ -64,3 +64,5 @@ try:
     from .local import *
 except ImportError:
     pass
+
+VITE_SERVER_URL = "http://localhost:5173"
