@@ -38,7 +38,7 @@ jobs:
         run: npm ci
 
       - name: Build static assets
-        run: npm build
+        run: npm run build
 
       - name: Run the tests
         run: uv run pytest src/ --ignore src/functional_tests
