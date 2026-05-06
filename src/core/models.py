@@ -64,7 +64,7 @@ class BaseAtomFeed(BaseRSSFeed):
     feed_type = Atom1Feed
 
     def subtitle(self, obj):
-        return self.descripion(obj)
+        return self.description(obj)
 
 
 class FeedMixin(RoutablePageMixin):
