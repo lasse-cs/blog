@@ -49,6 +49,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:?Must set postgres database name}
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password_file
       - POSTGRES_HOST=postgres
+      - SENTRY_DSN_FILE=/run/secrets/sentry_dsn_file
       - UMAMI_HOST=${UMAMI_HOST}
       - UMAMI_API_KEY=${UMAMI_API_KEY}
       - UMAMI_API_BASE=${UMAMI_API_BASE}
@@ -58,6 +59,7 @@ services:
     secrets:
      - django_secret_key_file
      - postgres_password_file
+     - sentry_dsn_file
   
   memcached:
     image: memcached:1.6
@@ -74,6 +76,8 @@ secrets:
     file: ${POSTGRES_PASSWORD_FILE:?Must set postgres password file}
   django_secret_key_file:
     file: ${DJANGO_SECRET_KEY_FILE:?Must set django secret key file}
+  sentry_dsn_file:
+    file: ${SENTRY_DSN_FILE:?Must set sentry dsn file}
 
 volumes:
   media_files:

@@ -1,6 +1,7 @@
 # ruff: noqa: F403, F405
-from pathlib import Path
 import os
+from pathlib import Path
+import sentry_sdk
 
 from .base import *
 
@@ -44,6 +45,12 @@ CACHES = {
         "LOCATION": os.environ["MEMCACHED_LOCATIONS"].split(","),
     }
 }
+
+if os.environ.get("SENTRY_DSN_FILE"):
+    sentry_sdk.init(
+        dsn=Path(os.environ["SENTRY_DSN_FILE"]).read_text().strip(),
+        send_default_pii=False,
+    )
 
 try:
     from .local import *
