@@ -1,0 +1,8 @@
+{% extends 'wagtailcore/shared/block_preview.html' %}
+
+{% load vite_tags %}
+
+{% block css %}
+    {{ block.super }}
+    {% vite 'js/blog.ts' %}
+{% endblock css %}

@@ -5,3 +5,4 @@ class SearchBlock(BaseSidebarItemBlock):
     class Meta:
         template = "patterns/components/sidebar/blocks/search_block.html"
         icon = "search"
+        preview_value = {"title": "Search"}

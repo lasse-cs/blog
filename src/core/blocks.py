@@ -35,11 +35,24 @@ class HeadingBlock(StructBlock):
     class Meta:
         icon = "title"
         template = "patterns/components/streamfield/blocks/heading.html"
+        preview_value = {
+            "level": HeadingLevelChoices.H2,
+            "heading": "This is the Heading",
+        }
 
 
 class ContentBlock(StreamBlock):
-    text = RichTextBlock(template="patterns/components/streamfield/blocks/text.html")
-    code = CodeBlock(template="patterns/components/streamfield/blocks/code.html")
+    text = RichTextBlock(
+        template="patterns/components/streamfield/blocks/text.html",
+        preview_value="<b>Rich text</b> content",
+    )
+    code = CodeBlock(
+        template="patterns/components/streamfield/blocks/code.html",
+        preview_value={
+            "language": "python",
+            "code": 'if __name__ == "__main__":\n    print("Hello World!")',
+        },
+    )
     heading = HeadingBlock()
 
 
@@ -83,14 +96,17 @@ class TitledTextBlock(BaseSidebarItemBlock):
     class Meta:
         template = "patterns/components/sidebar/blocks/titled_text_block.html"
         icon = "doc-full-inverse"
+        preview_value = {"title": "Title", "text": "<b>Rich text</b> content."}
 
 
 class SocialBlock(BaseSidebarItemBlock):
     class Meta:
         template = "patterns/components/sidebar/blocks/social_block.html"
         icon = "link-external"
+        preview_value = {"title": "Social"}
 
 
 class TagBlock(BaseSidebarItemBlock):
     class Meta:
         template = "patterns/components/sidebar/blocks/tag_block.html"
+        preview_value = {"title": "Tags"}
