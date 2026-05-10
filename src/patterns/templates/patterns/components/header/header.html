@@ -1,4 +1,4 @@
-{% load custom_tags wagtailcore_tags menu_tags %}
+{% load custom_tags wagtailcore_tags wagtail_cache menu_tags %}
 
 <header class="site-header">
     {% if not is_pattern_library %}
@@ -7,11 +7,13 @@
     <!-- Header -->
     <div>
         <!-- Home Link -->
-        {% if current_site and current_site.site_name %}
+        {% if current_site.site_name %}
             <a href="{{ current_site.root_url }}" class="brand-link text-large">
                 {{ current_site.site_name | highlight_after_first_dot }}
             </a>
         {% endif %}
     </div>
-    {% main_menu current_site %}
+    {% wagtailcache 3600 main_menu current_site.pk is_pattern_library %}
+        {% main_menu current_site %}
+    {% endwagtailcache %}
 </header>
