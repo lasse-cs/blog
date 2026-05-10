@@ -17,6 +17,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /bin/
 WORKDIR /app
 
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
+git \
 build-essential \
 libjpeg62-turbo-dev \
 zlib1g-dev \

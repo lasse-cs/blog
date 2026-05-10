@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from pathlib import Path
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = PROJECT_DIR.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "activity",
     "analytics",
     "book",
-    "vite",
+    "django_vite_tags",
     "core",
     "patterns",
     "wagtail.contrib.forms",
@@ -77,7 +77,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(PROJECT_DIR, "templates"),
+            PROJECT_DIR / "templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -101,7 +101,7 @@ WSGI_APPLICATION = "blog.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -146,14 +146,14 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"),
-    os.path.join(BASE_DIR, "static_built"),
+    PROJECT_DIR / "static",
+    BASE_DIR / "static_built",
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
 # Default storage settings
@@ -257,4 +257,4 @@ UMAMI_API_BASE = os.getenv("UMAMI_API_BASE")
 
 
 # Vite Manifest
-VITE_MANIFEST = os.path.join(BASE_DIR, "static_built", ".vite", "manifest.json")
+DJANGO_VITE_MANIFEST_PATH = BASE_DIR / "static_built" / ".vite" / "manifest.json"

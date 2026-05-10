@@ -298,6 +298,14 @@ wheels = [
 ]
 
 [[package]]
+name = "django-vite-tags"
+version = "0.1.0"
+source = { git = "https://github.com/lasse-cs/django-vite-tags.git?rev=d1aa52a4d88995db08ef80537033d05fb243f4ca#d1aa52a4d88995db08ef80537033d05fb243f4ca" }
+dependencies = [
+    { name = "django" },
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.1"
 source = { registry = "https://pypi.org/simple" }
@@ -481,6 +489,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "django-vite-tags" },
     { name = "gunicorn" },
     { name = "psycopg" },
     { name = "pymemcache" },
@@ -513,6 +522,7 @@ playwright = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=6.0.3" },
+    { name = "django-vite-tags", git = "https://github.com/lasse-cs/django-vite-tags.git?rev=d1aa52a4d88995db08ef80537033d05fb243f4ca" },
     { name = "gunicorn", specifier = ">=25.3.0" },
     { name = "psycopg", specifier = ">=3.3.1" },
     { name = "pymemcache", specifier = ">=4.0.0" },

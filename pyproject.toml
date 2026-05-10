@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "django>=6.0.3",
+    "django-vite-tags",
     "gunicorn>=25.3.0",
     "psycopg>=3.3.1",
     "pymemcache>=4.0.0",
@@ -38,6 +39,9 @@ playwright = [
 [tool.uv]
 exclude-newer = "P2D"
 exclude-newer-package = { django = false, wagtail = false }
+
+[tool.uv.sources]
+django-vite-tags = { git = "https://github.com/lasse-cs/django-vite-tags.git", rev = "d1aa52a4d88995db08ef80537033d05fb243f4ca" }
 
 [tool.ruff]
 extend-exclude = ["**/migrations/*.py"]

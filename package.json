@@ -4,8 +4,8 @@
   "description": "JavaScript for Lasse's blog",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "build-watch": "vite build --watch"
+    "build": "tsc && vite build --emptyOutDir",
+    "build-watch": "vite build --watch --emptyOutDir"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
