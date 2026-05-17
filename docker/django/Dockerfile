@@ -79,3 +79,5 @@ COPY ./public/ /srv/app/public/
 
 # Copy in the build static files
 COPY --from=production /app/static/ /srv/app/static/
+
+EXPOSE 80
