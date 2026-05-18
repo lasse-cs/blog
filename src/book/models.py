@@ -83,7 +83,7 @@ class BookPage(FeedItemMixin, SearchItemPageMixin, Page):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
     )
 
-    content_panels = content_panels = (
+    content_panels = (
         Page.content_panels
         + FeedItemMixin.panels
         + [

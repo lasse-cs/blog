@@ -42,5 +42,6 @@ class Activity(models.Model):
     def get_activity_url(self):
         url = getattr(self.content_object, "url", None)
         if not url:
-            url = getattr(self.content_object, "get_absolute_url", None)
+            url_method = getattr(self.content_object, "get_absolute_url", None)
+            url = url_method()
         return url
