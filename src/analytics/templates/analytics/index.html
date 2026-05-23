@@ -118,3 +118,9 @@
         </section>
     </div>
 {% endblock content %}
+
+{% block extra_js %}
+    <script src="{% versioned_static 'analytics/js/controllers/content_loader_controller.js' %}"></script>
+    <script src="{% versioned_static 'analytics/js/controllers/analytics_summary_controller.js' %}"></script>
+    <script src="{% versioned_static 'analytics/js/controllers/analytics_metrics_controller.js' %}"></script>
+{% endblock extra_js %}
