@@ -1,48 +1,34 @@
+import responses
 import pytest
 
-import responses
-
-from analytics.client import MetricType, UmamiClientError, UmamiClient
+from analytics.client import Metric, MetricType, UmamiClient
+from analytics.client import UmamiClientError
 from analytics.client import UmamiConfigurationError
 
 
-@pytest.fixture
-def url():
-    yield "https://test.umami.is/api/"
-
-
-@pytest.fixture
-def website_id():
-    yield "website_id"
-
-
-@pytest.fixture
-def client(url, website_id):
-    with UmamiClient(url, "api_key", website_id=website_id) as c:
-        yield c
+@responses.activate
+def test_active_users(umami_client, umami_api_base, website_id):
+    responses.get(f"{umami_api_base}websites/{website_id}/active", json={"visitors": 5})
+    assert umami_client.active_users() == 5
 
 
 @responses.activate
-def test_active_users(client, url, website_id):
-    responses.get(f"{url}websites/{website_id}/active", json={"visitors": 5})
-    assert client.active_users() == 5
-
-
-@responses.activate
-def test_active_users_handles_errors(client, url, website_id):
-    responses.get(f"{url}websites/{website_id}/active", json={}, status=401)
+def test_active_users_handles_errors(umami_client, umami_api_base, website_id):
+    responses.get(f"{umami_api_base}websites/{website_id}/active", json={}, status=401)
     with pytest.raises(UmamiClientError):
-        client.active_users()
+        umami_client.active_users()
 
 
 @responses.activate
-def test_active_users_other_website_id(client, url):
-    responses.get(f"{url}websites/other_website_id/active", json={"visitors": 5})
-    assert client.active_users(website_id="other_website_id") == 5
+def test_active_users_other_website_id(umami_client, umami_api_base):
+    responses.get(
+        f"{umami_api_base}websites/other_website_id/active", json={"visitors": 5}
+    )
+    assert umami_client.active_users(website_id="other_website_id") == 5
 
 
 @responses.activate
-def test_stats(client, url, website_id):
+def test_stats(umami_client, umami_api_base, website_id):
     startAt = 200
     endAt = 300
     expected_response = {
@@ -60,7 +46,7 @@ def test_stats(client, url, website_id):
         },
     }
     responses.get(
-        f"{url}websites/{website_id}/stats",
+        f"{umami_api_base}websites/{website_id}/stats",
         json=expected_response,
         match=[
             responses.matchers.query_param_matcher(
@@ -68,15 +54,16 @@ def test_stats(client, url, website_id):
             )
         ],
     )
-    assert client.stats(startAt, endAt) == expected_response
+    stats = umami_client.stats(startAt, endAt)
+    assert stats.to_dict() == expected_response
 
 
 @responses.activate
-def test_stats_handles_errors(client, url, website_id):
+def test_stats_handles_errors(umami_client, umami_api_base, website_id):
     startAt = 200
     endAt = 300
     responses.get(
-        f"{url}websites/{website_id}/stats",
+        f"{umami_api_base}websites/{website_id}/stats",
         json={},
         status=500,
         match=[
@@ -86,16 +73,16 @@ def test_stats_handles_errors(client, url, website_id):
         ],
     )
     with pytest.raises(UmamiClientError):
-        client.stats(startAt, endAt)
+        umami_client.stats(startAt, endAt)
 
 
 @responses.activate
-def test_metrics(client, url, website_id):
+def test_metrics(umami_client, umami_api_base, website_id):
     startAt = 200
     endAt = 300
     metric_type = MetricType.PATH
     responses.get(
-        f"{url}websites/{website_id}/metrics",
+        f"{umami_api_base}websites/{website_id}/metrics",
         json=[{"x": "abc", "y": 10}],
         match=[
             responses.matchers.query_param_matcher(
@@ -107,16 +94,16 @@ def test_metrics(client, url, website_id):
             )
         ],
     )
-    assert client.metrics(startAt, endAt, metric_type) == [{"x": "abc", "y": 10}]
+    assert umami_client.metrics(startAt, endAt, metric_type) == [Metric(x="abc", y=10)]
 
 
 @responses.activate
-def test_metrics_handles_errors(client, url, website_id):
+def test_metrics_handles_errors(umami_client, umami_api_base, website_id):
     startAt = 200
     endAt = 300
     metric_type = MetricType.PATH
     responses.get(
-        f"{url}websites/{website_id}/metrics",
+        f"{umami_api_base}websites/{website_id}/metrics",
         json={},
         status=500,
         match=[
@@ -130,21 +117,21 @@ def test_metrics_handles_errors(client, url, website_id):
         ],
     )
     with pytest.raises(UmamiClientError):
-        client.metrics(startAt, endAt, metric_type)
+        umami_client.metrics(startAt, endAt, metric_type)
 
 
-def test_active_users_requires_website_id(url):
-    with UmamiClient(url, "api_key") as client:
+def test_active_users_requires_website_id(umami_api_base, umami_api_key):
+    with UmamiClient(umami_api_base, umami_api_key) as client:
         with pytest.raises(UmamiConfigurationError):
             client.active_users()
 
 
 @responses.activate
-def test_stats_handles_invalid_json(client, url, website_id):
+def test_stats_handles_invalid_json(umami_client, umami_api_base, website_id):
     startAt = 200
     endAt = 300
     responses.get(
-        f"{url}websites/{website_id}/stats",
+        f"{umami_api_base}websites/{website_id}/stats",
         body="not json",
         status=200,
         content_type="application/json",
@@ -155,4 +142,56 @@ def test_stats_handles_invalid_json(client, url, website_id):
         ],
     )
     with pytest.raises(UmamiClientError):
-        client.stats(startAt, endAt)
+        umami_client.stats(startAt, endAt)
+
+
+@responses.activate
+def test_active_users_handles_invalid_response_shape(
+    umami_client, umami_api_base, website_id
+):
+    responses.get(
+        f"{umami_api_base}websites/{website_id}/active", json={"visitors": "5"}
+    )
+    with pytest.raises(UmamiClientError, match="expected visitors int"):
+        umami_client.active_users()
+
+
+@responses.activate
+def test_stats_handles_invalid_response_shape(umami_client, umami_api_base, website_id):
+    startAt = 200
+    endAt = 300
+    responses.get(
+        f"{umami_api_base}websites/{website_id}/stats",
+        json={"pageviews": 10},
+        match=[
+            responses.matchers.query_param_matcher(
+                {"startAt": str(startAt), "endAt": str(endAt)}
+            )
+        ],
+    )
+    with pytest.raises(UmamiClientError, match="invalid stats response"):
+        umami_client.stats(startAt, endAt)
+
+
+@responses.activate
+def test_metrics_handles_invalid_response_shape(
+    umami_client, umami_api_base, website_id
+):
+    startAt = 200
+    endAt = 300
+    metric_type = MetricType.PATH
+    responses.get(
+        f"{umami_api_base}websites/{website_id}/metrics",
+        json=[{"x": "abc", "y": "10"}],
+        match=[
+            responses.matchers.query_param_matcher(
+                {
+                    "startAt": str(startAt),
+                    "endAt": str(endAt),
+                    "type": str(metric_type),
+                }
+            )
+        ],
+    )
+    with pytest.raises(UmamiClientError, match="expected x str and y int"):
+        umami_client.metrics(startAt, endAt, metric_type)

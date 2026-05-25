@@ -1,5 +1,6 @@
+from dataclasses import dataclass
 from enum import StrEnum
-from typing import TypedDict, cast
+from typing import Self
 
 import requests
 
@@ -42,26 +43,113 @@ class MetricType(StrEnum):
     DISTINCT_ID = "distinctId"
 
 
-class Metric(TypedDict):
+@dataclass(frozen=True, slots=True)
+class Metric:
     x: str
     y: int
 
+    @classmethod
+    def from_json(cls, value: object) -> Self:
+        match value:
+            case {"x": str(x), "y": y} if type(y) is int:
+                return cls(x=x, y=y)
+        raise UmamiClientError(
+            "Umami API returned invalid metric response: expected x str and y int"
+        )
 
-class StatsComparison(TypedDict):
+    def to_dict(self) -> dict[str, str | int]:
+        return {"x": self.x, "y": self.y}
+
+
+@dataclass(frozen=True, slots=True)
+class StatsComparison:
     pageviews: int
     visitors: int
     visits: int
     bounces: int
     totaltime: int
 
+    @classmethod
+    def from_json(cls, value: object) -> Self:
+        match value:
+            case {
+                "pageviews": pageviews,
+                "visitors": visitors,
+                "visits": visits,
+                "bounces": bounces,
+                "totaltime": totaltime,
+            } if all(
+                type(metric) is int
+                for metric in (pageviews, visitors, visits, bounces, totaltime)
+            ):
+                return cls(
+                    pageviews=pageviews,
+                    visitors=visitors,
+                    visits=visits,
+                    bounces=bounces,
+                    totaltime=totaltime,
+                )
+        raise UmamiClientError(
+            "Umami API returned invalid stats comparison response: "
+            "expected pageviews, visitors, visits, bounces, and totaltime ints"
+        )
 
-class Stats(TypedDict):
+    def to_dict(self) -> dict[str, int]:
+        return {
+            "pageviews": self.pageviews,
+            "visitors": self.visitors,
+            "visits": self.visits,
+            "bounces": self.bounces,
+            "totaltime": self.totaltime,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class Stats:
     pageviews: int
     visitors: int
     visits: int
     bounces: int
     totaltime: int
     comparison: StatsComparison
+
+    @classmethod
+    def from_json(cls, value: object) -> Self:
+        match value:
+            case {
+                "pageviews": pageviews,
+                "visitors": visitors,
+                "visits": visits,
+                "bounces": bounces,
+                "totaltime": totaltime,
+                "comparison": comparison,
+            } if all(
+                type(metric) is int
+                for metric in (pageviews, visitors, visits, bounces, totaltime)
+            ):
+                return cls(
+                    pageviews=pageviews,
+                    visitors=visitors,
+                    visits=visits,
+                    bounces=bounces,
+                    totaltime=totaltime,
+                    comparison=StatsComparison.from_json(comparison),
+                )
+        raise UmamiClientError(
+            "Umami API returned invalid stats response: "
+            "expected pageviews, visitors, visits, bounces, totaltime ints, "
+            "and comparison object"
+        )
+
+    def to_dict(self) -> dict[str, int | dict[str, int]]:
+        return {
+            "pageviews": self.pageviews,
+            "visitors": self.visitors,
+            "visits": self.visits,
+            "bounces": self.bounces,
+            "totaltime": self.totaltime,
+            "comparison": self.comparison.to_dict(),
+        }
 
 
 class UmamiClient:
@@ -116,7 +204,12 @@ class UmamiClient:
             f"/websites/{self._website_id(website_id)}/active",
         )
         json_response = self._handle_response(response)
-        return cast(int, json_response["visitors"])
+        match json_response:
+            case {"visitors": visitors} if type(visitors) is int:
+                return visitors
+        raise UmamiClientError(
+            "Umami API returned invalid active users response: expected visitors int"
+        )
 
     def _website_id(self, website_id: str | None) -> str:
         selected_website_id = website_id or self.website_id
@@ -136,7 +229,7 @@ class UmamiClient:
         params = {
             "startAt": startAt,
             "endAt": endAt,
-            "type": metric_type,
+            "type": metric_type.value,
         }
         if limit is not None:
             params["limit"] = limit
@@ -147,7 +240,10 @@ class UmamiClient:
             f"/websites/{self._website_id(website_id)}/metrics",
             params=params,
         )
-        return cast(list[Metric], self._handle_response(response))
+        json_response = self._handle_response(response)
+        if not isinstance(json_response, list):
+            raise UmamiClientError("Umami API returned invalid metrics response")
+        return [Metric.from_json(metric) for metric in json_response]
 
     def stats(self, startAt: int, endAt: int, website_id: str | None = None) -> Stats:
         response = self._request(
@@ -157,4 +253,4 @@ class UmamiClient:
                 "endAt": endAt,
             },
         )
-        return cast(Stats, self._handle_response(response))
+        return Stats.from_json(self._handle_response(response))

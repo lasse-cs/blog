@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import timedelta
+import logging
 
 from django.conf import settings
 from django.core.cache import cache
@@ -9,8 +10,11 @@ from django.urls import path
 from django.utils import timezone
 from wagtail.admin.viewsets.base import ViewSet
 
-from analytics.client import MetricType, Stats, UmamiClient
+from analytics.client import Metric, MetricType, Stats, UmamiClient, UmamiClientError
 from analytics.models import AnalyticsSettings
+
+
+logger = logging.getLogger(__name__)
 
 
 def _get_client():
@@ -33,14 +37,14 @@ def _fetch_stats(start_at: int, end_at: int, website_id: str) -> Stats:
 
 def _fetch_metrics(
     start_at: int, end_at: int, metric_type: MetricType, website_id: str
-) -> list:
+) -> list[Metric]:
     with _get_client() as client:
         return client.metrics(
             start_at, end_at, metric_type, limit=10, website_id=website_id
         )
 
 
-def get_active_users(website_id: str) -> dict:
+def get_active_users(website_id: str) -> int:
     cache_key = f"analytics:active_users:{website_id}"
     cached = cache.get(cache_key)
     if cached is not None:
@@ -52,7 +56,7 @@ def get_active_users(website_id: str) -> dict:
     return active
 
 
-def get_stats(website_id: str) -> dict:
+def get_stats(website_id: str) -> Stats:
     cache_key = f"analytics:stats:{website_id}"
     cached = cache.get(cache_key)
     if cached is not None:
@@ -65,11 +69,11 @@ def get_stats(website_id: str) -> dict:
     return stats
 
 
-def get_metrics(website_id: str) -> dict:
+def get_metrics(website_id: str) -> dict[str, list[Metric]]:
     cache_key = f"analytics:stats_metrics:{website_id}"
     cached = cache.get(cache_key)
     if cached is not None:
-        return {**cached, "warnings": []}
+        return cached
 
     start_at, end_at = _get_time_range_days(7)
 
@@ -90,9 +94,12 @@ def get_metrics(website_id: str) -> dict:
             key = futures[future]
             metrics[key] = future.result()
 
-    if metrics:
-        cache.set(cache_key, metrics, timeout=1200)
+    cache.set(cache_key, metrics, timeout=1200)
     return metrics
+
+
+def _umami_unavailable_response() -> JsonResponse:
+    return JsonResponse({"error": "Umami is unavailable"}, status=503)
 
 
 def index(request):
@@ -109,22 +116,37 @@ def index(request):
 def active_users(request):
     analytics_settings = AnalyticsSettings.for_request(request)
     website_id = analytics_settings.umami_id
-    active_users = get_active_users(website_id)
+    try:
+        active_users = get_active_users(website_id)
+    except UmamiClientError:
+        logger.exception("Failed to fetch active users from Umami")
+        return _umami_unavailable_response()
     return JsonResponse({"active_users": active_users})
 
 
 def stats(request):
     analytics_settings = AnalyticsSettings.for_request(request)
     website_id = analytics_settings.umami_id
-    stats = get_stats(website_id)
-    return JsonResponse({"stats": stats})
+    try:
+        stats = get_stats(website_id)
+    except UmamiClientError:
+        logger.exception("Failed to fetch stats from Umami")
+        return _umami_unavailable_response()
+    return JsonResponse({"stats": stats.to_dict()})
 
 
 def metrics(request):
     analytics_settings = AnalyticsSettings.for_request(request)
     website_id = analytics_settings.umami_id
-    metrics = get_metrics(website_id)
-    return JsonResponse({"metrics": metrics})
+    try:
+        metrics = get_metrics(website_id)
+    except UmamiClientError:
+        logger.exception("Failed to fetch metrics from Umami")
+        return _umami_unavailable_response()
+    metrics_response = {
+        key: [metric.to_dict() for metric in value] for key, value in metrics.items()
+    }
+    return JsonResponse({"metrics": metrics_response})
 
 
 class AnalyticsViewSet(ViewSet):
