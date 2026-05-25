@@ -28,9 +28,6 @@ INSTALLED_APPS = [
     "search",
     "article",
     "activity",
-    # Remove once migrations applied
-    # to remove this app
-    "analytics",
     "book",
     "django_vite_tags",
     "core",
