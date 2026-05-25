@@ -1,4 +1,4 @@
-{% load analytics_tags static vite_tags wagtailcore_tags wagtailuserbar %}
+{% load static umami_analytics_tags vite_tags wagtailcore_tags wagtailuserbar %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +46,7 @@
         {# Override this in templates to add extra stylesheets #}
         {% endblock extra_css %}
         {% block analytics %}
-            {% analytics_tracker %}
+            {% umami_analytics_tracker %}
         {% endblock analytics %}
     </head>
 

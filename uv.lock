@@ -495,6 +495,7 @@ dependencies = [
     { name = "pymemcache" },
     { name = "sentry-sdk" },
     { name = "wagtail" },
+    { name = "wagtail-umami-analytics" },
     { name = "wagtailcodeblock" },
 ]
 
@@ -510,7 +511,6 @@ dev = [
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-django" },
-    { name = "responses" },
     { name = "ruff" },
     { name = "time-machine" },
     { name = "wagtail-factories" },
@@ -528,6 +528,7 @@ requires-dist = [
     { name = "pymemcache", specifier = ">=4.0.0" },
     { name = "sentry-sdk", specifier = ">=2.59.0" },
     { name = "wagtail", specifier = ">=7.4,<8.0" },
+    { name = "wagtail-umami-analytics", git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=a5f518f401cf686318e1c15cea3d4d401a60f1ed" },
     { name = "wagtailcodeblock", specifier = ">=1.30.0.0" },
 ]
 
@@ -543,7 +544,6 @@ dev = [
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-django", specifier = ">=4.11.1" },
-    { name = "responses", specifier = ">=0.25.8" },
     { name = "ruff", specifier = ">=0.15.9" },
     { name = "time-machine", specifier = ">=3.2.0" },
     { name = "wagtail-factories", specifier = ">=4.3.0" },
@@ -920,20 +920,6 @@ wheels = [
 ]
 
 [[package]]
-name = "responses"
-version = "0.26.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pyyaml" },
-    { name = "requests" },
-    { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/9f/b4/b7e040379838cc71bf5aabdb26998dfbe5ee73904c92c1c161faf5de8866/responses-0.26.0.tar.gz", hash = "sha256:c7f6923e6343ef3682816ba421c006626777893cb0d5e1434f674b649bac9eb4", size = 81303, upload-time = "2026-02-19T14:38:05.574Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ce/04/7f73d05b556da048923e31a0cc878f03be7c5425ed1f268082255c75d872/responses-0.26.0-py3-none-any.whl", hash = "sha256:03ec4409088cd5c66b71ecbbbd27fe2c58ddfad801c66203457b3e6a04868c37", size = 35099, upload-time = "2026-02-19T14:38:03.847Z" },
-]
-
-[[package]]
 name = "ruff"
 version = "0.15.9"
 source = { registry = "https://pypi.org/simple" }
@@ -1150,6 +1136,16 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/42/8c/2ece22c2757bb3f6ef34f36cf185246b136134cf594b7b1dde92cb0a331f/wagtail_factories-4.4.0.tar.gz", hash = "sha256:c77c13d438a2e999a9220ff1829f060116013aa519a81944577353f460ba8cba", size = 9939, upload-time = "2026-02-10T15:14:13.7Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4c/85/bd5aeaa54a10b6defca927f75bc3890acb7c3a9a23df8e10f3aa42e75807/wagtail_factories-4.4.0-py2.py3-none-any.whl", hash = "sha256:be0abb96d36bf0e3c733d7520fc1944441a379ab06d93af447fc4e71b67e2a01", size = 10754, upload-time = "2026-02-10T15:14:12.773Z" },
+]
+
+[[package]]
+name = "wagtail-umami-analytics"
+version = "0.1.0"
+source = { git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=a5f518f401cf686318e1c15cea3d4d401a60f1ed#a5f518f401cf686318e1c15cea3d4d401a60f1ed" }
+dependencies = [
+    { name = "django" },
+    { name = "requests" },
+    { name = "wagtail" },
 ]
 
 [[package]]

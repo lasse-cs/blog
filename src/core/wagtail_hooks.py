@@ -1,6 +1,12 @@
+from wagtail import hooks
+
 from wagtail.admin.panels import FieldPanel
+from wagtail.contrib.settings.models import register_setting
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
+
+from wagtail_umami_analytics.models import UmamiAnalyticsSetting
+from wagtail_umami_analytics.views import UmamiAnalyticsViewSet
 
 from core.models import PageTag
 
@@ -17,3 +23,11 @@ class PageTagsSnippetViewSet(SnippetViewSet):
 
 
 register_snippet(PageTagsSnippetViewSet)
+
+
+register_setting(UmamiAnalyticsSetting)
+
+
+@hooks.register("register_admin_viewset")
+def umami_dashboard():
+    return UmamiAnalyticsViewSet()
