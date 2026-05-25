@@ -4,11 +4,15 @@ import logging
 
 from django.conf import settings
 from django.core.cache import cache
+from django.http import Http404
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.urls import path
+from django.shortcuts import get_object_or_404
+from django.urls import path, reverse
 from django.utils import timezone
+from django.views.generic import TemplateView, View
 from wagtail.admin.viewsets.base import ViewSet
+from wagtail.contrib.settings.forms import SiteSwitchForm
+from wagtail.models import Site
 
 from analytics.client import Metric, MetricType, Stats, UmamiClient, UmamiClientError
 from analytics.models import AnalyticsSettings
@@ -102,51 +106,104 @@ def _umami_unavailable_response() -> JsonResponse:
     return JsonResponse({"error": "Umami is unavailable"}, status=503)
 
 
-def index(request):
-    analytics_settings = AnalyticsSettings.for_request(request)
-    website_id = analytics_settings.umami_id
-    umami_configured = bool(
-        settings.UMAMI_API_BASE and settings.UMAMI_API_KEY and website_id
-    )
-    return render(
-        request, "analytics/index.html", {"umami_configured": umami_configured}
-    )
+class AnalyticsSiteSwitchForm(SiteSwitchForm):
+    @classmethod
+    def get_change_url(cls, site, model):
+        return reverse("analytics:index_for_site", args=[site.pk])
 
 
-def active_users(request):
-    analytics_settings = AnalyticsSettings.for_request(request)
-    website_id = analytics_settings.umami_id
-    try:
-        active_users = get_active_users(website_id)
-    except UmamiClientError:
-        logger.exception("Failed to fetch active users from Umami")
-        return _umami_unavailable_response()
-    return JsonResponse({"active_users": active_users})
+class AnalyticsSiteMixin:
+    settings_model = AnalyticsSettings
+
+    def dispatch(self, request, *args, **kwargs):
+        self.site = self.get_site()
+        self.analytics_settings = self.settings_model.for_site(self.site)
+        self.website_id = self.analytics_settings.umami_id
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_available_sites(self):
+        return Site.objects.all()
+
+    def get_default_site(self):
+        return Site.objects.filter(is_default_site=True).first() or Site.objects.first()
+
+    def get_site(self):
+        site_pk = self.kwargs.get("site_pk")
+
+        if site_pk is None:
+            site = self.get_default_site()
+            if site is None:
+                raise Http404("No sites configured")
+            return site
+
+        return get_object_or_404(Site, pk=site_pk)
 
 
-def stats(request):
-    analytics_settings = AnalyticsSettings.for_request(request)
-    website_id = analytics_settings.umami_id
-    try:
-        stats = get_stats(website_id)
-    except UmamiClientError:
-        logger.exception("Failed to fetch stats from Umami")
-        return _umami_unavailable_response()
-    return JsonResponse({"stats": stats.to_dict()})
+class IndexView(AnalyticsSiteMixin, TemplateView):
+    template_name = "analytics/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sites = self.get_available_sites()
+        site_switcher = None
+
+        if len(sites) > 1:
+            site_switcher = AnalyticsSiteSwitchForm(
+                self.site, self.settings_model, sites=sites
+            )
+
+        context.update(
+            {
+                "site": self.site,
+                "site_switcher": site_switcher,
+                "umami_configured": bool(
+                    settings.UMAMI_API_BASE
+                    and settings.UMAMI_API_KEY
+                    and self.website_id
+                ),
+            }
+        )
+        return context
 
 
-def metrics(request):
-    analytics_settings = AnalyticsSettings.for_request(request)
-    website_id = analytics_settings.umami_id
-    try:
-        metrics = get_metrics(website_id)
-    except UmamiClientError:
-        logger.exception("Failed to fetch metrics from Umami")
-        return _umami_unavailable_response()
-    metrics_response = {
-        key: [metric.to_dict() for metric in value] for key, value in metrics.items()
-    }
-    return JsonResponse({"metrics": metrics_response})
+class AnalyticsJsonView(AnalyticsSiteMixin, View):
+    error_message = "Failed to fetch data from Umami"
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return JsonResponse(self.get_response_data())
+        except UmamiClientError:
+            logger.exception(self.error_message)
+            return _umami_unavailable_response()
+
+    def get_response_data(self):
+        raise NotImplementedError
+
+
+class ActiveUsersView(AnalyticsJsonView):
+    error_message = "Failed to fetch active users from Umami"
+
+    def get_response_data(self):
+        return {"active_users": get_active_users(self.website_id)}
+
+
+class StatsView(AnalyticsJsonView):
+    error_message = "Failed to fetch stats from Umami"
+
+    def get_response_data(self):
+        return {"stats": get_stats(self.website_id).to_dict()}
+
+
+class MetricsView(AnalyticsJsonView):
+    error_message = "Failed to fetch metrics from Umami"
+
+    def get_response_data(self):
+        metrics = get_metrics(self.website_id)
+        metrics_response = {
+            key: [metric.to_dict() for metric in value]
+            for key, value in metrics.items()
+        }
+        return {"metrics": metrics_response}
 
 
 class AnalyticsViewSet(ViewSet):
@@ -157,8 +214,13 @@ class AnalyticsViewSet(ViewSet):
 
     def get_urlpatterns(self):
         return [
-            path("", index, name="index"),
-            path("active_users/", active_users, name="active_users"),
-            path("stats/", stats, name="stats"),
-            path("metrics/", metrics, name="metrics"),
+            path("", IndexView.as_view(), name="index"),
+            path("<int:site_pk>/", IndexView.as_view(), name="index_for_site"),
+            path(
+                "<int:site_pk>/active_users/",
+                ActiveUsersView.as_view(),
+                name="active_users",
+            ),
+            path("<int:site_pk>/stats/", StatsView.as_view(), name="stats"),
+            path("<int:site_pk>/metrics/", MetricsView.as_view(), name="metrics"),
         ]

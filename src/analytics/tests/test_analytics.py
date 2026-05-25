@@ -6,6 +6,9 @@ import responses
 
 from django.urls import reverse
 
+from wagtail.models import Site
+from wagtail_factories import SiteFactory
+
 from analytics.factories import AnalyticsSettingsFactory
 
 
@@ -28,6 +31,41 @@ def test_analytics_dashboard_uses_correct_template(admin_client, site, website_i
     assertTemplateUsed(response, "analytics/index.html")
 
 
+def test_analytics_dashboard_returns_404_when_no_site_exists(admin_client):
+    Site.objects.all().delete()
+
+    response = admin_client.get(reverse("analytics:index"))
+
+    assert response.status_code == 404
+
+
+def test_analytics_dashboard_uses_site_specific_fetch_urls(
+    admin_client, site, website_id, configured_umami_settings
+):
+    AnalyticsSettingsFactory(site=site, umami_id=website_id)
+
+    response = admin_client.get(reverse("analytics:index_for_site", args=[site.pk]))
+
+    content = response.content.decode()
+    assert reverse("analytics:active_users", args=[site.pk]) in content
+    assert reverse("analytics:stats", args=[site.pk]) in content
+    assert reverse("analytics:metrics", args=[site.pk]) in content
+
+
+def test_analytics_dashboard_displays_site_switcher(admin_client, site, website_id):
+    other_site = SiteFactory(hostname="other.example.com", is_default_site=False)
+    AnalyticsSettingsFactory(site=site, umami_id=website_id)
+    AnalyticsSettingsFactory(site=other_site, umami_id="other_website_id")
+
+    response = admin_client.get(
+        reverse("analytics:index_for_site", args=[other_site.pk])
+    )
+
+    content = response.content.decode()
+    assert reverse("analytics:index_for_site", args=[site.pk]) in content
+    assert reverse("analytics:index_for_site", args=[other_site.pk]) in content
+
+
 @responses.activate
 def test_active_users_returns_503_when_umami_fails(
     admin_client, site, website_id, configured_umami_settings, umami_api_base
@@ -39,10 +77,28 @@ def test_active_users_returns_503_when_umami_fails(
         status=500,
     )
 
-    response = admin_client.get(reverse("analytics:active_users"))
+    response = admin_client.get(reverse("analytics:active_users", args=[site.pk]))
 
     assert response.status_code == 503
     assert response.json() == {"error": "Umami is unavailable"}
+
+
+@responses.activate
+def test_active_users_uses_selected_site_settings(
+    admin_client, site, configured_umami_settings, umami_api_base
+):
+    other_site = SiteFactory(hostname="other.example.com", is_default_site=False)
+    AnalyticsSettingsFactory(site=site, umami_id="default_website_id")
+    AnalyticsSettingsFactory(site=other_site, umami_id="other_website_id")
+    responses.get(
+        f"{umami_api_base}websites/other_website_id/active",
+        json={"visitors": 3},
+    )
+
+    response = admin_client.get(reverse("analytics:active_users", args=[other_site.pk]))
+
+    assert response.status_code == 200
+    assert response.json() == {"active_users": 3}
 
 
 @responses.activate
@@ -65,7 +121,7 @@ def test_stats_returns_503_when_umami_fails(
         match=[responses.matchers.query_param_matcher(_time_range_query_params(now))],
     )
 
-    response = admin_client.get(reverse("analytics:stats"))
+    response = admin_client.get(reverse("analytics:stats", args=[site.pk]))
 
     assert response.status_code == 503
     assert response.json() == {"error": "Umami is unavailable"}
@@ -123,7 +179,7 @@ def test_metrics_returns_503_when_umami_fails(
         ],
     )
 
-    response = admin_client.get(reverse("analytics:metrics"))
+    response = admin_client.get(reverse("analytics:metrics", args=[site.pk]))
 
     assert response.status_code == 503
     assert response.json() == {"error": "Umami is unavailable"}
