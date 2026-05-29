@@ -38,3 +38,22 @@ def test_home_page_renders_sidebar(client, root_page):
     assertTemplateUsed(
         response, "patterns/components/sidebar/blocks/titled_text_block.html", count=1
     )
+
+
+@pytest.mark.django_db
+def test_home_page_can_render_as_markdown(client, root_page):
+    home_page = HomePageFactory(
+        parent=root_page,
+    )
+    response = client.get(home_page.url, headers={"Accept": "text/markdown"})
+    assert response.status_code == 200
+    assert "text/markdown" in response.headers["Content-Type"]
+
+
+@pytest.mark.django_db
+def test_home_page_renders_correct_markdown_template(client, root_page):
+    home_page = HomePageFactory(
+        parent=root_page,
+    )
+    response = client.get(home_page.url, headers={"Accept": "text/markdown"})
+    assertTemplateUsed(response, "non_patterns/pages/home/home_page.md")

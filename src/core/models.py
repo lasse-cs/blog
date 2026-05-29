@@ -1,8 +1,13 @@
-from django.contrib.syndication.views import Feed
-from django.db import models
-from django.urls import reverse
-from django.utils.feedgenerator import Atom1Feed
 from dataclasses import dataclass, field
+
+from django.contrib.syndication.views import Feed
+from django.core.exceptions import ImproperlyConfigured
+from django.db import models
+from django.template.response import TemplateResponse
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.utils.feedgenerator import Atom1Feed
+from django.views.decorators.vary import vary_on_headers
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -10,7 +15,7 @@ from taggit.models import TagBase, ItemBase
 
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks import ListBlock, StreamBlock, StructBlock
-from wagtail.contrib.routable_page.models import RoutablePageMixin, path
+from wagtail.contrib.routable_page.models import path
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
@@ -67,7 +72,7 @@ class BaseAtomFeed(BaseRSSFeed):
         return self.description(obj)
 
 
-class FeedMixin(RoutablePageMixin):
+class FeedMixin:
     rss_feed_instance = BaseRSSFeed()
     atom_feed_instance = BaseAtomFeed()
     per_page = 10
@@ -269,4 +274,77 @@ class TaggablePage(Page):
             return self.summary_template
         raise NotImplementedError(
             "You must define a tag_summary_template or summary_template."
+        )
+
+
+class MarkdownPageMixin:
+    @method_decorator(vary_on_headers("Accept"))
+    def serve(self, request, *args, **kwargs):
+        content_type = request.get_preferred_type(["text/html", "text/markdown"])
+        is_markdown = content_type == "text/markdown"
+        request.is_markdown = is_markdown
+        if is_markdown:
+            response = self.serve_markdown(request, *args, **kwargs)
+        else:
+            response = super().serve(request, *args, **kwargs)
+        return response
+
+    def get_markdown_template(self, request, *args, **kwargs):
+        try:
+            return self.markdown_template
+        except AttributeError as e:
+            raise ImproperlyConfigured("No markdown template provided") from e
+
+    def get_markdown_context(self, request, *args, **kwargs):
+        return self.get_context(request, *args, **kwargs)
+
+    def serve_markdown(self, request, *args, **kwargs):
+        request.is_preview = False
+        response = TemplateResponse(
+            request,
+            self.get_markdown_template(request, *args, **kwargs),
+            self.get_markdown_context(request, *args, **kwargs),
+        )
+        response.headers["Content-Type"] = "text/markdown; charset=utf-8"
+        return response
+
+
+class MarkdownRoutablePageMixin:
+    @path("")
+    def index(self, request, *args, **kwargs):
+        request.is_preview = getattr(request, "is_preview", False)
+        return self.render(request, *args, **kwargs)
+
+    def serve(self, request, view=None, args=None, kwargs=None):
+        content_type = request.get_preferred_type(["text/html", "text/markdown"])
+        request.is_markdown = content_type == "text/markdown"
+        return super().serve(request, view, args, kwargs)
+
+    def render_markdown(
+        self, request, *args, template=None, context_overrides=None, **kwargs
+    ):
+        if template is None:
+            template = self.get_markdown_template(request, *args, **kwargs)
+        context = self.get_markdown_context(request, *args, **kwargs)
+        context.update(context_overrides or {})
+        response = TemplateResponse(request, template, context)
+        response.headers["Content-Type"] = "text/markdown; charset=utf-8"
+        return response
+
+    @method_decorator(vary_on_headers("Accept"))
+    def render(self, request, *args, template=None, context_overrides=None, **kwargs):
+        if getattr(request, "is_markdown", False):
+            return self.render_markdown(
+                request,
+                *args,
+                template=template,
+                context_overrides=context_overrides,
+                **kwargs,
+            )
+        return super().render(
+            request,
+            *args,
+            template=template,
+            context_overrides=context_overrides,
+            **kwargs,
         )

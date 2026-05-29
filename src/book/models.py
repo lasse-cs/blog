@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from modelcluster.fields import ParentalKey
 
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model
 from wagtail.models import Page, Orderable
@@ -40,7 +41,7 @@ class BookAuthor(Orderable, models.Model):
         return f"{self.author.name} <-> {self.book.title}"
 
 
-class BookIndexPage(FeedMixin, Page):
+class BookIndexPage(FeedMixin, RoutablePageMixin, Page):
     intro = RichTextField(
         help_text="Intro text for the Book Index Page.",
         default="Book Index Page intro content.",

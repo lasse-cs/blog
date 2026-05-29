@@ -17,6 +17,10 @@ from core.test.blocks import (
 )
 from core.test.models import (
     AnotherPageWithTags,
+    MarkdownRoutablePage,
+    MarkdownViewablePage,
+    NoTemplateMarkdownPage,
+    NoTemplateMarkdownRoutablePage,
     PageWithTags,
     PageWithTableOfContents,
     PageWithTableOfContentsH3,
@@ -69,3 +73,23 @@ class PageWithTableOfContentsH3Factory(PageFactory):
 
     class Meta:
         model = PageWithTableOfContentsH3
+
+
+class MarkdownViewablePageFactory(PageFactory):
+    class Meta:
+        model = MarkdownViewablePage
+
+
+class NoTemplateMarkdownPageFactory(PageFactory):
+    class Meta:
+        model = NoTemplateMarkdownPage
+
+
+class MarkdownRoutablePageFactory(PageFactory):
+    class Meta:
+        model = MarkdownRoutablePage
+
+
+class NoTemplateMarkdownRoutablePageFactory(PageFactory):
+    class Meta:
+        model = NoTemplateMarkdownRoutablePage

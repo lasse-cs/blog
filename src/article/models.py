@@ -1,6 +1,7 @@
 from django.db.models import prefetch_related_objects
 
 from wagtail.admin.panels import FieldPanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
@@ -10,7 +11,7 @@ from core.models import FeedItemMixin, FeedMixin, TableOfContentsMixin, Taggable
 from search.models import SearchItemPageMixin
 
 
-class ArticleIndexPage(FeedMixin, Page):
+class ArticleIndexPage(FeedMixin, RoutablePageMixin, Page):
     subpage_types = ["article.ArticlePage"]
 
     template = "patterns/pages/article/article_index_page.html"

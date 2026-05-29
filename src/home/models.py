@@ -1,14 +1,23 @@
 from django.db.models import prefetch_related_objects
 
 from wagtail.admin.panels import FieldPanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from core.models import FeedItemMixin, FeedMixin, TaggablePage
+from core.models import (
+    FeedItemMixin,
+    FeedMixin,
+    TaggablePage,
+    MarkdownRoutablePageMixin,
+    MarkdownPageMixin,
+)
 from home.blocks import HomePageSidebarBlock
 
 
-class HomePage(FeedMixin, Page):
+class HomePage(
+    MarkdownRoutablePageMixin, FeedMixin, RoutablePageMixin, MarkdownPageMixin, Page
+):
     intro = RichTextField(
         help_text="Intro text for the homepage.",
         default="Blog intro content.",
@@ -29,6 +38,7 @@ class HomePage(FeedMixin, Page):
     max_count = 1
 
     template = "patterns/pages/home/home_page.html"
+    markdown_template = "non_patterns/pages/home/home_page.md"
     track_activity = True
 
     def get_feed_items(self):
