@@ -72,7 +72,7 @@ RUN ["python", "manage.py", "collectstatic", "--settings", "blog.settings.build"
 
 CMD ["gunicorn", "--bind", ":8000", "blog.wsgi:application"]
 
-FROM nginx:1.30.1-alpine AS nginx
+FROM nginx:1.30.2-alpine AS nginx
 
 # Copy in the public files
 COPY ./public/ /srv/app/public/
