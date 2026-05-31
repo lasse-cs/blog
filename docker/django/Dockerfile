@@ -74,9 +74,6 @@ CMD ["gunicorn", "--bind", ":8000", "blog.wsgi:application"]
 
 FROM nginx:1.30.2-alpine AS nginx
 
-# Copy in the public files
-COPY ./public/ /srv/app/public/
-
 # Copy in the build static files
 COPY --from=production /app/static/ /srv/app/static/
 
