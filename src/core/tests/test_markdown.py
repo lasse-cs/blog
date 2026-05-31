@@ -26,6 +26,15 @@ def test_returns_markdown_if_requested(client, site):
     assert "text/markdown" in response.headers["Content-Type"]
 
 
+def test_returns_markdown_if_requested_by_query(client, site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    response = client.get(markdown_page.url + "?format=md")
+    assert response.status_code == 200
+    assert "text/markdown" in response.headers["Content-Type"]
+
+
 def test_does_not_return_markdown_if_not_requested(client, site):
     markdown_page = MarkdownViewablePageFactory(
         parent=site.root_page, title="Markdown Page"
@@ -40,6 +49,15 @@ def test_uses_markdown_template_if_requested(client, site):
         parent=site.root_page, title="Markdown Page"
     )
     response = client.get(markdown_page.url, headers={"Accept": "text/markdown"})
+    assertTemplateUsed(response, "test/markdown_page.md")
+    assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_uses_markdown_template_if_requested_by_query(client, site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    response = client.get(markdown_page.url + "?format=md")
     assertTemplateUsed(response, "test/markdown_page.md")
     assertTemplateNotUsed(response, "test/markdown_page.html")
 
@@ -71,6 +89,15 @@ def test_routable_returns_markdown_if_requested(client, site):
     assert "text/markdown" in response.headers["Content-Type"]
 
 
+def test_routable_returns_markdown_if_requested_by_query(client, site):
+    markdown_page = MarkdownRoutablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    response = client.get(markdown_page.url + "?format=md")
+    assert response.status_code == 200
+    assert "text/markdown" in response.headers["Content-Type"]
+
+
 def test_routable_does_not_return_markdown_if_not_requested(client, site):
     markdown_page = MarkdownRoutablePageFactory(
         parent=site.root_page, title="Markdown Page"
@@ -85,6 +112,15 @@ def test_routable_uses_markdown_template_if_requested(client, site):
         parent=site.root_page, title="Markdown Page"
     )
     response = client.get(markdown_page.url, headers={"accept": "text/markdown"})
+    assertTemplateUsed(response, "test/markdown_page.md")
+    assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_routable_uses_markdown_template_if_requested_by_query(client, site):
+    markdown_page = MarkdownRoutablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    response = client.get(markdown_page.url + "?format=md")
     assertTemplateUsed(response, "test/markdown_page.md")
     assertTemplateNotUsed(response, "test/markdown_page.html")
 

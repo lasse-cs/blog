@@ -278,12 +278,16 @@ class TaggablePage(Page):
 
 
 class MarkdownPageMixin:
+    def is_markdown_request(self, request):
+        if request.GET.get("format") == "md":
+            return True
+        content_type = request.get_preferred_type(["text/html", "text/markdown"])
+        return content_type == "text/markdown"
+
     @method_decorator(vary_on_headers("Accept"))
     def serve(self, request, *args, **kwargs):
-        content_type = request.get_preferred_type(["text/html", "text/markdown"])
-        is_markdown = content_type == "text/markdown"
-        request.is_markdown = is_markdown
-        if is_markdown:
+        request.is_markdown = self.is_markdown_request(request)
+        if request.is_markdown:
             response = self.serve_markdown(request, *args, **kwargs)
         else:
             response = super().serve(request, *args, **kwargs)
@@ -316,8 +320,7 @@ class MarkdownRoutablePageMixin:
         return self.render(request, *args, **kwargs)
 
     def serve(self, request, view=None, args=None, kwargs=None):
-        content_type = request.get_preferred_type(["text/html", "text/markdown"])
-        request.is_markdown = content_type == "text/markdown"
+        request.is_markdown = self.is_markdown_request(request)
         return super().serve(request, view, args, kwargs)
 
     def render_markdown(
