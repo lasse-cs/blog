@@ -11,7 +11,7 @@ COPY ./src/static_src /app/src/static_src
 
 RUN ["npm", "run", "build"]
 
-FROM python:3.13-slim-bookworm AS builder
+FROM python:3.14-slim-bookworm AS builder
 COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /bin/
 
 WORKDIR /app
