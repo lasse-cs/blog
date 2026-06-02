@@ -20,7 +20,7 @@ export default defineConfig({
     build: {
         manifest: true,
         outDir: resolve(__dirname, "src/static_built/"),
-        rollupOptions: {
+        rolldownOptions: {
             input: {
                 blog: resolve(__dirname, "src/static_src/js/blog.ts"),
             },
@@ -28,9 +28,17 @@ export default defineConfig({
                 entryFileNames: `js/[name].js`,
                 chunkFileNames: `js/[name].js`,
                 assetFileNames: `css/[name].css`,
-                manualChunks: {
-                    stimulus: ["@hotwired/stimulus"],
-                    d3: ["d3"],
+                codeSplitting: {
+                    groups: [
+                        {
+                            name: "stimulus",
+                            test: /node_modules[\\/]@hotwired[\\/]stimulus/,
+                        },
+                        {
+                            name: "d3",
+                            test: /node_modules[\\/]d3(?:[\\/]|-|$)/,
+                        },
+                    ],
                 },
             },
         },
