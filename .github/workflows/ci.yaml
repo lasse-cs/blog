@@ -54,7 +54,7 @@ jobs:
         run: uv run pytest src/ --ignore src/functional_tests
 
       - name: Install playwright
-        run: uv sync --locked --group playwright && uv run -m playwright install --with-deps
+        run: uv sync --locked --group playwright && uv run -m playwright install --with-deps chromium
 
       - name: Run Functional Tests
         run: uv run pytest src/functional_tests
