@@ -3,7 +3,7 @@
 {% wagtailcache value.cache_timeout code_block value.cache_key is_pattern_library %}
     <figure class="code-block" data-controller="clipboard" data-clipboard-copied-class="code-block--copied" data-language="{{ value.language }}">
         <div class="code-block__header">
-            <figcaption class="code-block__language">{{ value.language }}</figcaption>
+            <figcaption class="code-block__language">{{ value.language_label }}</figcaption>
             <button type="button" class="code-block__copy" data-action="clipboard#copy">
                 <span class="code-block__copy-label">Copy</span>
                 <span class="code-block__copy-label-success">Copied</span>

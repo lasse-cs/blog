@@ -4,6 +4,7 @@ context:
     cache_timeout: 0
     cache_key: abc
     language: python
+    language_label: Python
     code: |
       """
       WSGI config for blog project.

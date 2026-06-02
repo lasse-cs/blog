@@ -1,6 +1,6 @@
 from django.template import Context, Template
 
-from core.blocks import CodeBlock
+from core.blocks import CodeBlock, CodeLanguageChoices
 
 
 def render_template(template_string):
@@ -53,3 +53,28 @@ def test_code_block_value_has_content_cache_key():
     assert value.cache_key == same_value.cache_key
     assert value.cache_key != different_code.cache_key
     assert value.cache_key != different_language.cache_key
+
+
+def test_code_block_value_has_language_label():
+    block = CodeBlock()
+    value = block.to_python({"language": "javascript", "code": "console.log(1)"})
+
+    assert value.language_label == "JavaScript"
+
+
+def test_code_block_value_language_label_falls_back_to_language():
+    block = CodeBlock()
+    value = block.to_python({"language": "not-a-language", "code": "print(1)"})
+
+    assert value.language_label == "not-a-language"
+
+
+def test_code_language_choices_include_supported_languages():
+    expected_languages = {
+        "go": "Go",
+        "javascript": "JavaScript",
+        "lua": "Lua",
+        "typescript": "TypeScript",
+    }
+
+    assert dict(CodeLanguageChoices.choices).items() >= expected_languages.items()

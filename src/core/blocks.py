@@ -46,11 +46,14 @@ class CodeLanguageChoices(models.TextChoices):
     BASH = "bash", "Bash/Shell"
     CSS = "css", "CSS"
     DIFF = "diff", "diff"
+    GO = "go", "Go"
     HTML = "html", "HTML"
     JAVASCRIPT = "javascript", "JavaScript"
     JSON = "json", "JSON"
+    LUA = "lua", "Lua"
     PYTHON = "python", "Python"
     SCSS = "scss", "SCSS"
+    TYPESCRIPT = "typescript", "TypeScript"
     YAML = "yaml", "YAML"
 
 
@@ -60,8 +63,17 @@ CODE_BLOCK_CACHE_TIMEOUT = 60 * 60 * 24 * 7
 class CodeBlockValue(StructValue):
     cache_timeout = CODE_BLOCK_CACHE_TIMEOUT
 
+    @property
+    def language_label(self):
+        language = self.get("language", "")
+
+        try:
+            return CodeLanguageChoices(language).label
+        except ValueError:
+            return language
+
     def get_cache_key_components(self):
-        return ["code-block", self.get("language", ""), self.get("code", ""), "v1"]
+        return ["code-block", self.get("language", ""), self.get("code", ""), "v2"]
 
     @property
     def cache_key(self):
