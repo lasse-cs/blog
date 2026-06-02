@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.encoding import force_bytes
 
 from wagtail.blocks import (
     CharBlock,
@@ -6,11 +7,11 @@ from wagtail.blocks import (
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    StructValue,
     TextBlock,
     URLBlock,
 )
-
-from wagtailcodeblock.blocks import CodeBlock
+from wagtail.coreutils import safe_md5
 
 
 class HeadingLevelChoices(models.TextChoices):
@@ -39,6 +40,51 @@ class HeadingBlock(StructBlock):
             "level": HeadingLevelChoices.H2,
             "heading": "This is the Heading",
         }
+
+
+class CodeLanguageChoices(models.TextChoices):
+    BASH = "bash", "Bash/Shell"
+    CSS = "css", "CSS"
+    DIFF = "diff", "diff"
+    HTML = "html", "HTML"
+    JAVASCRIPT = "javascript", "JavaScript"
+    JSON = "json", "JSON"
+    PYTHON = "python", "Python"
+    SCSS = "scss", "SCSS"
+    YAML = "yaml", "YAML"
+
+
+CODE_BLOCK_CACHE_TIMEOUT = 60 * 60 * 24 * 7
+
+
+class CodeBlockValue(StructValue):
+    cache_timeout = CODE_BLOCK_CACHE_TIMEOUT
+
+    def get_cache_key_components(self):
+        return ["code-block", self.get("language", ""), self.get("code", ""), "v1"]
+
+    @property
+    def cache_key(self):
+        hasher = safe_md5()
+
+        for component in self.get_cache_key_components():
+            hasher.update(force_bytes(component))
+
+        return hasher.hexdigest()
+
+
+class CodeBlock(StructBlock):
+    language = ChoiceBlock(
+        choices=CodeLanguageChoices.choices,
+        help_text="Coding language",
+        label="Language",
+    )
+    code = TextBlock(label="Code")
+
+    class Meta:
+        icon = "code"
+        template = "patterns/components/streamfield/blocks/code.html"
+        value_class = CodeBlockValue
 
 
 class ContentBlock(StreamBlock):

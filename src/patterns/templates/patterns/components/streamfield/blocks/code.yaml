@@ -1,6 +1,8 @@
 name: Code
 context:
-  self:
+  value:
+    cache_timeout: 0
+    cache_key: abc
     language: python
     code: |
       """

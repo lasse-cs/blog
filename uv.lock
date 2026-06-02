@@ -492,11 +492,11 @@ dependencies = [
     { name = "django-vite-tags" },
     { name = "gunicorn" },
     { name = "psycopg" },
+    { name = "pygments" },
     { name = "pymemcache" },
     { name = "sentry-sdk" },
     { name = "wagtail" },
     { name = "wagtail-umami-analytics" },
-    { name = "wagtailcodeblock" },
 ]
 
 [package.dev-dependencies]
@@ -525,11 +525,11 @@ requires-dist = [
     { name = "django-vite-tags", git = "https://github.com/lasse-cs/django-vite-tags.git?rev=a69aabf0c10a45bcaa0e6f9cc2f44b4d1d7548fa" },
     { name = "gunicorn", specifier = ">=25.3.0" },
     { name = "psycopg", specifier = ">=3.3.1" },
+    { name = "pygments", specifier = ">=2.20.0" },
     { name = "pymemcache", specifier = ">=4.0.0" },
     { name = "sentry-sdk", specifier = ">=2.59.0" },
     { name = "wagtail", specifier = ">=7.4,<8.0" },
     { name = "wagtail-umami-analytics", git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=a5f518f401cf686318e1c15cea3d4d401a60f1ed" },
-    { name = "wagtailcodeblock", specifier = ">=1.30.0.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -1146,18 +1146,6 @@ dependencies = [
     { name = "django" },
     { name = "requests" },
     { name = "wagtail" },
-]
-
-[[package]]
-name = "wagtailcodeblock"
-version = "1.30.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "wagtail" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/93/8d/d142804afb6725926ece02ae7aa83e0e86c8cf0a3555c1772259bc2ee521/wagtailcodeblock-1.30.0.0.tar.gz", hash = "sha256:043dee61baa9aee0e28a93c0bed597105250930dd5c006db691282145bc280c2", size = 99401, upload-time = "2025-11-19T16:01:13.426Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f5/82/c1b06c206d40031f47277029d62120d6c84982413b625bb966510a9b85c3/wagtailcodeblock-1.30.0.0-py3-none-any.whl", hash = "sha256:f0d511ac0cbd8b80eec892e29128e934caa544f7daa16b9d6c1c6b5a8bd4f86e", size = 14361, upload-time = "2025-11-19T16:01:12.166Z" },
 ]
 
 [[package]]

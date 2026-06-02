@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
-    "wagtailcodeblock",
     "modelcluster",
     "taggit",
     "django_filters",
@@ -245,10 +244,6 @@ LOGGING = {
         },
     },
 }
-
-# Wagtailcodeblock
-WAGTAIL_CODE_BLOCK_THEME = None
-
 
 # Umami Tracking
 UMAMI_HOST = os.getenv("UMAMI_HOST")

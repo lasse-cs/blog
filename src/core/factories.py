@@ -4,8 +4,6 @@ from factory.django import DjangoModelFactory
 from wagtail.blocks import RichTextBlock
 from wagtail.rich_text import RichText
 
-from wagtailcodeblock.blocks import CodeBlock
-
 from wagtail_factories import (
     ImageFactory,
     PageFactory,
@@ -18,6 +16,7 @@ from wagtail_factories.blocks import BlockFactory
 
 from core.blocks import (
     BaseSidebarItemBlock,
+    CodeBlock,
     ContentBlock,
     HeadingBlock,
     HeadingLevelChoices,

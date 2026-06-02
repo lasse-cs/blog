@@ -1,1 +1,8 @@
-{% extends 'wagtailcodeblock/code_block.html' %}
+{% load code_tags wagtail_cache %}
+
+{% wagtailcache value.cache_timeout code_block value.cache_key is_pattern_library %}
+    <figure class="code-block" data-language="{{ value.language }}">
+        <figcaption class="code-block__language">{{ value.language }}</figcaption>
+        <pre class="code-block__pre"><code class="code-block__code">{{ value.code|highlight_code:value.language }}</code></pre>
+    </figure>
+{% endwagtailcache %}
