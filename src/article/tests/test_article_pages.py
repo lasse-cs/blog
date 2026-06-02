@@ -59,7 +59,7 @@ def test_article_index_page_shows_live_articles(article_index):
         ArticlePageFactory(
             live=False, parent=article_index, title=f"not_live_article_{j}"
         )
-    assert set(a.id for a in article_index.get_feed_items()) == set(expected_ids)
+    assert {a.id for a in article_index.get_feed_items()} == set(expected_ids)
 
 
 @pytest.mark.django_db
