@@ -1,11 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+    static targets = ["source"];
     static classes = ["copied"];
     static values = {
         resetDelay: { type: Number, default: 2000 },
     }
 
+    declare readonly hasSourceTarget: boolean;
+    declare readonly sourceTarget: HTMLElement;
     declare readonly copiedClass: string;
     declare readonly resetDelayValue: number;
 
@@ -38,10 +41,14 @@ export default class extends Controller {
     async copy(event: Event) {
         event.preventDefault();
         try {
-            await navigator.clipboard.writeText(window.location.href);
+            const text = this.hasSourceTarget
+                ? this.sourceTarget.textContent ?? ""
+                : window.location.href;
+
+            await navigator.clipboard.writeText(text);
             this.showCopiedState();
         } catch (error) {
             console.log(error);
-        }       
+        }
     }
 }

@@ -829,12 +829,60 @@
     box-shadow: 0 0.25rem 1rem var(--shadow-color);
   }
 
-  .code-block__language {
+  .code-block__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
     padding: var(--gap-xs) var(--gap-sm);
     border-block-end: 1px solid var(--border-color);
+  }
+
+  .code-block__language {
     color: var(--text-dark);
     font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
     font-size: 0.8rem;
+  }
+
+  .code-block__copy {
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-small);
+    background: var(--background);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0.25rem 0.45rem;
+    transition: border-color 0.25s, color 0.25s;
+
+    &:hover, &:focus-visible {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  }
+
+  .code-block__copy-label,
+  .code-block__copy-label-success {
+    grid-area: 1 / 1;
+  }
+
+  .code-block__copy-label-success {
+    visibility: hidden;
+  }
+
+  .code-block--copied .code-block__copy {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .code-block--copied .code-block__copy-label {
+    visibility: hidden;
+  }
+
+  .code-block--copied .code-block__copy-label-success {
+    visibility: visible;
   }
 
   .code-block__pre {
