@@ -278,6 +278,10 @@ class TaggablePage(Page):
 
 
 class MarkdownPageMixin:
+    @property
+    def preview_modes(self):
+        return [*super().preview_modes, ("markdown", "Markdown")]
+
     def is_markdown_request(self, request):
         if request.GET.get("format") == "md":
             return True
@@ -293,6 +297,13 @@ class MarkdownPageMixin:
             response = super().serve(request, *args, **kwargs)
         return response
 
+    def serve_preview(self, request, mode_name):
+        if mode_name == "markdown":
+            request.is_markdown = True
+            request.is_preview = True
+            return self.serve_markdown(request)
+        return super().serve_preview(request, mode_name)
+
     def get_markdown_template(self, request, *args, **kwargs):
         try:
             return self.markdown_template
@@ -303,7 +314,8 @@ class MarkdownPageMixin:
         return self.get_context(request, *args, **kwargs)
 
     def serve_markdown(self, request, *args, **kwargs):
-        request.is_preview = False
+        request.is_preview = getattr(request, "is_preview", False)
+        request.is_markdown = True
         response = TemplateResponse(
             request,
             self.get_markdown_template(request, *args, **kwargs),
@@ -333,6 +345,12 @@ class MarkdownRoutablePageMixin:
         response = TemplateResponse(request, template, context)
         response.headers["Content-Type"] = "text/markdown; charset=utf-8"
         return response
+
+    def serve_preview(self, request, mode_name):
+        if mode_name == "markdown":
+            request.is_markdown = True
+            request.is_preview = True
+        return super().serve_preview(request, mode_name)
 
     @method_decorator(vary_on_headers("Accept"))
     def render(self, request, *args, template=None, context_overrides=None, **kwargs):

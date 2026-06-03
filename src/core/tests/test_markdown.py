@@ -1,6 +1,7 @@
 import pytest
 
 from django.core.exceptions import ImproperlyConfigured
+from django.urls import reverse
 
 from pytest_django.asserts import assertTemplateUsed, assertTemplateNotUsed
 
@@ -15,6 +16,21 @@ from core.test.factories import (
 pytestmark = [
     pytest.mark.django_db,
 ]
+
+
+def get_preview_response(client, admin_user, page, mode):
+    client.force_login(admin_user)
+    preview_url = reverse("wagtailadmin_pages:preview_on_edit", args=[page.id])
+    update_response = client.post(
+        preview_url,
+        {
+            "title": page.title,
+            "slug": page.slug,
+        },
+    )
+    assert update_response.status_code == 200
+    assert update_response.json()["is_available"] is True
+    return client.get(preview_url, {"mode": mode})
 
 
 def test_returns_markdown_if_requested(client, site):
@@ -60,6 +76,46 @@ def test_uses_markdown_template_if_requested_by_query(client, site):
     response = client.get(markdown_page.url + "?format=md")
     assertTemplateUsed(response, "test/markdown_page.md")
     assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_adds_markdown_preview_mode(site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    assert ("markdown", "Markdown") in markdown_page.preview_modes
+
+
+def test_default_preview_mode_is_unchanged(site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+    assert markdown_page.default_preview_mode == ""
+
+
+def test_serves_markdown_preview(client, admin_user, site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+
+    response = get_preview_response(client, admin_user, markdown_page, "markdown")
+
+    assert response.status_code == 200
+    assert "text/markdown" in response.headers["Content-Type"]
+    assertTemplateUsed(response, "test/markdown_page.md")
+    assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_default_preview_uses_html_template(client, admin_user, site):
+    markdown_page = MarkdownViewablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+
+    response = get_preview_response(client, admin_user, markdown_page, "")
+
+    assert response.status_code == 200
+    assert "text/markdown" not in response.headers["Content-Type"]
+    assertTemplateUsed(response, "test/markdown_page.html")
+    assertTemplateNotUsed(response, "test/markdown_page.md")
 
 
 def test_raises_if_no_markdown_template_provided(client, site):
@@ -123,6 +179,32 @@ def test_routable_uses_markdown_template_if_requested_by_query(client, site):
     response = client.get(markdown_page.url + "?format=md")
     assertTemplateUsed(response, "test/markdown_page.md")
     assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_routable_serves_markdown_preview(client, admin_user, site):
+    markdown_page = MarkdownRoutablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+
+    response = get_preview_response(client, admin_user, markdown_page, "markdown")
+
+    assert response.status_code == 200
+    assert "text/markdown" in response.headers["Content-Type"]
+    assertTemplateUsed(response, "test/markdown_page.md")
+    assertTemplateNotUsed(response, "test/markdown_page.html")
+
+
+def test_routable_default_preview_uses_html_template(client, admin_user, site):
+    markdown_page = MarkdownRoutablePageFactory(
+        parent=site.root_page, title="Markdown Page"
+    )
+
+    response = get_preview_response(client, admin_user, markdown_page, "")
+
+    assert response.status_code == 200
+    assert "text/markdown" not in response.headers["Content-Type"]
+    assertTemplateUsed(response, "test/markdown_page.html")
+    assertTemplateNotUsed(response, "test/markdown_page.md")
 
 
 def test_routable_raises_if_no_markdown_template_provided(client, site):
