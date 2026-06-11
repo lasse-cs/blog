@@ -500,7 +500,7 @@ requires-dist = [
     { name = "pymemcache", specifier = ">=4.0.0" },
     { name = "sentry-sdk", specifier = ">=2.59.0" },
     { name = "wagtail", specifier = ">=7.4,<8.0" },
-    { name = "wagtail-umami-analytics", git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=a5f518f401cf686318e1c15cea3d4d401a60f1ed" },
+    { name = "wagtail-umami-analytics", git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=4b1b4cd8e7ec5051efae64e494545e0fec1d873c" },
 ]
 
 [package.metadata.requires-dev]
@@ -1048,7 +1048,7 @@ wheels = [
 [[package]]
 name = "wagtail-umami-analytics"
 version = "0.1.0"
-source = { git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=a5f518f401cf686318e1c15cea3d4d401a60f1ed#a5f518f401cf686318e1c15cea3d4d401a60f1ed" }
+source = { git = "https://github.com/lasse-cs/wagtail-umami-analytics.git?rev=4b1b4cd8e7ec5051efae64e494545e0fec1d873c#4b1b4cd8e7ec5051efae64e494545e0fec1d873c" }
 dependencies = [
     { name = "django" },
     { name = "requests" },
