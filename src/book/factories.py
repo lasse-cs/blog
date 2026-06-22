@@ -40,6 +40,10 @@ class BookPageWithAuthorFactory(BookPageFactory):
         BookAuthorFactory, factory_related_name="book", sort_order=1
     )
 
+    class Meta:
+        model = BookPage
+        skip_postgeneration_save = True
+
 
 class BookPageWithTwoAuthorsFactory(BookPageFactory):
     author1 = factory.RelatedFactory(
@@ -48,6 +52,10 @@ class BookPageWithTwoAuthorsFactory(BookPageFactory):
     author2 = factory.RelatedFactory(
         BookAuthorFactory, factory_related_name="book", sort_order=2
     )
+
+    class Meta:
+        model = BookPage
+        skip_postgeneration_save = True
 
 
 class BookNoteFactory(DjangoModelFactory):
