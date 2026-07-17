@@ -11,7 +11,7 @@ dependencies = [
     "gunicorn>=25.3.0",
     "psycopg>=3.3.1",
     "pymemcache>=4.0.0",
-    "sentry-sdk>=2.59.0",
+    "sentry-sdk>=2.65.0",
     "wagtail>=7.4,<8.0",
     "pygments>=2.20.0",
     "wagtail-2fa>=1.8.0",
@@ -21,20 +21,20 @@ dependencies = [
 dev = [
     "debugpy>=1.8.19",
     "django-browser-reload>=1.21.0",
-    "django-debug-toolbar>=6.1.0",
+    "django-debug-toolbar>=7.0.0",
     "django-pattern-library>=1.5.0",
-    "django-upgrade>=1.29.1",
+    "django-upgrade>=1.31.1",
     "djhtml>=3.0.11",
     "honcho>=2.0.0",
     "pre-commit>=4.5.1",
     "pytest>=9.0.2",
     "pytest-django>=4.11.1",
-    "ruff>=0.15.19",
+    "ruff>=0.15.21",
     "time-machine>=3.2.0",
     "wagtail-factories>=4.3.0",
 ]
 playwright = [
-    "pytest-playwright>=0.7.2",
+    "pytest-playwright>=0.8.0",
 ]
 
 [tool.uv]
