@@ -1,7 +1,6 @@
 from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
 from django.db.models.signals import post_delete
-
 from wagtail.models import Page, Site
 from wagtail.signals import page_published, page_unpublished
 

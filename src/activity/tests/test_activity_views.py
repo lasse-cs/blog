@@ -1,8 +1,8 @@
-import pytest
-from pytest_django.asserts import assertTemplateUsed
 import datetime
 
+import pytest
 from django.urls import reverse
+from pytest_django.asserts import assertTemplateUsed
 
 from activity.test.factories import ActivityTrackedPageFactory
 

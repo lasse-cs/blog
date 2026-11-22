@@ -1,9 +1,7 @@
 import pytest
-
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse
-
-from pytest_django.asserts import assertTemplateUsed, assertTemplateNotUsed
+from pytest_django.asserts import assertTemplateNotUsed, assertTemplateUsed
 
 from core.test.factories import (
     MarkdownRoutablePageFactory,
@@ -11,7 +9,6 @@ from core.test.factories import (
     NoTemplateMarkdownPageFactory,
     NoTemplateMarkdownRoutablePageFactory,
 )
-
 
 pytestmark = [
     pytest.mark.django_db,

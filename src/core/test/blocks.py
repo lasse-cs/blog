@@ -1,4 +1,4 @@
-from wagtail.blocks import StreamBlock, ListBlock, StructBlock
+from wagtail.blocks import ListBlock, StreamBlock, StructBlock
 
 from core.blocks import HeadingBlock
 

@@ -1,9 +1,7 @@
 import pytest
-
 from wagtail.rich_text import RichText
 
 from article.factories import ArticlePageFactory
-
 
 pytestmark = [
     pytest.mark.django_db,

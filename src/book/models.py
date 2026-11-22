@@ -1,19 +1,16 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-
 from modelcluster.fields import ParentalKey
-
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model
-from wagtail.models import Page, Orderable
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from core.blocks import ContentBlock
 from core.models import FeedItemMixin, FeedMixin
 from search.models import SearchItemPageMixin
-
 
 Image = get_image_model()
 

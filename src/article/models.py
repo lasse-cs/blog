@@ -1,5 +1,4 @@
 from django.db.models import prefetch_related_objects
-
 from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.fields import RichTextField, StreamField

@@ -1,5 +1,4 @@
 from core.factories import BaseSidebarItemBlockFactory
-
 from search.blocks import SearchBlock
 
 

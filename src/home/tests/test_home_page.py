@@ -1,6 +1,5 @@
 import pytest
 from pytest_django.asserts import assertTemplateUsed
-
 from wagtail.models import Page
 
 from home.factories import HomePageFactory

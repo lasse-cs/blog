@@ -1,13 +1,12 @@
 import pytest
+from wagtail.rich_text import RichText
+
 from core.factories import (
     ContentBlockFactory,
     SiteFooterFactory,
     SocialMediaLinksFactory,
     TaggablePageFactory,
 )
-
-from wagtail.rich_text import RichText
-
 
 pytestmark = [
     pytest.mark.django_db,
@@ -16,7 +15,7 @@ pytestmark = [
 
 
 def test_social_media_links_factory():
-    social_media_links = SocialMediaLinksFactory(**{"links__0": "link"})
+    social_media_links = SocialMediaLinksFactory(links__0="link")
     assert len(social_media_links.links) == 1
 
 

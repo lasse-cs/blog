@@ -4,7 +4,6 @@ from django import template
 
 from activity.models import Activity
 
-
 register = template.Library()
 
 

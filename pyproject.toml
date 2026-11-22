@@ -46,8 +46,10 @@ django-vite-tags = { git = "https://github.com/lasse-cs/django-vite-tags.git", r
 wagtail-umami-analytics = { git = "https://github.com/lasse-cs/wagtail-umami-analytics.git", rev = "4b1b4cd8e7ec5051efae64e494545e0fec1d873c" }
 
 [tool.ruff]
-extend-exclude = ["**/migrations/*.py"]
+extend-exclude = ["**/migrations/*.py", "**/settings/*.py"]
 
+[tool.ruff.lint]
+ignore = ["RUF012",]
 
 [tool.pytest]
 addopts = ["--reuse-db"]

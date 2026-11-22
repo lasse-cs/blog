@@ -1,6 +1,6 @@
 import pytest
 
-from book.factories import BookPageWithAuthorFactory, BookNoteFactory
+from book.factories import BookNoteFactory, BookPageWithAuthorFactory
 
 
 @pytest.mark.django_db

@@ -1,7 +1,6 @@
 import re
 
 from playwright.sync_api import expect
-
 from wagtail.rich_text import RichText
 
 from article.factories import ArticleIndexPageFactory, ArticlePageFactory

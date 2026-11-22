@@ -2,7 +2,6 @@ import pytest
 
 from core.blocks import HeadingLevelChoices
 from core.models import TableOfContentsItem
-
 from core.test.factories import (
     PageWithTableOfContentsFactory,
     PageWithTableOfContentsH3Factory,

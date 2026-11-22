@@ -1,13 +1,11 @@
 import pytest
 
+from activity.models import Activity, ActivityActions
 from activity.test.factories import (
     ActivityTrackedModelFactory,
     ActivityTrackedPageFactory,
     ActivityUntrackedPageFactory,
 )
-
-from activity.models import Activity, ActivityActions
-
 
 pytestmark = [
     pytest.mark.django_db,

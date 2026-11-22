@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from wagtail.models import Page
 
 from core.utilities import paginate

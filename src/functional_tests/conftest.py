@@ -1,11 +1,9 @@
 import os
+
 import pytest
-
 from django.conf import settings
-
 from wagtail.coreutils import get_supported_content_language_variant
 from wagtail.models import Locale, Page, Site
-
 from wagtail_factories import SiteFactory
 
 

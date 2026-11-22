@@ -8,23 +8,20 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.feedgenerator import Atom1Feed
 from django.views.decorators.vary import vary_on_headers
-
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from taggit.models import TagBase, ItemBase
-
+from taggit.models import ItemBase, TagBase
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks import ListBlock, StreamBlock, StructBlock
 from wagtail.contrib.routable_page.models import path
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model
 from wagtail.models import Page
 from wagtail.search import index
-from wagtail.images import get_image_model
 
-from core.blocks import HeadingBlock, SocialLinkBlock, HeadingLevelChoices
+from core.blocks import HeadingBlock, HeadingLevelChoices, SocialLinkBlock
 from core.utilities import paginate
-
 
 Image = get_image_model()
 
@@ -33,7 +30,7 @@ Image = get_image_model()
 class TableOfContentsItem:
     level: str
     heading: str
-    children: list["TableOfContentsItem"] = field(default_factory=list)
+    children: list[TableOfContentsItem] = field(default_factory=list)
 
 
 class BaseRSSFeed(Feed):

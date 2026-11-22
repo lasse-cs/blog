@@ -34,4 +34,4 @@ def robots_txt(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def error_500_test(request):
-    raise Exception("This is a test exception")
+    raise Exception("This is a test exception")  # noqa: TRY002

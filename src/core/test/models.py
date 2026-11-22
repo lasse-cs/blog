@@ -1,17 +1,15 @@
 from django.http import JsonResponse
-
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from core.blocks import HeadingLevelChoices
 from core.models import (
-    TaggablePage,
-    TableOfContentsMixin,
     MarkdownPageMixin,
     MarkdownRoutablePageMixin,
+    TableOfContentsMixin,
+    TaggablePage,
 )
-
 from core.test.blocks import TableOfContentsBlock
 
 

@@ -1,5 +1,4 @@
 import pytest
-
 from pytest_django.asserts import assertTemplateUsed
 
 from article.factories import ArticleIndexPageFactory, ArticlePageFactory

@@ -1,10 +1,9 @@
 import factory
 from factory.django import DjangoModelFactory
-
 from wagtail_factories import ImageFactory, PageFactory, StreamFieldFactory
 
-from core.factories import ContentBlockFactory
 from book.models import Author, BookAuthor, BookIndexPage, BookNote, BookPage
+from core.factories import ContentBlockFactory
 
 
 class AuthorFactory(DjangoModelFactory):

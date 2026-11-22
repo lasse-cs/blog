@@ -1,4 +1,5 @@
 import datetime
+
 import pytest
 
 from activity.models import Activity

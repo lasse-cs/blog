@@ -1,10 +1,8 @@
 from wagtail import hooks
-
 from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.settings.models import register_setting
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
-
 from wagtail_umami_analytics.models import UmamiAnalyticsSetting
 from wagtail_umami_analytics.views import UmamiAnalyticsViewSet
 

@@ -1,6 +1,5 @@
 from django.db import models
-
-from wagtail.models import DraftStateMixin, RevisionMixin, Page
+from wagtail.models import DraftStateMixin, Page, RevisionMixin
 
 
 class ActivityTrackedPage(Page):

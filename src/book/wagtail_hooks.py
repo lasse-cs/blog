@@ -1,8 +1,7 @@
 from wagtail import hooks
 from wagtail.snippets.models import register_snippet
 
-from book.views import author_chooser_viewset, AuthorViewSet
-
+from book.views import AuthorViewSet, author_chooser_viewset
 
 register_snippet(AuthorViewSet)
 

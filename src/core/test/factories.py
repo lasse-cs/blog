@@ -1,19 +1,17 @@
 import factory
-
 from wagtail_factories import (
+    ListBlockFactory,
     PageFactory,
     StreamBlockFactory,
     StreamFieldFactory,
     StructBlockFactory,
-    ListBlockFactory,
 )
 
-from core.factories import TaggablePageFactory, HeadingBlockFactory
-
+from core.factories import HeadingBlockFactory, TaggablePageFactory
 from core.test.blocks import (
-    TableOfContentsBlock,
     HeadingStreamBlock,
     HeadingStructBlock,
+    TableOfContentsBlock,
 )
 from core.test.models import (
     AnotherPageWithTags,
@@ -21,9 +19,9 @@ from core.test.models import (
     MarkdownViewablePage,
     NoTemplateMarkdownPage,
     NoTemplateMarkdownRoutablePage,
-    PageWithTags,
     PageWithTableOfContents,
     PageWithTableOfContentsH3,
+    PageWithTags,
 )
 
 

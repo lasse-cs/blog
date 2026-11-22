@@ -1,7 +1,6 @@
-# ruff: noqa: F403, F405
+import tempfile
 
 from .base import *
-import tempfile
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

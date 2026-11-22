@@ -1,9 +1,7 @@
 import factory
 from factory.django import DjangoModelFactory
-
 from wagtail.blocks import RichTextBlock
 from wagtail.rich_text import RichText
-
 from wagtail_factories import (
     ImageFactory,
     PageFactory,

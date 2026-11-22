@@ -1,11 +1,9 @@
 import pytest
-from pytest_django.asserts import assertTemplateUsed, assertContains, assertNotContains
-
 from django.urls import reverse
+from pytest_django.asserts import assertContains, assertNotContains, assertTemplateUsed
 
 from core.models import PageTag
 from core.test.factories import PageWithTagsFactory
-
 
 pytestmark = [
     pytest.mark.django_db,
